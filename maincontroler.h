@@ -23,7 +23,7 @@
 #ifndef MAINCONTROLER_H
 #define MAINCONTROLER_H
 
-#include <qt4/QtCore/qobject.h>
+#include <qobject.h>
 #include <QUrl>
 #include <cassert>
 #include "./sharedtypes.h"

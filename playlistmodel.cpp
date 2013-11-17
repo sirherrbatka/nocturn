@@ -25,9 +25,9 @@
 #include <cassert>
 #include <memory>
 #include "./maincontroler.h"
-#include <qt4/QtCore/qstringlist.h>
+#include <qstringlist.h>
 #include "./audiotrackmodel.h"
-#include <qt4/QtCore/QString>
+#include <QString>
 #include <vector>
 #include "./taghandler.h"
 

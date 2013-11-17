@@ -24,8 +24,8 @@
 #define MAINVIEW_H
 
 #include "./ui_mainform.h"
-#include <qt4/QtGui/QMainWindow>
-#include <qt4/QtGui/QDropEvent>
+#include <QMainWindow>
+#include <QDropEvent>
 #include <QUrl>
 #include <vector>
 #include <map>

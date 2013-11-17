@@ -25,10 +25,10 @@
 
 #include <vector>
 #include <memory>
-#include <qt4/QtCore/qlist.h>
-#include <qt4/QtCore/qstringlist.h>
-#include <qt4/QtCore/QString>
-#include <qt4/Qt/qobject.h>
+#include <qlist.h>
+#include <qstringlist.h>
+#include <QString>
+#include <qobject.h>
 
 class AudioTrackModel;
 class TagHandler;

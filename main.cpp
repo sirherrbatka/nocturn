@@ -2,7 +2,7 @@
 #include "./maincontroler.h"
 #include "./modelmanager.h"
 #include <cinttypes>
-#include <qt4/QtGui/qapplication.h>
+#include <qapplication.h>
 
 int main(int argc, char** argv)
 {

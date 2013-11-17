@@ -24,7 +24,7 @@
 #define TAGHANDLER_H
 
 #include <memory>
-#include <qt4/QtCore/QString>
+#include <QString>
 #include <QUrl>
 #include <taglib/fileref.h>
 #include <taglib/tag.h>

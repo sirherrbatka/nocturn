@@ -24,9 +24,9 @@
 #define PLAYLISTMANAGER_H
 
 #include <map>
-#include <qt4/QtCore/qlist.h>
-#include <qt4/QtCore/qstringlist.h>
-#include <qt4/QtCore/QRegExp>
+#include <qlist.h>
+#include <qstringlist.h>
+#include <QRegExp>
 
 class QUrl;
 class QDir;

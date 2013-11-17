@@ -22,7 +22,7 @@
 
 #ifndef PLAYLISTPAGEVIEW_H
 #define PLAYLISTPAGEVIEW_H
-#include <qt4/QtGui/QTableWidget>
+#include <QTableWidget>
 #include <memory>
 
 class PlayListModel;

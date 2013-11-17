@@ -23,10 +23,10 @@
 #ifndef AUDIOTRACKMODEL_H
 #define AUDIOTRACKMODEL_H
 
-#include <qt4/QtCore/qlist.h>
-#include <qt4/QtCore/qstring.h>
-#include <qt4/QtCore/QFile>
-#include <qt4/QtCore/QFileInfo>
+#include <qlist.h>
+#include <qstring.h>
+#include <QFile>
+#include <QFileInfo>
 #include <memory>
 #include "./taghandler.h"
 

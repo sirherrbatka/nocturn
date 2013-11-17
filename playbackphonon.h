@@ -26,7 +26,7 @@
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
 #include <memory>
-#include <qt4/QtCore/QString>
+#include <QString>
 #include <QUrl>
 #include "./maincontroler.h"
 #include "./sharedtypes.h"

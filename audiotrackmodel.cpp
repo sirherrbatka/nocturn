@@ -22,7 +22,7 @@
 
 #include "audiotrackmodel.h"
 #include "taghandler.h"
-#include <qt4/QtCore/QFile>
+#include <QFile>
 #include <QDebug>
 #include <memory>
 

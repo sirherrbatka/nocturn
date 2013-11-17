@@ -22,7 +22,7 @@
 
 #ifndef PLAYBACKMODEL_H
 #define PLAYBACKMODEL_H
-#include <qt4/Qt/qobject.h>
+#include <qobject.h>
 #include "./sharedtypes.h"
 
 class PlaybackModel : public QObject

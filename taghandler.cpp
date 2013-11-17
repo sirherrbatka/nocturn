@@ -24,6 +24,9 @@
 #include <QStringList>
 #include <cassert>
 #include <taglib/tpropertymap.h>
+#include <taglib/fileref.h>
+#include <taglib/tstring.h>
+#include <taglib/tag.h>
 
 TagHandler::TagHandler()
 {
