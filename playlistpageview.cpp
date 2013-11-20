@@ -58,7 +58,7 @@ void PlayListPageView::refreshView()
     for (unsigned int i = 0; i < locSize; ++i )
     {
 	QTableWidgetItem* item = new QTableWidgetItem(*(mModel->getTrackName(i)));
-	if (i == locCurrent)
+	if (i == locCurrent and mModel->getCurrent())
 	{
 	  QFont font;
 	  font.setBold(true);

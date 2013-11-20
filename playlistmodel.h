@@ -52,6 +52,8 @@ public:
     unsigned int getPlayListSize() const;
     const QString* getTrackName(unsigned int tracknumber) const;
     unsigned getCurrentTrack();
+    void setCurrent(bool locCurrent);
+    bool getCurrent() const;
     
 signals:
     void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.
@@ -93,6 +95,7 @@ private:
     bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};
+    bool mCurrent{false};
 };
 
 #endif // PLAYLISTMODEL_H

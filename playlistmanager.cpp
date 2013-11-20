@@ -91,8 +91,8 @@ PlayListModel* PlayListManager::newPlayList()
     mPlayLists.insert(std::pair<unsigned long long int, PlayListModel*>(mNewKey, locPlayList));
     if (mPlayLists.size() == 1)
     {
-        mCurrentPlayList = locPlayList;
-        mActivePlayList = locPlayList;
+        changeCurrentPlaylist(locPlayList);
+        changeActivePlaylist(locPlayList);
     }
     return locPlayList;
 }
@@ -146,6 +146,11 @@ bool PlayListManager::isAudioFile(const QString& path)
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
 {
     qDebug()<<"Changing current model";
+    if (mCurrentPlayList)
+    {
+        mCurrentPlayList->setCurrent(false);
+    }
+    locPlayList->setCurrent(true);
     mCurrentPlayList = locPlayList;
 }
 
@@ -165,16 +170,16 @@ void PlayListManager::fileEnded()
 
 void PlayListManager::startPlayback()
 {
-  mCurrentPlayList = mActivePlayList;
-  mCurrentPlayList->replayPlayList();
+    changeCurrentPlaylist(mActivePlayList);
+    mCurrentPlayList->replayPlayList();
 }
 
 void PlayListManager::playNextTrack()
 {
-  mCurrentPlayList->playNextTrack();
+    mCurrentPlayList->playNextTrack();
 }
 
 void PlayListManager::playPrevTrack()
 {
-  mCurrentPlayList->playPrevTrack();
+    mCurrentPlayList->playPrevTrack();
 }

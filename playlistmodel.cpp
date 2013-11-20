@@ -204,3 +204,13 @@ unsigned PlayListModel::getCurrentTrack()
 {
     return mCurrentTrack;
 }
+
+bool PlayListModel::getCurrent() const
+{
+  return mCurrent;
+}
+
+void PlayListModel::setCurrent(bool locCurrent)
+{
+  mCurrent = locCurrent;
+}
