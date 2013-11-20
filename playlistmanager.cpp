@@ -149,6 +149,7 @@ void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
     if (mCurrentPlayList)
     {
         mCurrentPlayList->setCurrent(false);
+	mCurrentPlayList->requestRefresh();
     }
     locPlayList->setCurrent(true);
     mCurrentPlayList = locPlayList;

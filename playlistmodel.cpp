@@ -207,10 +207,15 @@ unsigned PlayListModel::getCurrentTrack()
 
 bool PlayListModel::getCurrent() const
 {
-  return mCurrent;
+    return mCurrent;
 }
 
 void PlayListModel::setCurrent(bool locCurrent)
 {
-  mCurrent = locCurrent;
+    mCurrent = locCurrent;
+}
+
+void PlayListModel::requestRefresh()
+{
+ emit NewTracksAdded();
 }
