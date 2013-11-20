@@ -51,6 +51,7 @@ public:
     void changePlayListName(const QString& name);
     unsigned int getPlayListSize() const;
     const QString* getTrackName(unsigned int tracknumber) const;
+    unsigned getCurrentTrack();
     
 signals:
     void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.

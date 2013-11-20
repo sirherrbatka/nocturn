@@ -113,6 +113,7 @@ void PlayListModel::playNextTrack()
         return;
     }
     ++mCurrentTrack;
+    emit NewTracksAdded();
     qDebug()<<"Playing Next track";
     startPlayback();
 }
@@ -129,6 +130,7 @@ void PlayListModel::playPrevTrack()
         return;
     }
     --mCurrentTrack;
+    emit NewTracksAdded();
     qDebug()<<"Playing Prev track";
     startPlayback();
 }
@@ -148,11 +150,12 @@ void PlayListModel::startPlayback()
         mTracks.erase(mTracks.begin()+mCurrentTrack);
         emit NewTracksAdded();
         startPlayback();
-	return;
+        return;
     } else {
         emit CurrentTrackChanged(mTracks[mCurrentTrack]->getPath());
         emit CurrentModelChanged(this);
-	return;
+        emit NewTracksAdded();
+        return;
     }
 }
 
@@ -195,6 +198,11 @@ const QString* PlayListModel::getCurrentTrackPath() const
 
 void PlayListModel::replayPlayList()
 {
-  mCurrentTrack = 0;
-  startPlayback();
+    mCurrentTrack = 0;
+    startPlayback();
+}
+
+unsigned PlayListModel::getCurrentTrack()
+{
+    return mCurrentTrack;
 }

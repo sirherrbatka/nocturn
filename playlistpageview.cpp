@@ -23,6 +23,7 @@
 #include "playlistpageview.h"
 #include "./playlistmodel.h"
 #include "maincontroler.h"
+#include <qt4/QtGui/qfont.h>
 #include <QDebug>
 
 PlayListPageView::PlayListPageView(PlayListModel* model) :
@@ -49,13 +50,21 @@ PlayListPageView::~PlayListPageView()
 void PlayListPageView::refreshView()
 {
     clear();
+    unsigned locCurrent = getModel()->getCurrentTrack();
     unsigned int locSize = mModel->getPlayListSize();
     setRowCount(locSize);
     setColumnCount(1);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     for (unsigned int i = 0; i < locSize; ++i )
     {
-        setItem(i, 0, new QTableWidgetItem(*(mModel->getTrackName(i))));
+	QTableWidgetItem* item = new QTableWidgetItem(*(mModel->getTrackName(i)));
+	if (i == locCurrent)
+	{
+	  QFont font;
+	  font.setBold(true);
+	  item->setFont(font);
+	}
+        setItem(i, 0, item);
     }
 }
 
