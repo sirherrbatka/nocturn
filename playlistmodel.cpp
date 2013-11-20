@@ -113,7 +113,6 @@ void PlayListModel::playNextTrack()
         return;
     }
     ++mCurrentTrack;
-    emit NewTracksAdded();
     qDebug()<<"Playing Next track";
     startPlayback();
 }
@@ -130,7 +129,6 @@ void PlayListModel::playPrevTrack()
         return;
     }
     --mCurrentTrack;
-    emit NewTracksAdded();
     qDebug()<<"Playing Prev track";
     startPlayback();
 }
