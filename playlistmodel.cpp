@@ -56,7 +56,7 @@ long long unsigned int PlayListModel::getKey() const
 
 const QString* PlayListModel::getTrackPath(int tracknumber) const
 {
-    assert(tracknumber < mTracks.size() and tracknumber != 0);
+    assert(tracknumber < static_cast<int>(mTracks.size()) and tracknumber != 0);
     return (mTracks[tracknumber-1])->getPath();
 }
 
@@ -107,7 +107,7 @@ void PlayListModel::playNextTrack()
     {
         return;
     }
-    if (mCurrentTrack >= mTracks.size() )
+    if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() )
     {
         emit NoNextTrack();
         return;
@@ -182,7 +182,7 @@ bool PlayListModel::playListChecks()
         return false;
     }
 
-    if (mCurrentTrack >= mTracks.size() )
+    if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() ) //static_cast silences the warning.
     {
         emit NoNextTrack();
         return false;
