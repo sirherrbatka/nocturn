@@ -50,7 +50,7 @@ PlayListPageView::~PlayListPageView()
 void PlayListPageView::refreshView()
 {
     clear();
-    unsigned locCurrent = getModel()->getCurrentTrack();
+    int locCurrent = getModel()->getCurrentTrack();
     unsigned int locSize = mModel->getPlayListSize();
     setRowCount(locSize);
     setColumnCount(1);

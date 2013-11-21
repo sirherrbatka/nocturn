@@ -45,13 +45,13 @@ public:
     unsigned long long int getKey() const;
     void addTracks(const QStringList & paths);
     PlayListModel* getPlayListModel();
-    const QString* getTrackPath(unsigned int tracknumber) const;
+    const QString* getTrackPath(int tracknumber) const;
     const QString* getCurrentTrackPath() const;
     const QString* getPlayListName() const;
     void changePlayListName(const QString& name);
     unsigned int getPlayListSize() const;
-    const QString* getTrackName(unsigned int tracknumber) const;
-    unsigned getCurrentTrack();
+    const QString* getTrackName(int tracknumber) const;
+    int getCurrentTrack();
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
@@ -92,7 +92,7 @@ private:
     unsigned long long int mKey;
     std::vector<std::unique_ptr<AudioTrackModel> > mTracks;
     std::vector<std::unique_ptr<AudioTrackModel> > mRandomModeTracks;
-    unsigned int mCurrentTrack {0};
+    int mCurrentTrack {0};
     bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};

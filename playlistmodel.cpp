@@ -54,7 +54,7 @@ long long unsigned int PlayListModel::getKey() const
     return mKey;
 }
 
-const QString* PlayListModel::getTrackPath(unsigned int tracknumber) const
+const QString* PlayListModel::getTrackPath(int tracknumber) const
 {
     assert(tracknumber < mTracks.size() and tracknumber != 0);
     return (mTracks[tracknumber-1])->getPath();
@@ -162,7 +162,7 @@ unsigned int PlayListModel::getPlayListSize() const
     return mTracks.size();
 }
 
-const QString* PlayListModel::getTrackName(unsigned int tracknumber) const
+const QString* PlayListModel::getTrackName(int tracknumber) const
 {
     return (mTracks[tracknumber])->getName();
 }
@@ -200,7 +200,7 @@ void PlayListModel::replayPlayList()
     startPlayback();
 }
 
-unsigned PlayListModel::getCurrentTrack()
+int PlayListModel::getCurrentTrack()
 {
     return mCurrentTrack;
 }
