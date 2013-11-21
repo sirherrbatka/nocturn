@@ -30,7 +30,7 @@ PlayListPageView::PlayListPageView(PlayListModel* model) :
     mModel(model)
 {
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
-    connect(mModel, SIGNAL( NewTracksAdded() ), this, SLOT( refreshView() ) );
+    connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
     connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(doubleClicked(int, int)));
     qDebug()<<"Playlist view created";
 }

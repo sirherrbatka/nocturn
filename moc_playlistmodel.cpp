@@ -37,17 +37,17 @@ static const uint qt_meta_data_PlayListModel[] = {
      115,   14,   14,   14, 0x05,
      135,   14,   14,   14, 0x05,
      157,   14,   14,   14, 0x05,
-     174,   14,   14,   14, 0x05,
-     190,   14,   14,   14, 0x05,
+     175,   14,   14,   14, 0x05,
+     191,   14,   14,   14, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     203,   14,   14,   14, 0x0a,
-     219,   14,   14,   14, 0x0a,
-     235,   14,   14,   14, 0x0a,
-     263,  252,   14,   14, 0x0a,
-     297,  286,   14,   14, 0x0a,
-     321,   14,   14,   14, 0x0a,
-     343,  337,   14,   14, 0x0a,
+     204,   14,   14,   14, 0x0a,
+     220,   14,   14,   14, 0x0a,
+     236,   14,   14,   14, 0x0a,
+     264,  253,   14,   14, 0x0a,
+     298,  287,   14,   14, 0x0a,
+     322,   14,   14,   14, 0x0a,
+     344,  338,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -57,7 +57,7 @@ static const char qt_meta_stringdata_PlayListModel[] = {
     "CurrentModelChanged(PlayListModel*)\0"
     "NoNextTrack()\0NoPrevTrack()\0"
     "FileDoesNotExists()\0PlayListNameChanged()\0"
-    "NewTracksAdded()\0PlayListEmpty()\0"
+    "NeedRefreshView()\0PlayListEmpty()\0"
     "OutOfRange()\0playNextTrack()\0"
     "playPrevTrack()\0replayPlayList()\0"
     "RandomMode\0enableRandomMode(bool)\0"
@@ -77,7 +77,7 @@ void PlayListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 3: _t->NoPrevTrack(); break;
         case 4: _t->FileDoesNotExists(); break;
         case 5: _t->PlayListNameChanged(); break;
-        case 6: _t->NewTracksAdded(); break;
+        case 6: _t->NeedRefreshView(); break;
         case 7: _t->PlayListEmpty(); break;
         case 8: _t->OutOfRange(); break;
         case 9: _t->playNextTrack(); break;
@@ -170,7 +170,7 @@ void PlayListModel::PlayListNameChanged()
 }
 
 // SIGNAL 6
-void PlayListModel::NewTracksAdded()
+void PlayListModel::NeedRefreshView()
 {
     QMetaObject::activate(this, &staticMetaObject, 6, 0);
 }

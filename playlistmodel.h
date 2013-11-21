@@ -63,7 +63,7 @@ signals:
     void NoPrevTrack();
     void FileDoesNotExists();
     void PlayListNameChanged();
-    void NewTracksAdded();
+    void NeedRefreshView();
     void PlayListEmpty();
     void OutOfRange();
 //     void trackHasEnded();

@@ -98,7 +98,7 @@ void PlayListModel::addTracks(const QStringList& paths)
     {
         mTracks.push_back(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path)));
     }
-    emit NewTracksAdded();
+    emit NeedRefreshView();
 }
 
 void PlayListModel::playNextTrack()
@@ -146,13 +146,13 @@ void PlayListModel::startPlayback()
         emit FileDoesNotExists();
         mTracks[mCurrentTrack].reset();
         mTracks.erase(mTracks.begin()+mCurrentTrack);
-        emit NewTracksAdded();
+        emit NeedRefreshView();
         startPlayback();
         return;
     } else {
         emit CurrentTrackChanged(mTracks[mCurrentTrack]->getPath());
         emit CurrentModelChanged(this);
-        emit NewTracksAdded();
+        emit NeedRefreshView();
         return;
     }
 }
@@ -217,5 +217,5 @@ void PlayListModel::setCurrent(bool locCurrent)
 
 void PlayListModel::requestRefresh()
 {
- emit NewTracksAdded();
+ emit NeedRefreshView();
 }
