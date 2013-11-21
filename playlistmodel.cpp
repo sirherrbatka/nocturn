@@ -103,10 +103,6 @@ void PlayListModel::addTracks(const QStringList& paths)
 
 void PlayListModel::playNextTrack()
 {
-    if (!playListChecks())
-    {
-        return;
-    }
     if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() )
     {
         emit NoNextTrack();
@@ -114,7 +110,7 @@ void PlayListModel::playNextTrack()
     }
     ++mCurrentTrack;
     qDebug()<<"Playing Next track";
-    startPlayback(false); //Playlist checks already done
+    startPlayback(true); //Playlist checks already done
 }
 
 void PlayListModel::playPrevTrack()
@@ -187,6 +183,7 @@ bool PlayListModel::playListChecks()
         emit NoNextTrack();
         return false;
     }
+    
     return true;
 }
 
