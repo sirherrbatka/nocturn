@@ -111,7 +111,7 @@ void PlayListModel::playNextTrack()
     }
     ++mCurrentTrack;
     qDebug()<<"Playing Next track";
-    startPlayback(true); //Playlist checks already done
+    startPlayback(true);
 }
 
 void PlayListModel::playPrevTrack()
