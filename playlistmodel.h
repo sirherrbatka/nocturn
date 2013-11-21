@@ -66,7 +66,6 @@ signals:
     void NeedRefreshView();
     void PlayListEmpty();
     void OutOfRange();
-//     void trackHasEnded();
 
 public slots:
     void playNextTrack();
@@ -87,6 +86,7 @@ private:
     void goToFirstTrack();
     bool isFilePresent(const QString& path);
     bool playListChecks();
+    void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
 
     //variables
     unsigned long long int mKey;
