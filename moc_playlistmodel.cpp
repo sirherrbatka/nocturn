@@ -46,8 +46,8 @@ static const uint qt_meta_data_PlayListModel[] = {
      236,   14,   14,   14, 0x0a,
      264,  253,   14,   14, 0x0a,
      298,  287,   14,   14, 0x0a,
-     322,   14,   14,   14, 0x0a,
-     344,  338,   14,   14, 0x0a,
+     346,  322,   14,   14, 0x0a,
+     372,  366,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -62,7 +62,8 @@ static const char qt_meta_stringdata_PlayListModel[] = {
     "playPrevTrack()\0replayPlayList()\0"
     "RandomMode\0enableRandomMode(bool)\0"
     "RepeatMode\0enableRepeateMode(bool)\0"
-    "startPlayback()\0track\0playTrack(int)\0"
+    "locRequestPlayListCheck\0startPlayback(bool)\0"
+    "track\0playTrack(int)\0"
 };
 
 void PlayListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -85,7 +86,7 @@ void PlayListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 11: _t->replayPlayList(); break;
         case 12: _t->enableRandomMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 13: _t->enableRepeateMode((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 14: _t->startPlayback(); break;
+        case 14: _t->startPlayback((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 15: _t->playTrack((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }

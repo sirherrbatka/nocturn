@@ -76,7 +76,7 @@ public slots:
     void enableRandomMode(bool RandomMode);
     void enableRepeateMode(bool RepeatMode);
 //     void pausePlayBack();
-    void startPlayback();
+    void startPlayback(bool locRequestPlayListCheck);
     void playTrack(int track);
 //     void stopPlayBack();
 

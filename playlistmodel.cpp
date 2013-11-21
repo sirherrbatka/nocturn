@@ -114,7 +114,7 @@ void PlayListModel::playNextTrack()
     }
     ++mCurrentTrack;
     qDebug()<<"Playing Next track";
-    startPlayback();
+    startPlayback(false); //Playlist checks already done
 }
 
 void PlayListModel::playPrevTrack()
@@ -130,19 +130,22 @@ void PlayListModel::playPrevTrack()
     }
     --mCurrentTrack;
     qDebug()<<"Playing Prev track";
-    startPlayback();
+    startPlayback(false); //Playlist checks already done
 }
 
-void PlayListModel::startPlayback()
+void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
 {
-    if (playListChecks() == false)
+    if (locRequestPlayListCheck)
     {
-        qDebug()<<"Playlist not usable";
-        return;
+        if (playListChecks() == false)
+        {
+            qDebug()<<"Playlist not usable";
+            return;
+        }
     }
     if (mCurrentTrack == -1) //true for newly created playlist, without active track. If we reached the point when we start playback on such playlist, we should start from the begining (0);
     {
-      mCurrentTrack = 0; //Sets to the begining.
+        mCurrentTrack = 0; //Sets to the begining.
     }
     if (mTracks[mCurrentTrack]->fileExists() == false)
     {
@@ -221,5 +224,5 @@ void PlayListModel::setCurrent(bool locCurrent)
 
 void PlayListModel::requestRefresh()
 {
- emit NeedRefreshView();
+    emit NeedRefreshView();
 }
