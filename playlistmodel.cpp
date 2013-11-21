@@ -41,6 +41,7 @@ PlayListModel::PlayListModel(unsigned long long int key) :
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
     connect(this, SIGNAL(CurrentTrackChanged(const QString*)), MainControler::getMainControler(), SLOT(playFile(const QString*)));
     connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
+    connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
 
 }
 
