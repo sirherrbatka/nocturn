@@ -92,7 +92,7 @@ private:
     unsigned long long int mKey;
     std::vector<std::unique_ptr<AudioTrackModel> > mTracks;
     std::vector<std::unique_ptr<AudioTrackModel> > mRandomModeTracks;
-    int mCurrentTrack {0};
+    int mCurrentTrack {-1};
     bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};

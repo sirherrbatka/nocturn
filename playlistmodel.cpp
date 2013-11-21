@@ -123,7 +123,7 @@ void PlayListModel::playPrevTrack()
     {
         return;
     }
-    if (mCurrentTrack == 0 )
+    if (mCurrentTrack <= 0 ) //initial value for mCurrentTrack = -1. This way playlist initially does not display active track.
     {
         emit NoPrevTrack();
         return;
@@ -139,6 +139,10 @@ void PlayListModel::startPlayback()
     {
         qDebug()<<"Playlist not usable";
         return;
+    }
+    if (mCurrentTrack == -1) //true for newly created playlist, without active track. If we reached the point when we start playback on such playlist, we should start from the begining (0);
+    {
+      mCurrentTrack = 0; //Sets to the begining.
     }
     if (mTracks[mCurrentTrack]->fileExists() == false)
     {
