@@ -224,3 +224,12 @@ void PlayListModel::requestRefresh()
 {
     emit NeedRefreshView();
 }
+
+void PlayListModel::sortPlayList()
+{
+    QString* tmpAlbum;
+    for(auto &each : mTracks)
+    {
+      each->getAlbum();
+    }
+}

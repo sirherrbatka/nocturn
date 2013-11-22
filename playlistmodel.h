@@ -70,14 +70,11 @@ signals:
 public slots:
     void playNextTrack();
     void playPrevTrack();
-//      void playFromBegining();
      void replayPlayList();
     void enableRandomMode(bool RandomMode);
     void enableRepeateMode(bool RepeatMode);
-//     void pausePlayBack();
     void startPlayback(bool locRequestPlayListCheck);
     void playTrack(int track);
-//     void stopPlayBack();
 
 private:
     PlayListModel(const PlayListModel& other); //not implemented

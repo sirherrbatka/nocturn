@@ -39,21 +39,27 @@ public:
     const QString* getPath() const;
     const QString* getName() const;
     long getDuration() const;
-    bool fileExists();
+    bool fileExists() const;
+    int getTrackNumber() const;
+    const QString* getAlbum() const;
+    int getDiscNumber() const;
 
 private:
     AudioTrackModel& operator=(const AudioTrackModel& other);
     bool operator==(const AudioTrackModel& other);
 
     void storeName(const QString& name);
+    void storeAlbum(const QString& album);
 
     //variables
     QString mPath;
     QFileInfo* mFile;
 
-    QString mName;
-    long mDuration;
-    
+    QString mName{""};
+    QString mAlbum{""};
+    long mDuration{0};
+    int mTrackNumber{0};
+    int mDiscNumber{-1}; //-1 = disc number not present.
 };
 
 #endif // AUDIOTRACKMODEL_H

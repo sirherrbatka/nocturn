@@ -27,6 +27,7 @@
 #include <taglib/fileref.h>
 #include <taglib/tstring.h>
 #include <taglib/tag.h>
+#include <string>
 
 TagHandler::TagHandler()
 {
@@ -45,12 +46,12 @@ void TagHandler::inputFile(const QString& path)
 
 QString TagHandler::getAlbum()
 {
-    return QString(mFile.get()->tag()->album().toCString());
+    return QString::fromStdString(mFile.get()->tag()->album().toCString());
 }
 
 QString TagHandler::getArtist()
 {
-    return QString(mFile.get()->tag()->artist().toCString());
+    return QString::fromStdString(mFile.get()->tag()->artist().toCString());
 }
 
 int TagHandler::getDisc()
@@ -65,7 +66,7 @@ long int TagHandler::getDuration()
 
 QString TagHandler::getTitle()
 {
-    return QString(mFile.get()->tag()->title().toCString());
+    return QString::fromStdString(mFile.get()->tag()->title().toCString());
 }
 
 int TagHandler::getTrack()
