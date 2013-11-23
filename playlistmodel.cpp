@@ -233,3 +233,8 @@ void PlayListModel::sortPlayList()
       each->getAlbum();
     }
 }
+
+// void PlayListModel::compareTracks(std::unique_ptr<AudioTrackModel> &prev, std::unique_ptr<AudioTrackModel> &next)
+// {
+  
+// }
