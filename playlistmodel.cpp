@@ -90,7 +90,7 @@ void PlayListModel::enableRepeateMode(bool RepeatMode)
     mRepateMode = RepeatMode;
 }
 
-void PlayListModel::goToFirstTrack()
+inline void PlayListModel::goToFirstTrack()
 {
     mCurrentTrack = 0;
 }
@@ -176,7 +176,7 @@ const QString* PlayListModel::getTrackName(int tracknumber) const
     return (mTracks[tracknumber])->getName();
 }
 
-bool PlayListModel::playListChecks()
+inline bool PlayListModel::playListChecks()
 {
     if (mTracks.empty())
     {
@@ -230,7 +230,7 @@ void PlayListModel::requestRefresh()
     emit NeedRefreshView();
 }
 
-void PlayListModel::sortPlayList()
+inline void PlayListModel::sortPlayList()
 {
     std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)
     {
@@ -271,4 +271,9 @@ void PlayListModel::sortPlayList()
 int PlayListModel::getTrackNumber(int locTrack)
 {
     return mTracks[locTrack]->getTrackNumber();
+}
+
+const QString* PlayListModel::getArtist(int locTrack) const
+{
+  return mTracks[locTrack]->getArtist();
 }

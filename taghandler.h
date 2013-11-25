@@ -35,14 +35,14 @@ public:
     TagHandler(const QString& path);
     ~TagHandler();
     
-    QString getTitle();
-    int getDisc();
-    int getTrack();
-    QString getArtist();
-    QString getAlbum();
-    long getDuration();
+    QString getTitle() const;
+    int getDisc() const;
+    int getTrack() const;
+    QString getArtist() const;
+    QString getAlbum() const;
+    long getDuration() const;
     
-    bool hasTags();
+    bool hasTags() const;
     
 private:
   //methods

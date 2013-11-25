@@ -43,13 +43,15 @@ public:
     int getTrackNumber() const;
     const QString* getAlbum() const;
     int getDiscNumber() const;
+    const QString* getArtist() const;
 
 private:
     AudioTrackModel& operator=(const AudioTrackModel& other);
     bool operator==(const AudioTrackModel& other);
 
-    void storeName(const QString& name);
-    void storeAlbum(const QString& album);
+    inline void storeName(const QString& name);
+    inline void storeAlbum(const QString& album);
+    inline void storeArtist(const QString& artist);
 
     //variables
     QString mPath;
@@ -57,6 +59,7 @@ private:
 
     QString mName{""};
     QString mAlbum{""};
+    QString mArtist{""};
     long mDuration{0};
     int mTrackNumber{0};
     int mDiscNumber{-1}; //-1 = disc number not present.

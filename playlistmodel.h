@@ -56,6 +56,7 @@ public:
     bool getCurrent() const;
     void requestRefresh();
     int getTrackNumber(int locTrack);
+    const QString* getArtist(int locTrack) const;
 
 signals:
     void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.
@@ -81,10 +82,9 @@ private:
     PlayListModel(const PlayListModel& other); //not implemented
     PlayListModel& operator=(const PlayListModel& other); //not implemented
     bool operator==(const PlayListModel& other); //not implemented
-    void goToFirstTrack();
-    bool isFilePresent(const QString& path);
-    bool playListChecks();
-    void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
+    inline void goToFirstTrack();
+    inline bool playListChecks();
+    inline void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
 
     //variables
     unsigned long long int mKey;

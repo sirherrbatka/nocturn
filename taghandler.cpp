@@ -38,17 +38,17 @@ TagHandler::~TagHandler()
 {
 }
 
-QString TagHandler::getAlbum()
+QString TagHandler::getAlbum() const
 {
     return QString::fromStdString(mFile.get()->tag()->album().toCString());
 }
 
-QString TagHandler::getArtist()
+QString TagHandler::getArtist() const
 {
     return QString::fromStdString(mFile.get()->tag()->artist().toCString());
 }
 
-int TagHandler::getDisc()
+int TagHandler::getDisc() const
 {
     TagLib::PropertyMap map = mFile->file()->properties();
     int discnumber = -1;
@@ -58,22 +58,22 @@ int TagHandler::getDisc()
     return discnumber;
 }
 
-long int TagHandler::getDuration()
+long int TagHandler::getDuration() const
 {
     return mFile.get()->file()->length();
 }
 
-QString TagHandler::getTitle()
+QString TagHandler::getTitle() const
 {
     return QString::fromStdString(mFile.get()->tag()->title().toCString());
 }
 
-int TagHandler::getTrack()
+int TagHandler::getTrack() const
 {
     return mFile.get()->tag()->track();
 }
 
-bool TagHandler::hasTags()
+bool TagHandler::hasTags() const
 {
     return  !(mFile.get()->tag()->isEmpty());
 }
