@@ -29,19 +29,13 @@
 #include <taglib/tag.h>
 #include <string>
 
-TagHandler::TagHandler()
+TagHandler::TagHandler(const QString& path) :
+    mFile(new TagLib::FileRef (path.toLocal8Bit() ) )
 {
 }
 
 TagHandler::~TagHandler()
 {
-}
-
-void TagHandler::inputFile(const QString& path)
-{
-  std::unique_ptr<TagLib::FileRef> tmp(new TagLib::FileRef (path.toLocal8Bit() ));
-  mFile.swap(tmp);
-  tmp.reset();
 }
 
 QString TagHandler::getAlbum()
@@ -56,7 +50,12 @@ QString TagHandler::getArtist()
 
 int TagHandler::getDisc()
 {
-    return mFile.get()->audioProperties()->length();
+    TagLib::PropertyMap map = mFile->file()->properties();
+    int discnumber = -1;
+    if (map.contains("DISCNUMBER")) {
+        discnumber = map["DISCNUMBER"][0].toInt();
+    }
+    return discnumber;
 }
 
 long int TagHandler::getDuration()
@@ -76,5 +75,6 @@ int TagHandler::getTrack()
 
 bool TagHandler::hasTags()
 {
-  return  !(mFile.get()->tag()->isEmpty());
+    return  !(mFile.get()->tag()->isEmpty());
 }
+

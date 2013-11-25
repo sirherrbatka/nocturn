@@ -32,8 +32,7 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
     mFile(new QFileInfo(path))
 {
     qDebug()<<"loaded file"<<" "<<path;
-    TagHandler TagHandler;
-    TagHandler.inputFile(path);
+    TagHandler TagHandler(path);
     if (TagHandler.hasTags() == false)
     {
         mName = mFile->baseName();
@@ -43,6 +42,8 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
         mDiscNumber = TagHandler.getDisc();
         mTrackNumber = TagHandler.getTrack();
         storeAlbum(TagHandler.getAlbum());
+	qDebug()<<"Track number is"<<mTrackNumber;
+	qDebug()<<"Disc number is"<<mDiscNumber;
     }
 }
 

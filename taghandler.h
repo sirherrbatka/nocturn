@@ -32,10 +32,9 @@
 class TagHandler
 {
 public:
-    TagHandler();
+    TagHandler(const QString& path);
     ~TagHandler();
     
-    void inputFile(const QString& path);
     QString getTitle();
     int getDisc();
     int getTrack();
@@ -48,7 +47,7 @@ public:
 private:
   //methods
   //variables
-  std::unique_ptr<TagLib::FileRef> mFile{new TagLib::FileRef()};
+  std::unique_ptr<TagLib::FileRef> mFile;
 };
 
 #endif // TAGHANDLER_H

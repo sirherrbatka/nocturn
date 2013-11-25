@@ -51,11 +51,11 @@ void PlayListPageView::refreshView()
 {
     clear();
     int locCurrent = getModel()->getCurrentTrack();
-    unsigned int locSize = mModel->getPlayListSize();
+    int locSize = mModel->getPlayListSize();
     setRowCount(locSize);
-    setColumnCount(1);
+    setColumnCount(2);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
-    for (unsigned int i = 0; i < locSize; ++i )
+    for (int i = 0; i < locSize; ++i )
     {
 	QTableWidgetItem* item = new QTableWidgetItem(*(mModel->getTrackName(i)));
 	if (i == locCurrent and mModel->getCurrent())
@@ -64,7 +64,8 @@ void PlayListPageView::refreshView()
 	  font.setBold(true);
 	  item->setFont(font);
 	}
-        setItem(i, 0, item);
+	setItem(i, 0, new QTableWidgetItem(mModel->getTrackNumber(i)) );
+        setItem(i, 1, item);
     }
 }
 

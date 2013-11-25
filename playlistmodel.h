@@ -55,7 +55,8 @@ public:
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
-    
+    int getTrackNumber(int locTrack);
+
 signals:
     void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.
     void CurrentModelChanged(PlayListModel*); //transmits the playlist model to the playlistmanager. Emited after track changed.
@@ -70,7 +71,7 @@ signals:
 public slots:
     void playNextTrack();
     void playPrevTrack();
-     void replayPlayList();
+    void replayPlayList();
     void enableRandomMode(bool RandomMode);
     void enableRepeateMode(bool RepeatMode);
     void startPlayback(bool locRequestPlayListCheck);
@@ -93,7 +94,7 @@ private:
     bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};
-    bool mCurrent{false};
+    bool mCurrent {false};
 };
 
 #endif // PLAYLISTMODEL_H

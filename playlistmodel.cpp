@@ -22,6 +22,7 @@
 
 #include "playlistmodel.h"
 #include <QDebug>
+#include <algorithm>
 #include <cassert>
 #include <memory>
 #include "./maincontroler.h"
@@ -29,7 +30,10 @@
 #include "./audiotrackmodel.h"
 #include <QString>
 #include <vector>
+#include <qt4/QtCore/qnamespace.h>
 #include "./taghandler.h"
+#include <Qt>
+#include <algorithm>
 
 
 PlayListModel::PlayListModel(unsigned long long int key) :
@@ -99,6 +103,7 @@ void PlayListModel::addTracks(const QStringList& paths)
     {
         mTracks.push_back(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path)));
     }
+    sortPlayList();
     emit NeedRefreshView();
 }
 
@@ -184,7 +189,7 @@ bool PlayListModel::playListChecks()
         emit NoNextTrack();
         return false;
     }
-    
+
     return true;
 }
 
@@ -227,14 +232,43 @@ void PlayListModel::requestRefresh()
 
 void PlayListModel::sortPlayList()
 {
-    QString* tmpAlbum;
-    for(auto &each : mTracks)
+    std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)
     {
-      each->getAlbum();
-    }
+        if(0<(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
+        {
+            return true;
+        }
+
+        if(0>(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
+        {
+            return false;
+        }
+
+        if((*prev).getDiscNumber()>(*next).getDiscNumber() and (*prev).getDiscNumber() != -1 and (*next).getDiscNumber() != -1 )
+        {
+            return false;
+        }
+
+        if((*prev).getDiscNumber()<(*next).getDiscNumber() and (*prev).getDiscNumber() != -1 and (*next).getDiscNumber() != -1 )
+        {
+            return true;
+        }
+
+        if((*prev).getTrackNumber()<(*next).getTrackNumber() )
+        {
+            return true;
+        }
+
+        if((*prev).getTrackNumber()>(*next).getTrackNumber() )
+        {
+            return false;
+        }
+
+        return false; //silencing warning
+    }); //lambda expression
 }
 
-// void PlayListModel::compareTracks(std::unique_ptr<AudioTrackModel> &prev, std::unique_ptr<AudioTrackModel> &next)
-// {
-  
-// }
+int PlayListModel::getTrackNumber(int locTrack)
+{
+    return mTracks[locTrack]->getTrackNumber();
+}
