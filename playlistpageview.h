@@ -37,7 +37,7 @@ public:
 
 public slots:
     void refreshView();
-    void doubleClicked ( int row, int column );
+    void doubleClicked ( int row );
 
 signals:
     void PlayListViewDestroyed(unsigned long long int);
