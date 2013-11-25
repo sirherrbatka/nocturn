@@ -112,7 +112,7 @@ void MainView::changeStatus(SharedTypes::PlaybackState newstatus, SharedTypes::P
     }
 }
 
-void MainView::updateLabel()
+inline void MainView::updateLabel()
 {
     switch (mState)
     {

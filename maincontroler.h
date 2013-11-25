@@ -41,16 +41,6 @@ public:
     static MainControler* getMainControler();
     PlayListModel* generatePlayListModel(); //TODO consider different solution
 
-    enum PlayBackState
-    {
-        LoadingState,
-        StoppedState,
-        PlayingState,
-        BufferingState,
-        PausedState,
-        ErorrState,
-    };
-
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
 

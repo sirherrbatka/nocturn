@@ -61,7 +61,7 @@ private slots:
 private:
     //methods
     PlayListModel* getPlayListModel(int index);
-    void updateLabel();
+    inline void updateLabel();
     
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};

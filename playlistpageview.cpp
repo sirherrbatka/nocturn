@@ -24,6 +24,7 @@
 #include "./playlistmodel.h"
 #include "maincontroler.h"
 #include <qt4/QtGui/qfont.h>
+#include <qlist.h>
 #include <QDebug>
 
 PlayListPageView::PlayListPageView(PlayListModel* model) :
@@ -33,6 +34,8 @@ PlayListPageView::PlayListPageView(PlayListModel* model) :
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
     connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(doubleClicked(int, int)));
     qDebug()<<"Playlist view created";
+    setColumnCount(1);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 
@@ -51,19 +54,17 @@ void PlayListPageView::refreshView()
 {
     clear();
     int locCurrent = getModel()->getCurrentTrack();
-    unsigned int locSize = mModel->getPlayListSize();
+    int locSize = mModel->getPlayListSize();
     setRowCount(locSize);
-    setColumnCount(1);
-    setEditTriggers(QAbstractItemView::NoEditTriggers);
-    for (unsigned int i = 0; i < locSize; ++i )
+    for (int i = 0; i < locSize; ++i )
     {
-	QTableWidgetItem* item = new QTableWidgetItem(*(mModel->getTrackName(i)));
-	if (i == locCurrent and mModel->getCurrent())
-	{
-	  QFont font;
-	  font.setBold(true);
-	  item->setFont(font);
-	}
+        QTableWidgetItem* item = new QTableWidgetItem(*(mModel->getArtist(i)) + " - " + *(mModel->getTrackName(i)));
+        if (i == locCurrent and mModel->getCurrent())
+        {
+            QFont font;
+            font.setBold(true);
+            item->setFont(font);
+        }
         setItem(i, 0, item);
     }
 }

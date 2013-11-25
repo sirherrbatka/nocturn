@@ -27,8 +27,10 @@
 #include <taglib/fileref.h>
 #include <taglib/tstring.h>
 #include <taglib/tag.h>
+#include <string>
 
-TagHandler::TagHandler()
+TagHandler::TagHandler(const QString& path) :
+    mFile(new TagLib::FileRef (path.toLocal8Bit() ) )
 {
 }
 
@@ -36,44 +38,43 @@ TagHandler::~TagHandler()
 {
 }
 
-void TagHandler::inputFile(const QString& path)
+QString TagHandler::getAlbum() const
 {
-  std::unique_ptr<TagLib::FileRef> tmp(new TagLib::FileRef (path.toLocal8Bit() ));
-  mFile.swap(tmp);
-  tmp.reset();
+    return QString::fromStdString(mFile.get()->tag()->album().toCString());
 }
 
-QString TagHandler::getAlbum()
+QString TagHandler::getArtist() const
 {
-    return QString(mFile.get()->tag()->album().toCString());
+    return QString::fromStdString(mFile.get()->tag()->artist().toCString());
 }
 
-QString TagHandler::getArtist()
+int TagHandler::getDisc() const
 {
-    return QString(mFile.get()->tag()->artist().toCString());
+    TagLib::PropertyMap map = mFile->file()->properties();
+    int discnumber = -1;
+    if (map.contains("DISCNUMBER")) {
+        discnumber = map["DISCNUMBER"][0].toInt();
+    }
+    return discnumber;
 }
 
-int TagHandler::getDisc()
-{
-    return mFile.get()->audioProperties()->length();
-}
-
-long int TagHandler::getDuration()
+long int TagHandler::getDuration() const
 {
     return mFile.get()->file()->length();
 }
 
-QString TagHandler::getTitle()
+QString TagHandler::getTitle() const
 {
-    return QString(mFile.get()->tag()->title().toCString());
+    return QString::fromStdString(mFile.get()->tag()->title().toCString());
 }
 
-int TagHandler::getTrack()
+int TagHandler::getTrack() const
 {
     return mFile.get()->tag()->track();
 }
 
-bool TagHandler::hasTags()
+bool TagHandler::hasTags() const
 {
-  return  !(mFile.get()->tag()->isEmpty());
+    return  !(mFile.get()->tag()->isEmpty());
 }
+

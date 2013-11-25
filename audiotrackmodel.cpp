@@ -32,14 +32,19 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
     mFile(new QFileInfo(path))
 {
     qDebug()<<"loaded file"<<" "<<path;
-    TagHandler TagHandler;
-    TagHandler.inputFile(path);
+    TagHandler TagHandler(path);
     if (TagHandler.hasTags() == false)
     {
         mName = mFile->baseName();
     } else {
         storeName(TagHandler.getTitle());
+	storeArtist(TagHandler.getArtist());
         mDuration = TagHandler.getDuration();
+        mDiscNumber = TagHandler.getDisc();
+        mTrackNumber = TagHandler.getTrack();
+        storeAlbum(TagHandler.getAlbum());
+        qDebug()<<"Track number is"<<mTrackNumber;
+        qDebug()<<"Disc number is"<<mDiscNumber;
     }
 }
 
@@ -47,6 +52,12 @@ AudioTrackModel::~AudioTrackModel()
 {
     delete mFile;
 }
+
+inline void AudioTrackModel::storeAlbum(const QString& album)
+{
+    mAlbum = album;
+}
+
 
 const QString* AudioTrackModel::getPath() const
 {
@@ -58,12 +69,12 @@ const QString* AudioTrackModel::getName() const
     return &mName;
 }
 
-bool AudioTrackModel::fileExists()
+bool AudioTrackModel::fileExists() const
 {
     return mFile->exists();
 }
 
-void AudioTrackModel::storeName(const QString& name)
+inline void AudioTrackModel::storeName(const QString& name)
 {
     if (name == "")
     {
@@ -78,3 +89,27 @@ long int AudioTrackModel::getDuration() const
     return mDuration;
 }
 
+int AudioTrackModel::getDiscNumber() const
+{
+    return mDiscNumber;
+}
+
+const QString* AudioTrackModel::getAlbum() const
+{
+    return &mAlbum;
+}
+
+int AudioTrackModel::getTrackNumber() const
+{
+    return mTrackNumber;
+}
+
+const QString* AudioTrackModel::getArtist() const
+{
+    return &mArtist;
+}
+
+void AudioTrackModel::storeArtist(const QString& artist)
+{
+    mArtist = artist;
+}

@@ -22,6 +22,7 @@
 
 #include "playlistmodel.h"
 #include <QDebug>
+#include <algorithm>
 #include <cassert>
 #include <memory>
 #include "./maincontroler.h"
@@ -29,7 +30,10 @@
 #include "./audiotrackmodel.h"
 #include <QString>
 #include <vector>
+#include <qt4/QtCore/qnamespace.h>
 #include "./taghandler.h"
+#include <Qt>
+#include <algorithm>
 
 
 PlayListModel::PlayListModel(unsigned long long int key) :
@@ -86,7 +90,7 @@ void PlayListModel::enableRepeateMode(bool RepeatMode)
     mRepateMode = RepeatMode;
 }
 
-void PlayListModel::goToFirstTrack()
+inline void PlayListModel::goToFirstTrack()
 {
     mCurrentTrack = 0;
 }
@@ -99,6 +103,7 @@ void PlayListModel::addTracks(const QStringList& paths)
     {
         mTracks.push_back(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path)));
     }
+    sortPlayList();
     emit NeedRefreshView();
 }
 
@@ -111,7 +116,7 @@ void PlayListModel::playNextTrack()
     }
     ++mCurrentTrack;
     qDebug()<<"Playing Next track";
-    startPlayback(true); //Playlist checks already done
+    startPlayback(true);
 }
 
 void PlayListModel::playPrevTrack()
@@ -171,7 +176,7 @@ const QString* PlayListModel::getTrackName(int tracknumber) const
     return (mTracks[tracknumber])->getName();
 }
 
-bool PlayListModel::playListChecks()
+inline bool PlayListModel::playListChecks()
 {
     if (mTracks.empty())
     {
@@ -184,7 +189,7 @@ bool PlayListModel::playListChecks()
         emit NoNextTrack();
         return false;
     }
-    
+
     return true;
 }
 
@@ -223,4 +228,52 @@ void PlayListModel::setCurrent(bool locCurrent)
 void PlayListModel::requestRefresh()
 {
     emit NeedRefreshView();
+}
+
+inline void PlayListModel::sortPlayList()
+{
+    std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)
+    {
+        if(0<(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
+        {
+            return true;
+        }
+
+        if(0>(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
+        {
+            return false;
+        }
+
+        if((*prev).getDiscNumber()>(*next).getDiscNumber() and (*prev).getDiscNumber() != -1 and (*next).getDiscNumber() != -1 )
+        {
+            return false;
+        }
+
+        if((*prev).getDiscNumber()<(*next).getDiscNumber() and (*prev).getDiscNumber() != -1 and (*next).getDiscNumber() != -1 )
+        {
+            return true;
+        }
+
+        if((*prev).getTrackNumber()<(*next).getTrackNumber() )
+        {
+            return true;
+        }
+
+        if((*prev).getTrackNumber()>(*next).getTrackNumber() )
+        {
+            return false;
+        }
+
+        return false; //silencing warning
+    }); //lambda expression
+}
+
+int PlayListModel::getTrackNumber(int locTrack)
+{
+    return mTracks[locTrack]->getTrackNumber();
+}
+
+const QString* PlayListModel::getArtist(int locTrack) const
+{
+  return mTracks[locTrack]->getArtist();
 }

@@ -55,7 +55,9 @@ public:
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
-    
+    int getTrackNumber(int locTrack);
+    const QString* getArtist(int locTrack) const;
+
 signals:
     void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.
     void CurrentModelChanged(PlayListModel*); //transmits the playlist model to the playlistmanager. Emited after track changed.
@@ -66,27 +68,23 @@ signals:
     void NeedRefreshView();
     void PlayListEmpty();
     void OutOfRange();
-//     void trackHasEnded();
 
 public slots:
     void playNextTrack();
     void playPrevTrack();
-//      void playFromBegining();
-     void replayPlayList();
+    void replayPlayList();
     void enableRandomMode(bool RandomMode);
     void enableRepeateMode(bool RepeatMode);
-//     void pausePlayBack();
     void startPlayback(bool locRequestPlayListCheck);
     void playTrack(int track);
-//     void stopPlayBack();
 
 private:
     PlayListModel(const PlayListModel& other); //not implemented
     PlayListModel& operator=(const PlayListModel& other); //not implemented
     bool operator==(const PlayListModel& other); //not implemented
-    void goToFirstTrack();
-    bool isFilePresent(const QString& path);
-    bool playListChecks();
+    inline void goToFirstTrack();
+    inline bool playListChecks();
+    inline void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
 
     //variables
     unsigned long long int mKey;
@@ -96,7 +94,7 @@ private:
     bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};
-    bool mCurrent{false};
+    bool mCurrent {false};
 };
 
 #endif // PLAYLISTMODEL_H
