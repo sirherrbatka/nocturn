@@ -34,7 +34,7 @@ static const uint qt_meta_data_PlayListPageView[] = {
 
  // slots: signature, parameters, type, tag, flags
       64,   17,   17,   17, 0x0a,
-      89,   78,   17,   17, 0x0a,
+      82,   78,   17,   17, 0x0a,
 
        0        // eod
 };
@@ -42,8 +42,7 @@ static const uint qt_meta_data_PlayListPageView[] = {
 static const char qt_meta_stringdata_PlayListPageView[] = {
     "PlayListPageView\0\0"
     "PlayListViewDestroyed(unsigned long long int)\0"
-    "refreshView()\0row,column\0"
-    "doubleClicked(int,int)\0"
+    "refreshView()\0row\0doubleClicked(int)\0"
 };
 
 void PlayListPageView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -54,7 +53,7 @@ void PlayListPageView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         switch (_id) {
         case 0: _t->PlayListViewDestroyed((*reinterpret_cast< unsigned long long int(*)>(_a[1]))); break;
         case 1: _t->refreshView(); break;
-        case 2: _t->doubleClicked((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 2: _t->doubleClicked((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }

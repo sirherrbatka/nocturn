@@ -32,7 +32,7 @@ PlayListPageView::PlayListPageView(PlayListModel* model) :
 {
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
-    connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(doubleClicked(int, int)));
+    connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(doubleClicked(int)));
     qDebug()<<"Playlist view created";
     setColumnCount(1);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -69,7 +69,7 @@ void PlayListPageView::refreshView()
     }
 }
 
-void PlayListPageView::doubleClicked(int row, int column)
+void PlayListPageView::doubleClicked(int row)
 {
     mModel->playTrack(row);
 }
