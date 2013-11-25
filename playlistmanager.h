@@ -62,8 +62,8 @@ private:
     PlayListManager& operator=(const PlayListManager& other); //not implemented
     bool operator==(const PlayListManager& other); //not implemented
     QStringList scanDirectory(const QDir& dir);
-    bool isSupportedFile(const QString& path);
-    bool isAudioFile(const QString& path);
+    inline bool isSupportedFile(const QString& path);
+    inline bool isAudioFile(const QString& path);
 
     //variables
     std::map<long long unsigned int, PlayListModel*> mPlayLists;

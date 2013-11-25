@@ -232,7 +232,7 @@ void PlayListModel::requestRefresh()
 
 inline void PlayListModel::sortPlayList()
 {
-    std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)
+    std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
     {
         if(0<(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
         {
