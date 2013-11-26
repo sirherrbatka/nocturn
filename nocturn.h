@@ -46,9 +46,9 @@ private slots:
     void quitNocturn();
 
 private:
-    ModelManager* Manager;
-    MainView* View;
-    MainControler* Controler;
+    ModelManager* Manager{nullptr};
+    MainView* View{nullptr};
+    MainControler* Controler{nullptr};
     static bool mAboutToQuit;
     QApplication* app;
 
