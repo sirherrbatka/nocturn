@@ -56,7 +56,7 @@ public slots:
     void fileEnded();
     void togglePlayback();
     void startPlayback();
-
+    
 private:
     MainControler(const MainControler& other); //not implemented
     MainControler& operator=(const MainControler& other); //not implemented

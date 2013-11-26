@@ -109,7 +109,7 @@ void PlayListModel::addTracks(const QStringList& paths)
 
 void PlayListModel::playNextTrack()
 {
-    if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() )
+    if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() ) //silencing the warning.
     {
         emit NoNextTrack();
         return;
