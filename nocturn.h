@@ -27,17 +27,32 @@
 #include "./maincontroler.h"
 #include "./modelmanager.h"
 #include <cinttypes>
+#include <qt4/QtGui/qapplication.h>
+#include <QObject>
 
-class nocturn
+class nocturn : public QObject
 {
+  Q_OBJECT
 public:
     nocturn();
     ~nocturn();
+    
+    int runNoctrun(int argc, char** argv);
+    
+    static nocturn* getNocturn();  
+    static bool nocturnQuits();
+    
+private slots:
+  void quitNocturn();
     
 private:
   ModelManager* Manager;
   MainView* View;
   MainControler* Controler;
+  static bool mAboutToQuit;
+  QApplication* app;
+  
+  static nocturn* mThisPointer;
 };
 
 #endif // NOCTURN_H

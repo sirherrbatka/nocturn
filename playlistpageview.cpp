@@ -26,6 +26,7 @@
 #include <qt4/QtGui/qfont.h>
 #include <qlist.h>
 #include <QDebug>
+#include "./nocturn.h"
 
 PlayListPageView::PlayListPageView(PlayListModel* model) :
     mModel(model)
@@ -46,7 +47,10 @@ PlayListModel* PlayListPageView::getModel()
 
 PlayListPageView::~PlayListPageView()
 {
-    emit PlayListViewDestroyed(mModel->getKey());
+    if (!(nocturn::getNocturn()->nocturnQuits()))
+    {
+        emit PlayListViewDestroyed(mModel->getKey());
+    }
     qDebug()<<"Play List view Is being destroyed";
 }
 
