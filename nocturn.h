@@ -32,27 +32,27 @@
 
 class nocturn : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
     nocturn();
     ~nocturn();
-    
+
     int runNoctrun(int argc, char** argv);
-    
-    static nocturn* getNocturn();  
+
+    static nocturn* getNocturn();
     static bool nocturnQuits();
-    
+
 private slots:
-  void quitNocturn();
-    
+    void quitNocturn();
+
 private:
-  ModelManager* Manager;
-  MainView* View;
-  MainControler* Controler;
-  static bool mAboutToQuit;
-  QApplication* app;
-  
-  static nocturn* mThisPointer;
+    ModelManager* Manager;
+    MainView* View;
+    MainControler* Controler;
+    static bool mAboutToQuit;
+    QApplication* app;
+
+    static nocturn* mThisPointer;
 };
 
 #endif // NOCTURN_H

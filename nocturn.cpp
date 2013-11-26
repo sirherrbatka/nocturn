@@ -55,15 +55,15 @@ int nocturn::runNoctrun(int argc, char** argv)
 
 void nocturn::quitNocturn()
 {
- mAboutToQuit = true;
+    mAboutToQuit = true;
 }
 
 nocturn* nocturn::getNocturn()
 {
- return mThisPointer;
+    return mThisPointer;
 }
 
 bool nocturn::nocturnQuits()
 {
- return mAboutToQuit;
+    return mAboutToQuit;
 }
