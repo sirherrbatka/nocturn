@@ -113,3 +113,14 @@ void AudioTrackModel::storeArtist(const QString& artist)
 {
     mArtist = artist;
 }
+
+bool AudioTrackModel::isCurrent()
+{
+  return mCurrent;
+  mCurrent = false;
+}
+
+void AudioTrackModel::markAsCurrent(bool active)
+{
+ mCurrent = active;
+}

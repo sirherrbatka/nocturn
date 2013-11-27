@@ -20,33 +20,22 @@
  *
  */
 
-#ifndef PLAYLISTPAGEVIEW_H
-#define PLAYLISTPAGEVIEW_H
-#include <QListWidget>
-#include <memory>
+#ifndef PLAYLISTPAGEVIEWITEM_H
+#define PLAYLISTPAGEVIEWITEM_H
+#include <QListWidgetItem>
+#include <QObject>
 
-class PlayListModel;
-class QWidget;
-class PlayListPageView : public QListWidget
+class PlayListPageViewItem : public  QListWidgetItem
 {
-    Q_OBJECT
 public:
-    PlayListModel* getModel();
-    PlayListPageView(PlayListModel* model);
-    ~PlayListPageView();
+    PlayListPageViewItem(const QString & text, int position);
+    ~PlayListPageViewItem();
 
-public slots:
-    void refreshView();
-    void doubleClicked ( QListWidgetItem* item );
-
-signals:
-    void PlayListViewDestroyed(unsigned long long int);
+public:
+    int getPosition() const;
 
 private:
-    //methods
-
-    //variables
-    PlayListModel* mModel;
+    int mPosition;
 };
 
-#endif // PLAYLISTPAGEVIEW_H
+#endif // PLAYLISTPAGEVIEWITEM_H

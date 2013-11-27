@@ -34,7 +34,7 @@ static const uint qt_meta_data_PlayListPageView[] = {
 
  // slots: signature, parameters, type, tag, flags
       64,   17,   17,   17, 0x0a,
-      82,   78,   17,   17, 0x0a,
+      83,   78,   17,   17, 0x0a,
 
        0        // eod
 };
@@ -42,7 +42,7 @@ static const uint qt_meta_data_PlayListPageView[] = {
 static const char qt_meta_stringdata_PlayListPageView[] = {
     "PlayListPageView\0\0"
     "PlayListViewDestroyed(unsigned long long int)\0"
-    "refreshView()\0row\0doubleClicked(int)\0"
+    "refreshView()\0item\0doubleClicked(QListWidgetItem*)\0"
 };
 
 void PlayListPageView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -53,7 +53,7 @@ void PlayListPageView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         switch (_id) {
         case 0: _t->PlayListViewDestroyed((*reinterpret_cast< unsigned long long int(*)>(_a[1]))); break;
         case 1: _t->refreshView(); break;
-        case 2: _t->doubleClicked((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 2: _t->doubleClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -64,7 +64,7 @@ const QMetaObjectExtraData PlayListPageView::staticMetaObjectExtraData = {
 };
 
 const QMetaObject PlayListPageView::staticMetaObject = {
-    { &QTableWidget::staticMetaObject, qt_meta_stringdata_PlayListPageView,
+    { &QListWidget::staticMetaObject, qt_meta_stringdata_PlayListPageView,
       qt_meta_data_PlayListPageView, &staticMetaObjectExtraData }
 };
 
@@ -82,12 +82,12 @@ void *PlayListPageView::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_PlayListPageView))
         return static_cast<void*>(const_cast< PlayListPageView*>(this));
-    return QTableWidget::qt_metacast(_clname);
+    return QListWidget::qt_metacast(_clname);
 }
 
 int PlayListPageView::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QTableWidget::qt_metacall(_c, _id, _a);
+    _id = QListWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

@@ -27,16 +27,17 @@
 #include <qlist.h>
 #include <QDebug>
 #include "./nocturn.h"
+#include <QListWidgetItem>
+#include "./playlistpageviewitem.h"
 
 PlayListPageView::PlayListPageView(PlayListModel* model) :
     mModel(model)
 {
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
-    connect(this, SIGNAL(cellDoubleClicked(int, int)), this, SLOT(doubleClicked(int)));
+    connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem* )), this, SLOT(doubleClicked(QListWidgetItem* )));
     qDebug()<<"Playlist view created";
-    setColumnCount(1);
-    setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setSortingEnabled(false);
 }
 
 
@@ -59,21 +60,21 @@ void PlayListPageView::refreshView()
     clear();
     int locCurrent = getModel()->getCurrentTrack();
     int locSize = mModel->getPlayListSize();
-    setRowCount(locSize);
     for (int i = 0; i < locSize; ++i )
     {
-        QTableWidgetItem* item = new QTableWidgetItem(*(mModel->getArtist(i)) + " - " + *(mModel->getTrackName(i)));
+        QListWidgetItem* item = new PlayListPageViewItem(*(mModel->getArtist(i)) + " - " + *(mModel->getTrackName(i)), i);
         if (i == locCurrent and mModel->getCurrent())
         {
             QFont font;
             font.setBold(true);
             item->setFont(font);
         }
-        setItem(i, 0, item);
+        addItem(item);
     }
 }
 
-void PlayListPageView::doubleClicked(int row)
+void PlayListPageView::doubleClicked(QListWidgetItem * item)
 {
-    mModel->playTrack(row);
+    mModel->playTrack(dynamic_cast<PlayListPageViewItem*>(item)->getPosition());
 }
+

@@ -18,4 +18,4 @@ Install Directory=
 VersionControlSupport=kdevgit
 
 [SourceFileTemplates]
-LastUsedTemplate=/home/herr/.kde4/share/apps/kdevfiletemplates/template_descriptions/cpp_basic.desktop
+LastUsedTemplate=/home/herr/.kde4/share/apps/kdevfiletemplates/template_descriptions/qobject.desktop

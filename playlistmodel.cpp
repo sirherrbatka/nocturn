@@ -232,6 +232,11 @@ void PlayListModel::requestRefresh()
 
 inline void PlayListModel::sortPlayList()
 {
+    if(mCurrentTrack >= 0)
+    {
+        mTracks[mCurrentTrack]->markAsCurrent(true);
+    }
+    
     std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
     {
         if(0<(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
@@ -263,9 +268,17 @@ inline void PlayListModel::sortPlayList()
         {
             return false;
         }
-
         return false; //silencing warning
     }); //lambda expression
+    
+    for(unsigned i = 0; i<mTracks.size(); ++i)
+    {
+      if (mTracks[i]->isCurrent())
+      {
+	mCurrentTrack = i;
+	break;
+      }
+    }
 }
 
 int PlayListModel::getTrackNumber(int locTrack)
@@ -275,5 +288,5 @@ int PlayListModel::getTrackNumber(int locTrack)
 
 const QString* PlayListModel::getArtist(int locTrack) const
 {
-  return mTracks[locTrack]->getArtist();
+    return mTracks[locTrack]->getArtist();
 }
