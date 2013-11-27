@@ -29,6 +29,9 @@
 #include "playbackmodel.h"
 #include <QMimeData>
 #include "./playbackphonon.h"
+#include <QToolButton>
+#include <qt4/QtGui/qicon.h>
+
 
 MainView::MainView(PlaybackModel* PlaybackModel) :
     QMainWindow()
@@ -36,15 +39,18 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     setAcceptDrops(true);
     setupUi(this);
     this->statusLabel->setText(tr("Stopped"));
-    show();
 
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
-
+    
     this->seekSlider->setMediaObject(phonon->getPhonon());
     this->volumeSlider->setAudioOutput(phonon->getAudio());
+    QWidget* newTabButton = new QToolButton(this->PlayListsTabs);
+    (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
+    connect(newTabButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
+    this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
+    
     connect(this, SIGNAL(pathDropped(QList<QUrl>)), MainControler::getMainControler(), SLOT(addPathToPlayList(QList<QUrl>)));
     connect(this->PlayListsTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
-    connect(this->newButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
 
 //     TODO find more elegant way for the below connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
@@ -57,6 +63,8 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(MainControler::getMainControler(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SLOT(changeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
     connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
+    connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
+    show();
     newPlayListView();
 }
 
@@ -142,13 +150,13 @@ inline void MainView::updateLabel()
 
 void MainView::toggleButtonControl()
 {
-switch(mState)
-{
-  case SharedTypes::StoppedState:
-    emit StartPlaybackOnActivePlaylist();
-    break;
-  default:
-    emit TogglePlayback();
-    break;
-}  
+    switch(mState)
+    {
+    case SharedTypes::StoppedState:
+        emit StartPlaybackOnActivePlaylist();
+        break;
+    default:
+        emit TogglePlayback();
+        break;
+    }
 }

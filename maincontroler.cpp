@@ -101,3 +101,8 @@ void MainControler::prevTrack()
 {
   mModelManager->getPlayListManager()->playPrevTrack();
 }
+
+void MainControler::clearActivePlayList()
+{
+  mModelManager->getPlayListManager()->clearActivePlayList();
+}

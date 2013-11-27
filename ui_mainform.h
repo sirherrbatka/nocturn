@@ -40,16 +40,15 @@ public:
     QTabWidget *PlayListsTabs;
     QHBoxLayout *horizontalLayout_6;
     QSpacerItem *horizontalSpacer_3;
-    QPushButton *newButton;
-    QSpacerItem *horizontalSpacer_2;
+    QPushButton *clearButton;
+    QHBoxLayout *horizontalLayout_2;
+    Phonon::VolumeSlider *volumeSlider;
+    Phonon::SeekSlider *seekSlider;
     QHBoxLayout *horizontalLayout;
     QToolButton *prevButton;
     QToolButton *toggleButton;
     QToolButton *nextButton;
     QLabel *statusLabel;
-    QHBoxLayout *horizontalLayout_2;
-    Phonon::VolumeSlider *volumeSlider;
-    Phonon::SeekSlider *seekSlider;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -57,7 +56,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(347, 548);
+        MainWindow->resize(342, 504);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -66,6 +65,8 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         PlayListsTabs = new QTabWidget(centralwidget);
         PlayListsTabs->setObjectName(QString::fromUtf8("PlayListsTabs"));
+        PlayListsTabs->setElideMode(Qt::ElideMiddle);
+        PlayListsTabs->setDocumentMode(false);
         PlayListsTabs->setTabsClosable(true);
 
         verticalLayout->addWidget(PlayListsTabs);
@@ -76,21 +77,10 @@ public:
 
         horizontalLayout_6->addItem(horizontalSpacer_3);
 
-        newButton = new QPushButton(centralwidget);
-        newButton->setObjectName(QString::fromUtf8("newButton"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(newButton->sizePolicy().hasHeightForWidth());
-        newButton->setSizePolicy(sizePolicy);
-        newButton->setMinimumSize(QSize(200, 0));
-        newButton->setMaximumSize(QSize(200, 16777215));
+        clearButton = new QPushButton(centralwidget);
+        clearButton->setObjectName(QString::fromUtf8("clearButton"));
 
-        horizontalLayout_6->addWidget(newButton);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_6->addItem(horizontalSpacer_2);
+        horizontalLayout_6->addWidget(clearButton);
 
 
         verticalLayout->addLayout(horizontalLayout_6);
@@ -98,56 +88,15 @@ public:
 
         gridLayout->addLayout(verticalLayout, 12, 0, 1, 1);
 
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        prevButton = new QToolButton(centralwidget);
-        prevButton->setObjectName(QString::fromUtf8("prevButton"));
-        prevButton->setMinimumSize(QSize(25, 25));
-        prevButton->setMaximumSize(QSize(25, 25));
-
-        horizontalLayout->addWidget(prevButton);
-
-        toggleButton = new QToolButton(centralwidget);
-        toggleButton->setObjectName(QString::fromUtf8("toggleButton"));
-        toggleButton->setMinimumSize(QSize(25, 25));
-        toggleButton->setMaximumSize(QSize(25, 25));
-
-        horizontalLayout->addWidget(toggleButton);
-
-        nextButton = new QToolButton(centralwidget);
-        nextButton->setObjectName(QString::fromUtf8("nextButton"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(nextButton->sizePolicy().hasHeightForWidth());
-        nextButton->setSizePolicy(sizePolicy1);
-        nextButton->setMinimumSize(QSize(25, 25));
-        nextButton->setMaximumSize(QSize(25, 25));
-
-        horizontalLayout->addWidget(nextButton);
-
-        statusLabel = new QLabel(centralwidget);
-        statusLabel->setObjectName(QString::fromUtf8("statusLabel"));
-        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(statusLabel->sizePolicy().hasHeightForWidth());
-        statusLabel->setSizePolicy(sizePolicy2);
-        statusLabel->setMinimumSize(QSize(50, 0));
-        statusLabel->setAlignment(Qt::AlignCenter);
-
-        horizontalLayout->addWidget(statusLabel);
-
-
-        gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
-
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         volumeSlider = new Phonon::VolumeSlider(centralwidget);
         volumeSlider->setObjectName(QString::fromUtf8("volumeSlider"));
-        sizePolicy1.setHeightForWidth(volumeSlider->sizePolicy().hasHeightForWidth());
-        volumeSlider->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(volumeSlider->sizePolicy().hasHeightForWidth());
+        volumeSlider->setSizePolicy(sizePolicy);
         volumeSlider->setMinimumSize(QSize(90, 15));
         volumeSlider->setMaximumSize(QSize(90, 15));
         volumeSlider->setTracking(true);
@@ -157,11 +106,11 @@ public:
 
         seekSlider = new Phonon::SeekSlider(centralwidget);
         seekSlider->setObjectName(QString::fromUtf8("seekSlider"));
-        QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(seekSlider->sizePolicy().hasHeightForWidth());
-        seekSlider->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy1(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(seekSlider->sizePolicy().hasHeightForWidth());
+        seekSlider->setSizePolicy(sizePolicy1);
         seekSlider->setMinimumSize(QSize(50, 15));
         seekSlider->setMaximumSize(QSize(16777215, 15));
         seekSlider->setIconVisible(false);
@@ -171,10 +120,79 @@ public:
 
         gridLayout->addLayout(horizontalLayout_2, 6, 0, 1, 1);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        prevButton = new QToolButton(centralwidget);
+        prevButton->setObjectName(QString::fromUtf8("prevButton"));
+        prevButton->setMinimumSize(QSize(22, 22));
+        prevButton->setMaximumSize(QSize(25, 25));
+        QIcon icon;
+        QString iconThemeName = QString::fromUtf8("media-skip-backward");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon.addFile(QString::fromUtf8(""), QSize(), QIcon::Normal, QIcon::Off);
+        }
+        prevButton->setIcon(icon);
+        prevButton->setIconSize(QSize(22, 22));
+        prevButton->setAutoRaise(true);
+
+        horizontalLayout->addWidget(prevButton);
+
+        toggleButton = new QToolButton(centralwidget);
+        toggleButton->setObjectName(QString::fromUtf8("toggleButton"));
+        toggleButton->setMinimumSize(QSize(22, 22));
+        toggleButton->setMaximumSize(QSize(25, 25));
+        QIcon icon1;
+        iconThemeName = QString::fromUtf8("media-playback-pause");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon1 = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon1.addFile(QString::fromUtf8(""), QSize(), QIcon::Normal, QIcon::Off);
+        }
+        toggleButton->setIcon(icon1);
+        toggleButton->setIconSize(QSize(22, 22));
+        toggleButton->setAutoRaise(true);
+
+        horizontalLayout->addWidget(toggleButton);
+
+        nextButton = new QToolButton(centralwidget);
+        nextButton->setObjectName(QString::fromUtf8("nextButton"));
+        sizePolicy.setHeightForWidth(nextButton->sizePolicy().hasHeightForWidth());
+        nextButton->setSizePolicy(sizePolicy);
+        nextButton->setMinimumSize(QSize(22, 22));
+        nextButton->setMaximumSize(QSize(25, 25));
+        QIcon icon2;
+        iconThemeName = QString::fromUtf8("media-skip-forward");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon2 = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon2.addFile(QString::fromUtf8(""), QSize(), QIcon::Normal, QIcon::Off);
+        }
+        nextButton->setIcon(icon2);
+        nextButton->setIconSize(QSize(22, 22));
+        nextButton->setAutoRaise(true);
+
+        horizontalLayout->addWidget(nextButton);
+
+        statusLabel = new QLabel(centralwidget);
+        statusLabel->setObjectName(QString::fromUtf8("statusLabel"));
+        sizePolicy1.setHeightForWidth(statusLabel->sizePolicy().hasHeightForWidth());
+        statusLabel->setSizePolicy(sizePolicy1);
+        statusLabel->setMinimumSize(QSize(50, 22));
+        statusLabel->setMaximumSize(QSize(16777215, 22));
+        statusLabel->setAlignment(Qt::AlignCenter);
+
+        horizontalLayout->addWidget(statusLabel);
+
+
+        gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 347, 23));
+        menubar->setGeometry(QRect(0, 0, 342, 23));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -188,7 +206,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Nocturn", 0, QApplication::UnicodeUTF8));
-        newButton->setText(QApplication::translate("MainWindow", "New Playlist", 0, QApplication::UnicodeUTF8));
+        clearButton->setText(QApplication::translate("MainWindow", "Clear Playlist", 0, QApplication::UnicodeUTF8));
         prevButton->setText(QApplication::translate("MainWindow", "...", 0, QApplication::UnicodeUTF8));
         toggleButton->setText(QApplication::translate("MainWindow", "...", 0, QApplication::UnicodeUTF8));
         nextButton->setText(QApplication::translate("MainWindow", "...", 0, QApplication::UnicodeUTF8));

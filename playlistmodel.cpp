@@ -236,7 +236,7 @@ inline void PlayListModel::sortPlayList()
     {
         mTracks[mCurrentTrack]->markAsCurrent(true);
     }
-    
+
     std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
     {
         if(0<(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
@@ -270,18 +270,21 @@ inline void PlayListModel::sortPlayList()
         }
         return false; //silencing warning
     }); //lambda expression
-    
-    for(unsigned i = 0; i<mTracks.size(); ++i)
+
+    if (mCurrentTrack >= 0)
     {
-      if (mTracks[i]->isCurrent())
-      {
-	mCurrentTrack = i;
-	break;
-      }
+        for(unsigned i = 0; i<mTracks.size(); ++i)
+        {
+            if (mTracks[i]->isCurrent())
+            {
+                mCurrentTrack = i;
+                break;
+            }
+        }
     }
 }
 
-int PlayListModel::getTrackNumber(int locTrack)
+int PlayListModel::getTrackNumber(int locTrack) const
 {
     return mTracks[locTrack]->getTrackNumber();
 }
@@ -289,4 +292,11 @@ int PlayListModel::getTrackNumber(int locTrack)
 const QString* PlayListModel::getArtist(int locTrack) const
 {
     return mTracks[locTrack]->getArtist();
+}
+
+void PlayListModel::clearMe()
+{
+  mTracks.erase(mTracks.begin(), mTracks.end()); //no need to manually delete unique_ptr
+  mCurrentTrack = -1;
+  emit NeedRefreshView();
 }

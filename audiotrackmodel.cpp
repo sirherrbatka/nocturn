@@ -50,6 +50,7 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
 
 AudioTrackModel::~AudioTrackModel()
 {
+    qDebug()<<"AudioTrackModel Destroyed";
     delete mFile;
 }
 

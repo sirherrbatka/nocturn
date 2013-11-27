@@ -55,8 +55,9 @@ public:
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
-    int getTrackNumber(int locTrack);
+    int getTrackNumber(int locTrack) const;
     const QString* getArtist(int locTrack) const;
+    void clearMe();
 
 signals:
     void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.

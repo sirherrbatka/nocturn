@@ -180,3 +180,8 @@ void PlayListManager::playPrevTrack()
 {
     mCurrentPlayList->playPrevTrack();
 }
+
+void PlayListManager::clearActivePlayList()
+{
+  mActivePlayList->clearMe();
+}

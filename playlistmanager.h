@@ -56,6 +56,7 @@ public:
     void startPlayback();
     void playPrevTrack();
     void playNextTrack();
+    void clearActivePlayList();
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
