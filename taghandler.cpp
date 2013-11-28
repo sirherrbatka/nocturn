@@ -28,6 +28,8 @@
 #include <taglib/tstring.h>
 #include <taglib/tag.h>
 #include <string>
+#include <phonon/MediaObject>
+#include <audioproperties.h>
 
 TagHandler::TagHandler(const QString& path) :
     mFile(new TagLib::FileRef (path.toLocal8Bit() ) )
@@ -58,9 +60,9 @@ int TagHandler::getDisc() const
     return discnumber;
 }
 
-long int TagHandler::getDuration() const
+long long int TagHandler::getDuration() const
 {
-    return mFile.get()->file()->length();
+    return mFile->audioProperties()->length();
 }
 
 QString TagHandler::getTitle() const

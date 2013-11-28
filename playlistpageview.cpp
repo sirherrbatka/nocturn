@@ -65,7 +65,7 @@ void PlayListPageView::refreshView()
     int locSize = mModel->getPlayListSize();
     for (int i = 0; i < locSize; ++i )
     {
-        QListWidgetItem* item = new PlayListPageViewItem(mModel->getTrackName(i), i);
+        QListWidgetItem* item = new PlayListPageViewItem(mModel->getArtist(i) + " - " + mModel->getTrackName(i), i);
         if (i == locCurrent and mModel->getCurrent())
         {
             QFont font;

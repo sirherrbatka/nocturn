@@ -58,6 +58,7 @@ public:
     int getTrackNumber(int locTrack) const;
     QString getArtist(int locTrack) const;
     void clearMe();
+    unsigned long long int getTotalDuration();
 
 signals:
     void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
@@ -88,6 +89,7 @@ private:
     inline bool playListChecks();
     inline void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
     void generatePlayListName(); //makes new name (based on the album title) when mCustomPlayListName is false
+    void calculateTotalDuration();
 
     //variables
     unsigned long long int mKey;
@@ -99,6 +101,7 @@ private:
     QString mPlayListName {"Playlist"};
     bool mCustomPlayListName{false};
     bool mCurrent {false};
+    unsigned long long int mTotalDuration{0};
 };
 
 #endif // PLAYLISTMODEL_H

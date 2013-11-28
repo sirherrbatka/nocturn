@@ -38,14 +38,14 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
         mName = mFile->baseName();
     } else {
         storeName(TagHandler.getTitle());
-	storeArtist(TagHandler.getArtist());
-        mDuration = TagHandler.getDuration();
+        storeArtist(TagHandler.getArtist());
         mDiscNumber = TagHandler.getDisc();
         mTrackNumber = TagHandler.getTrack();
         storeAlbum(TagHandler.getAlbum());
         qDebug()<<"Track number is"<<mTrackNumber;
         qDebug()<<"Disc number is"<<mDiscNumber;
     }
+    mDuration = TagHandler.getDuration();
 }
 
 AudioTrackModel::~AudioTrackModel()
@@ -85,7 +85,7 @@ inline void AudioTrackModel::storeName(const QString& name)
     }
 }
 
-long int AudioTrackModel::getDuration() const
+unsigned long long int AudioTrackModel::getDuration() const
 {
     return mDuration;
 }
@@ -107,7 +107,7 @@ int AudioTrackModel::getTrackNumber() const
 
 QString AudioTrackModel::getArtist() const
 {
-    mArtist;
+    return mArtist;
 }
 
 void AudioTrackModel::storeArtist(const QString& artist)
@@ -117,11 +117,11 @@ void AudioTrackModel::storeArtist(const QString& artist)
 
 bool AudioTrackModel::isCurrent()
 {
-  return mCurrent;
-  mCurrent = false;
+    return mCurrent;
+    mCurrent = false;
 }
 
 void AudioTrackModel::markAsCurrent(bool active)
 {
- mCurrent = active;
+    mCurrent = active;
 }

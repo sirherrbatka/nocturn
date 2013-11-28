@@ -39,7 +39,7 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     setAcceptDrops(true);
     setupUi(this);
     this->statusLabel->setText(tr("Stopped"));
-
+    this->statusBar()->addPermanentWidget(mDurationLabel);
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
 
     this->seekSlider->setMediaObject(phonon->getPhonon());
@@ -61,6 +61,7 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(this, SIGNAL(StartPlaybackOnActivePlaylist()), MainControler::getMainControler(), SLOT(startPlayback()));
 
     connect(MainControler::getMainControler(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SLOT(changeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
+    connect(MainControler::getMainControler(), SIGNAL(TotalDurationChanged(unsigned long long)), this, SLOT(refreshTotalDurationLabel(unsigned long long)) );
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
     connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
     connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
@@ -182,4 +183,42 @@ void MainView::updateeToggleButtonIcon()
     }
 
     this->toggleButton->setIcon(newIcon);
+}
+
+void MainView::refreshTotalDurationLabel(unsigned long long duration)
+{
+  if (duration == 0)
+  {
+    mDurationLabel->clear();
+    return;
+  }
+  unsigned hours = duration/3600;
+  duration -= hours*3600;
+  unsigned minutes = duration/60;
+  duration -= minutes*60;
+  unsigned seconds = duration;
+  
+  QString minutesstring;
+  QString secondsstring;
+  QString hoursstring("");
+  if (seconds < 10)
+  {
+    secondsstring = QString::number(0) + QString::number(seconds);
+  } else {
+    secondsstring = QString::number(seconds);
+  }
+  
+  if (minutes < 10)
+  {
+    minutesstring = QString::number(0) + QString::number(minutes);
+  } else {
+    minutesstring = QString::number(minutes);
+  }
+  
+  if (hours != 0)
+  {
+    hoursstring = QString::number(hours) + ":";
+  }
+  
+  mDurationLabel->setText(hoursstring + minutesstring + ":" + secondsstring);
 }

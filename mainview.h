@@ -57,12 +57,14 @@ private slots:
     void notifyPlayListManagerAboutActivePlayListChange(int index);
     void changeStatus(SharedTypes::PlaybackState oldstatus, SharedTypes::PlaybackState newstatus);
     void toggleButtonControl();
+    void refreshTotalDurationLabel(unsigned long long duration);
 
 private:
     //methods
     PlayListModel* getPlayListModel(int index);
     inline void updateLabel();
     inline void updateeToggleButtonIcon();
+    QLabel* mDurationLabel{new QLabel};
     
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};

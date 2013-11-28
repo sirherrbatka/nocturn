@@ -101,11 +101,14 @@ void PlayListModel::addTracks(const QStringList& paths)
 
     foreach(QString path, paths)
     {
-        mTracks.push_back(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path)));
+        std::unique_ptr<AudioTrackModel> track = std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path));
+        mTotalDuration += track->getDuration();
+        mTracks.push_back(std::move(track));
     }
     generatePlayListName();
     sortPlayList();
     emit NeedRefreshView();
+    MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
 
 void PlayListModel::playNextTrack()
@@ -300,32 +303,51 @@ void PlayListModel::clearMe()
     mTracks.erase(mTracks.begin(), mTracks.end()); //no need to manually delete unique_ptr
     mCurrentTrack = -1;
     generatePlayListName();
+    mTotalDuration = 0;
     emit NeedRefreshView();
+    MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
 
 void PlayListModel::generatePlayListName()
 {
     if (!mCustomPlayListName)
     {
-        QString locPlayListName = "";
-        if(mTracks.empty())
+        bool locGeneratedNewName(true);
+        QString locPlayListName = "Playlist";
+        if(!mTracks.empty())
         {
-            locPlayListName = "Playlist";
-        } else {
             auto prev = begin(mTracks);
             for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
             {
                 if ( next->get()->getAlbum() != prev->get()->getAlbum()  )
                 {
                     qDebug()<<"different albums";
-                    return;
+                    locGeneratedNewName = false;
+                    break;
                 } else {
                     ++prev;
                 }
             }
-            locPlayListName = prev->get()->getAlbum();
+            if (locGeneratedNewName)
+            {
+                locPlayListName = prev->get()->getAlbum();
+            }
         }
         mPlayListName = locPlayListName;
         emit(NeedRefreshPlayListName(mPlayListName));
     }
+}
+
+void PlayListModel::calculateTotalDuration()
+{
+    mTotalDuration = 0;
+    for(auto& each : mTracks)
+    {
+        mTotalDuration += each->getDuration();
+    }
+}
+
+long long unsigned int PlayListModel::getTotalDuration()
+{
+    return mTotalDuration;
 }

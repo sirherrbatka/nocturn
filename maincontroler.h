@@ -40,9 +40,11 @@ public:
     ~MainControler();
     static MainControler* getMainControler();
     PlayListModel* generatePlayListModel(); //TODO consider different solution
+    void requestTotalDurationLabelUpdate(unsigned long long duration);
 
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
+    void TotalDurationChanged(unsigned long long);
 
 public slots:
    void nextTrack();

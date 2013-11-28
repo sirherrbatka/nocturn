@@ -40,7 +40,7 @@ public:
     int getTrack() const;
     QString getArtist() const;
     QString getAlbum() const;
-    long getDuration() const;
+    long long getDuration() const;
     
     bool hasTags() const;
     

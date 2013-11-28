@@ -33,7 +33,7 @@ MainControler::MainControler(ModelManager* locModelManager) :
 {
     assert (!mThisPointer);
     mThisPointer = this;
-    
+
     connect(mModelManager->getPlaybackManager(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
 }
 
@@ -74,35 +74,41 @@ PlayListModel* MainControler::generatePlayListModel()
 
 void MainControler::playFile(const QString& path)
 {
-  mModelManager->getPlaybackManager()->playFile(path);
+    mModelManager->getPlaybackManager()->playFile(path);
 }
 
 void MainControler::fileEnded()
 {
-  mModelManager->getPlayListManager()->fileEnded();
+    mModelManager->getPlayListManager()->fileEnded();
 }
 
 void MainControler::togglePlayback()
 {
-  mModelManager->getPlaybackManager()->togglePlayback();
+    mModelManager->getPlaybackManager()->togglePlayback();
 }
 
 void MainControler::startPlayback()
 {
-  mModelManager->getPlayListManager()->startPlayback();
+    mModelManager->getPlayListManager()->startPlayback();
 }
 
 void MainControler::nextTrack()
 {
-  mModelManager->getPlayListManager()->playNextTrack();
+    mModelManager->getPlayListManager()->playNextTrack();
 }
 
 void MainControler::prevTrack()
 {
-  mModelManager->getPlayListManager()->playPrevTrack();
+    mModelManager->getPlayListManager()->playPrevTrack();
 }
 
 void MainControler::clearActivePlayList()
 {
-  mModelManager->getPlayListManager()->clearActivePlayList();
+    mModelManager->getPlayListManager()->clearActivePlayList();
 }
+
+void MainControler::requestTotalDurationLabelUpdate(unsigned long long duration)
+{
+    emit TotalDurationChanged(duration);
+}
+

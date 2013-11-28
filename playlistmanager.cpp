@@ -30,6 +30,7 @@
 #include <QFileInfoList>
 #include <QFileInfo>
 #include <iostream>
+#include "./maincontroler.h"
 
 PlayListManager::PlayListManager()
 {
@@ -82,6 +83,7 @@ void PlayListManager::changeActivePlaylist(PlayListModel * locPlayList)
         mCurrentPlayList = locPlayList;
         qDebug()<<"Changing current playlist";
     }
+    MainControler::getMainControler()->requestTotalDurationLabelUpdate(mActivePlayList->getTotalDuration());
 }
 
 PlayListModel* PlayListManager::newPlayList()
@@ -184,4 +186,9 @@ void PlayListManager::playPrevTrack()
 void PlayListManager::clearActivePlayList()
 {
   mActivePlayList->clearMe();
+}
+
+long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist()
+{
+  return mActivePlayList->getTotalDuration();
 }

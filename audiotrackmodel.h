@@ -38,7 +38,7 @@ public:
 
     QString getPath() const;
     QString getName() const;
-    long getDuration() const;
+    long long unsigned int getDuration() const;
     bool fileExists() const;
     int getTrackNumber() const;
     QString getAlbum() const;
@@ -63,7 +63,7 @@ private:
     QString mName {""};
     QString mAlbum {""};
     QString mArtist {""};
-    long mDuration {0};
+    long long mDuration {0};
     int mTrackNumber {0};
     int mDiscNumber {-1}; //-1 = disc number not present.
     bool mCurrent {false}; //for sorting

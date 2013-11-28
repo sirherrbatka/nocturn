@@ -57,6 +57,7 @@ public:
     void playPrevTrack();
     void playNextTrack();
     void clearActivePlayList();
+    unsigned long long int getTotalDurationOfActivePlaylist();
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
