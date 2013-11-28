@@ -62,6 +62,7 @@ private:
     //methods
     PlayListModel* getPlayListModel(int index);
     inline void updateLabel();
+    inline void updateeToggleButtonIcon();
     
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};

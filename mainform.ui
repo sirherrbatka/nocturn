@@ -169,7 +169,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset theme="media-playback-pause">
+         <iconset theme="media-playback-start">
           <normaloff/>
          </iconset>
         </property>

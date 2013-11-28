@@ -41,14 +41,14 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     this->statusLabel->setText(tr("Stopped"));
 
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
-    
+
     this->seekSlider->setMediaObject(phonon->getPhonon());
     this->volumeSlider->setAudioOutput(phonon->getAudio());
     QWidget* newTabButton = new QToolButton(this->PlayListsTabs);
     (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
     connect(newTabButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
-    
+
     connect(this, SIGNAL(pathDropped(QList<QUrl>)), MainControler::getMainControler(), SLOT(addPathToPlayList(QList<QUrl>)));
     connect(this->PlayListsTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
@@ -117,6 +117,7 @@ void MainView::changeStatus(SharedTypes::PlaybackState newstatus, SharedTypes::P
     if (newstatus == SharedTypes::PlayingState or newstatus == SharedTypes::StoppedState or newstatus == SharedTypes::PausedState)
     {
         updateLabel();
+        updateeToggleButtonIcon();
     }
 }
 
@@ -159,4 +160,26 @@ void MainView::toggleButtonControl()
         emit TogglePlayback();
         break;
     }
+}
+
+void MainView::updateeToggleButtonIcon()
+{
+    QIcon newIcon;
+    switch (mState)
+    {
+    default:
+        return;
+	break;
+    case SharedTypes::PlayingState:
+        newIcon = QIcon::fromTheme("media-playback-pause");
+        break;
+    case SharedTypes::PausedState:
+        newIcon = QIcon::fromTheme("media-playback-start");
+        break;
+    case SharedTypes::StoppedState:
+        newIcon = QIcon::fromTheme("media-playback-start");
+        break;
+    }
+
+    this->toggleButton->setIcon(newIcon);
 }
