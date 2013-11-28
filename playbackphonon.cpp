@@ -34,10 +34,10 @@ PlaybackPhonon::PlaybackPhonon()
     connect(mPhonon.get(), SIGNAL(stateChanged(Phonon::State, Phonon::State)), this, SLOT(changeStatus(Phonon::State, Phonon::State)));
 }
 
-void PlaybackPhonon::playFile(const QString* path)
+void PlaybackPhonon::playFile(const QString& path)
 {
     qDebug()<<"Phonon playing";
-    mPhonon->setCurrentSource(*path);
+    mPhonon->setCurrentSource(path);
     mPhonon->play();
     emit PlayingLocalFile();
 }

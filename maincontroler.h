@@ -52,7 +52,7 @@ public slots:
     void changeActivePlayList(PlayListModel* activePlayList);
     void addPathToPlayList(QList< QUrl > list); //called by the inteface drag&drop signal currently.
     void deletePlayList(unsigned long long int key);
-    void playFile(const QString* path);
+    void playFile(const QString& path);
     void fileEnded();
     void togglePlayback();
     void startPlayback();

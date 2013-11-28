@@ -151,7 +151,7 @@ void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
     mCurrentPlayList = locPlayList;
 }
 
-const QString* PlayListManager::getCurrentTrackPath() const
+QString PlayListManager::getCurrentTrackPath() const
 {
     return mCurrentPlayList->getCurrentTrackPath();
 }

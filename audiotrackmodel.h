@@ -36,18 +36,18 @@ public:
     AudioTrackModel(const QString& path);
     ~AudioTrackModel();
 
-    const QString* getPath() const;
-    const QString* getName() const;
+    QString getPath() const;
+    QString getName() const;
     long getDuration() const;
     bool fileExists() const;
     int getTrackNumber() const;
-    const QString* getAlbum() const;
+    QString getAlbum() const;
     int getDiscNumber() const;
-    const QString* getArtist() const;
+    QString getArtist() const;
 
     void markAsCurrent(bool active); //for sorting purpose
     bool isCurrent(); //for sorting
-    
+
 private:
     AudioTrackModel& operator=(const AudioTrackModel& other);
     bool operator==(const AudioTrackModel& other);
@@ -60,13 +60,13 @@ private:
     QString mPath;
     QFileInfo* mFile;
 
-    QString mName{""};
-    QString mAlbum{""};
-    QString mArtist{""};
-    long mDuration{0};
-    int mTrackNumber{0};
-    int mDiscNumber{-1}; //-1 = disc number not present.
-    bool mCurrent{false}; //for sorting
+    QString mName {""};
+    QString mAlbum {""};
+    QString mArtist {""};
+    long mDuration {0};
+    int mTrackNumber {0};
+    int mDiscNumber {-1}; //-1 = disc number not present.
+    bool mCurrent {false}; //for sorting
 };
 
 #endif // AUDIOTRACKMODEL_H

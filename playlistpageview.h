@@ -27,17 +27,19 @@
 
 class PlayListModel;
 class QWidget;
+class QTabWidget;
 class PlayListPageView : public QListWidget
 {
     Q_OBJECT
 public:
     PlayListModel* getModel();
-    PlayListPageView(PlayListModel* model);
+    PlayListPageView(PlayListModel* model, QTabWidget* parent);
     ~PlayListPageView();
 
 public slots:
     void refreshView();
     void doubleClicked ( QListWidgetItem* item );
+    void NeedRefreshPlayListName(const QString& locNewName);
 
 signals:
     void PlayListViewDestroyed(unsigned long long int);
@@ -47,6 +49,7 @@ private:
 
     //variables
     PlayListModel* mModel;
+    QTabWidget* mParent;
 };
 
 #endif // PLAYLISTPAGEVIEW_H

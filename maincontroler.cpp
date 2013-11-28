@@ -72,7 +72,7 @@ PlayListModel* MainControler::generatePlayListModel()
     return mModelManager->getPlayListManager()->newPlayList();
 }
 
-void MainControler::playFile(const QString* path)
+void MainControler::playFile(const QString& path)
 {
   mModelManager->getPlaybackManager()->playFile(path);
 }

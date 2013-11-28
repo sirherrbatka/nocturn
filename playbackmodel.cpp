@@ -33,7 +33,7 @@ PlaybackModel::PlaybackModel(): QObject()
 
 }
 
-void PlaybackModel::playFile(const QString* path)
+void PlaybackModel::playFile(const QString& path)
 {
 
 }

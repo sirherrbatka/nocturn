@@ -39,7 +39,7 @@ public:
 
     PlaybackModel* getPlaybackModel() const;
     
-    void playFile(const QString* path);
+    void playFile(const QString& path);
     void togglePlayback();
     
 signals:

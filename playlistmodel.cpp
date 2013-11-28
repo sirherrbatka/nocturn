@@ -43,7 +43,7 @@ PlayListModel::PlayListModel(unsigned long long int key) :
 
 //     connect(this, SIGNAL(CurrentTrackChanged(const QString*)), SLOT() );
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
-    connect(this, SIGNAL(CurrentTrackChanged(const QString*)), MainControler::getMainControler(), SLOT(playFile(const QString*)));
+    connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
     connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
     connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
 
@@ -59,20 +59,20 @@ long long unsigned int PlayListModel::getKey() const
     return mKey;
 }
 
-const QString* PlayListModel::getTrackPath(int tracknumber) const
+QString PlayListModel::getTrackPath(int tracknumber) const
 {
     assert(tracknumber < static_cast<int>(mTracks.size()) and tracknumber != 0);
     return (mTracks[tracknumber-1])->getPath();
 }
 
-PlayListModel* PlayListModel::getPlayListModel()
+const PlayListModel* PlayListModel::getPlayListModel()
 {
     return this;
 }
 
-const QString* PlayListModel::getPlayListName() const
+QString PlayListModel::getPlayListName() const
 {
-    return &mPlayListName;
+    return mPlayListName;
 }
 
 void PlayListModel::changePlayListName(const QString& name)
@@ -103,6 +103,7 @@ void PlayListModel::addTracks(const QStringList& paths)
     {
         mTracks.push_back(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path)));
     }
+    generatePlayListName();
     sortPlayList();
     emit NeedRefreshView();
 }
@@ -171,7 +172,7 @@ unsigned int PlayListModel::getPlayListSize() const
     return mTracks.size();
 }
 
-const QString* PlayListModel::getTrackName(int tracknumber) const
+QString PlayListModel::getTrackName(int tracknumber) const
 {
     return (mTracks[tracknumber])->getName();
 }
@@ -199,7 +200,7 @@ void PlayListModel::playTrack(int track)
     startPlayback();
 }
 
-const QString* PlayListModel::getCurrentTrackPath() const
+QString PlayListModel::getCurrentTrackPath() const
 {
     return (mTracks[mCurrentTrack])->getPath();
 }
@@ -239,12 +240,12 @@ inline void PlayListModel::sortPlayList()
 
     std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
     {
-        if(0<(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
+        if(0<((*prev).getAlbum().compare((*next).getAlbum(), Qt::CaseSensitive)))
         {
             return true;
         }
 
-        if(0>(prev.get()->getAlbum()->compare(next.get()->getAlbum(), Qt::CaseSensitive)))
+        if(0>((*prev).getAlbum().compare((*next).getAlbum(), Qt::CaseSensitive)))
         {
             return false;
         }
@@ -289,14 +290,42 @@ int PlayListModel::getTrackNumber(int locTrack) const
     return mTracks[locTrack]->getTrackNumber();
 }
 
-const QString* PlayListModel::getArtist(int locTrack) const
+QString PlayListModel::getArtist(int locTrack) const
 {
     return mTracks[locTrack]->getArtist();
 }
 
 void PlayListModel::clearMe()
 {
-  mTracks.erase(mTracks.begin(), mTracks.end()); //no need to manually delete unique_ptr
-  mCurrentTrack = -1;
-  emit NeedRefreshView();
+    mTracks.erase(mTracks.begin(), mTracks.end()); //no need to manually delete unique_ptr
+    mCurrentTrack = -1;
+    generatePlayListName();
+    emit NeedRefreshView();
+}
+
+void PlayListModel::generatePlayListName()
+{
+    if (!mCustomPlayListName)
+    {
+        QString locPlayListName = "";
+        if(mTracks.empty())
+        {
+            locPlayListName = "Playlist";
+        } else {
+            auto prev = begin(mTracks);
+            for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
+            {
+                if ( next->get()->getAlbum() != prev->get()->getAlbum()  )
+                {
+                    qDebug()<<"different albums";
+                    return;
+                } else {
+                    ++prev;
+                }
+            }
+            locPlayListName = prev->get()->getAlbum();
+        }
+        mPlayListName = locPlayListName;
+        emit(NeedRefreshPlayListName(mPlayListName));
+    }
 }

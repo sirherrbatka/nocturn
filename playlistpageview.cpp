@@ -29,13 +29,16 @@
 #include "./nocturn.h"
 #include <QListWidgetItem>
 #include "./playlistpageviewitem.h"
+#include <QTabWidget>
 
-PlayListPageView::PlayListPageView(PlayListModel* model) :
+PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent) :
+    mParent(parent),
     mModel(model)
 {
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
     connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem* )), this, SLOT(doubleClicked(QListWidgetItem* )));
+    connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(NeedRefreshPlayListName(const QString&))); //ugly!
     qDebug()<<"Playlist view created";
     setSortingEnabled(false);
 }
@@ -62,7 +65,7 @@ void PlayListPageView::refreshView()
     int locSize = mModel->getPlayListSize();
     for (int i = 0; i < locSize; ++i )
     {
-        QListWidgetItem* item = new PlayListPageViewItem(*(mModel->getArtist(i)) + " - " + *(mModel->getTrackName(i)), i);
+        QListWidgetItem* item = new PlayListPageViewItem(mModel->getTrackName(i), i);
         if (i == locCurrent and mModel->getCurrent())
         {
             QFont font;
@@ -78,3 +81,8 @@ void PlayListPageView::doubleClicked(QListWidgetItem * item)
     mModel->playTrack(dynamic_cast<PlayListPageViewItem*>(item)->getPosition());
 }
 
+void PlayListPageView::NeedRefreshPlayListName(const QString &locNewName)
+{
+    mParent->setTabText(mParent->currentIndex(), locNewName);
+    mParent->update();
+}

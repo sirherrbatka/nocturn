@@ -48,7 +48,7 @@ public:
 
     PlayListModel* getActiveModel() const;
     PlayListModel* getCurrentModel() const;
-    const QString* getCurrentTrackPath() const;
+    QString getCurrentTrackPath() const;
 
     void addFilesToActivePlaylist(QList<QUrl> &locFiles);
     void deletePlayList(long long unsigned int locKey);

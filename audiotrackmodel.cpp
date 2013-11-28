@@ -60,14 +60,14 @@ inline void AudioTrackModel::storeAlbum(const QString& album)
 }
 
 
-const QString* AudioTrackModel::getPath() const
+QString AudioTrackModel::getPath() const
 {
-    return &mPath;
+    return mPath;
 }
 
-const QString* AudioTrackModel::getName() const
+QString AudioTrackModel::getName() const
 {
-    return &mName;
+    return mName;
 }
 
 bool AudioTrackModel::fileExists() const
@@ -95,9 +95,9 @@ int AudioTrackModel::getDiscNumber() const
     return mDiscNumber;
 }
 
-const QString* AudioTrackModel::getAlbum() const
+QString AudioTrackModel::getAlbum() const
 {
-    return &mAlbum;
+    return mAlbum;
 }
 
 int AudioTrackModel::getTrackNumber() const
@@ -105,9 +105,9 @@ int AudioTrackModel::getTrackNumber() const
     return mTrackNumber;
 }
 
-const QString* AudioTrackModel::getArtist() const
+QString AudioTrackModel::getArtist() const
 {
-    return &mArtist;
+    mArtist;
 }
 
 void AudioTrackModel::storeArtist(const QString& artist)

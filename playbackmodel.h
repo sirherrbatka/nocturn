@@ -43,7 +43,7 @@ signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
 
 public slots:
-    virtual void playFile(const QString* path);
+    virtual void playFile(const QString& path);
     virtual void stopPlaying();
 
 };

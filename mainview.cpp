@@ -84,7 +84,7 @@ void MainView::dragEnterEvent(QDragEnterEvent *ev)
 void MainView::newPlayListView()
 {
     const QString label = "Playlist";
-    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel() );
+    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs );
     this->PlayListsTabs->addTab(playlistpageview, label);
 }
 

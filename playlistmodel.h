@@ -44,23 +44,23 @@ public:
 
     unsigned long long int getKey() const;
     void addTracks(const QStringList & paths);
-    PlayListModel* getPlayListModel();
-    const QString* getTrackPath(int tracknumber) const;
-    const QString* getCurrentTrackPath() const;
-    const QString* getPlayListName() const;
+    const PlayListModel* getPlayListModel();
+    QString getTrackPath(int tracknumber) const;
+    QString getCurrentTrackPath() const;
+    QString getPlayListName() const;
     void changePlayListName(const QString& name);
     unsigned int getPlayListSize() const;
-    const QString* getTrackName(int tracknumber) const;
+    QString getTrackName(int tracknumber) const;
     int getCurrentTrack();
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
     int getTrackNumber(int locTrack) const;
-    const QString* getArtist(int locTrack) const;
+    QString getArtist(int locTrack) const;
     void clearMe();
 
 signals:
-    void CurrentTrackChanged(const QString*); //transmits the path to the playback controler. Emited after track changed.
+    void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
     void CurrentModelChanged(PlayListModel*); //transmits the playlist model to the playlistmanager. Emited after track changed.
     void NoNextTrack();
     void NoPrevTrack();
@@ -69,6 +69,7 @@ signals:
     void NeedRefreshView();
     void PlayListEmpty();
     void OutOfRange();
+    void NeedRefreshPlayListName(const QString&);
 
 public slots:
     void playNextTrack();
@@ -86,6 +87,7 @@ private:
     inline void goToFirstTrack();
     inline bool playListChecks();
     inline void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
+    void generatePlayListName(); //makes new name (based on the album title) when mCustomPlayListName is false
 
     //variables
     unsigned long long int mKey;
@@ -95,6 +97,7 @@ private:
     bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};
+    bool mCustomPlayListName{false};
     bool mCurrent {false};
 };
 

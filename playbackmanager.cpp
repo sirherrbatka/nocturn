@@ -44,7 +44,7 @@ PlaybackManager::~PlaybackManager()
 
 }
 
-void PlaybackManager::playFile(const QString* path)
+void PlaybackManager::playFile(const QString& path)
 {
     qDebug()<<"Playing!";
     mPlaybackModel.get()->playFile(path);
