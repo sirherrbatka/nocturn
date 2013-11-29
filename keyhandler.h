@@ -20,40 +20,14 @@
  *
  */
 
-#ifndef PLAYLISTPAGEVIEW_H
-#define PLAYLISTPAGEVIEW_H
-#include <QListWidget>
-#include <memory>
-#include <QKeyEvent>
+#ifndef KEYHANDLER_H
+#define KEYHANDLER_H
 
-class MainViewKeyHandler;
-class PlayListModel;
-class QWidget;
-class QTabWidget;
-class PlayListPageView : public QListWidget
+class KeyHandler
 {
-    Q_OBJECT
 public:
-    PlayListModel* getModel();
-    PlayListPageView(PlayListModel* model, QTabWidget* parent, MainViewKeyHandler* keyhandler);
-    ~PlayListPageView();
-    void keyPressEvent(QKeyEvent *ev);
-
-public slots:
-    void refreshView();
-    void doubleClicked ( QListWidgetItem* item );
-    void NeedRefreshPlayListName(const QString& locNewName);
-
-signals:
-    void PlayListViewDestroyed(unsigned long long int);
-
-private:
-    //methods
-
-    //variables
-    PlayListModel* mModel;
-    QTabWidget* mParent;
-    MainViewKeyHandler* mKeyHandler;
+    KeyHandler();
+    ~KeyHandler();
 };
 
-#endif // PLAYLISTPAGEVIEW_H
+#endif // KEYHANDLER_H

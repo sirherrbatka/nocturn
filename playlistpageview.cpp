@@ -26,14 +26,16 @@
 #include <qt4/QtGui/qfont.h>
 #include <qlist.h>
 #include <QDebug>
+#include "./mainviewkeyhandler.h"
 #include "./nocturn.h"
 #include <QListWidgetItem>
 #include "./playlistpageviewitem.h"
 #include <QTabWidget>
 
-PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent) :
+PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, MainViewKeyHandler* keyhandler) :
     mParent(parent),
-    mModel(model)
+    mModel(model),
+    mKeyHandler(keyhandler)
 {
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
@@ -85,4 +87,10 @@ void PlayListPageView::NeedRefreshPlayListName(const QString &locNewName)
 {
     mParent->setTabText(mParent->currentIndex(), locNewName);
     mParent->update();
+}
+
+void PlayListPageView::keyPressEvent(QKeyEvent *ev)
+{
+  ev->setAccepted(true);
+  mKeyHandler->grabKeyEvent(ev->key());
 }

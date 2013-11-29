@@ -26,10 +26,12 @@
 #include "./ui_mainform.h"
 #include <QMainWindow>
 #include <QDropEvent>
+#include <QKeyEvent>
 #include <QUrl>
 #include <vector>
-#include <map>
 #include "./sharedtypes.h"
+#include "./mainviewkeyhandler.h"
+#include <memory>
 
 class PlayListModel;
 class PlayListPageView;
@@ -41,9 +43,12 @@ class MainView : public QMainWindow, public Ui_MainWindow
 public:
     void dropEvent(QDropEvent *ev);
     void dragEnterEvent(QDragEnterEvent *ev);
+    void keyPressEvent(QKeyEvent *ev);
 
     MainView(PlaybackModel* PlaybackModel);
 //     ~MainView(); TODO add definition
+    
+    MainViewKeyHandler* getKeyHandler();
 
 signals:
     void pathDropped(QList<QUrl>);
@@ -65,6 +70,7 @@ private:
     inline void updateLabel();
     inline void updateeToggleButtonIcon();
     QLabel* mDurationLabel{new QLabel};
+    std::unique_ptr<MainViewKeyHandler> mKeyHandler{new MainViewKeyHandler};
     
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};

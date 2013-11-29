@@ -38,11 +38,6 @@ PlayListManager::PlayListManager()
 
 PlayListManager::~PlayListManager()
 {
-    for (auto it = mPlayLists.begin(); it != mPlayLists.end(); ++it)
-    {
-        delete it->second;
-        mPlayLists.erase(it);
-    }
 }
 
 void PlayListManager::addFilesToActivePlaylist(QList< QUrl >& locFiles)

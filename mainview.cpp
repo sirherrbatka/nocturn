@@ -24,6 +24,8 @@
 #include <QtGui/QMainWindow>
 #include <QDebug>
 #include <QUrl>
+#include <QKeyEvent>
+#include <Qt>
 #include "./maincontroler.h"
 #include "./playlistpageview.h"
 #include "playbackmodel.h"
@@ -85,7 +87,7 @@ void MainView::dragEnterEvent(QDragEnterEvent *ev)
 void MainView::newPlayListView()
 {
     const QString label = "Playlist";
-    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs );
+    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, mKeyHandler.get() );
     this->PlayListsTabs->addTab(playlistpageview, label);
 }
 
@@ -170,7 +172,7 @@ void MainView::updateeToggleButtonIcon()
     {
     default:
         return;
-	break;
+        break;
     case SharedTypes::PlayingState:
         newIcon = QIcon::fromTheme("media-playback-pause");
         break;
@@ -187,38 +189,49 @@ void MainView::updateeToggleButtonIcon()
 
 void MainView::refreshTotalDurationLabel(unsigned long long duration)
 {
-  if (duration == 0)
-  {
-    mDurationLabel->clear();
-    return;
-  }
-  unsigned hours = duration/3600;
-  duration -= hours*3600;
-  unsigned minutes = duration/60;
-  duration -= minutes*60;
-  unsigned seconds = duration;
-  
-  QString minutesstring;
-  QString secondsstring;
-  QString hoursstring("");
-  if (seconds < 10)
-  {
-    secondsstring = QString::number(0) + QString::number(seconds);
-  } else {
-    secondsstring = QString::number(seconds);
-  }
-  
-  if (minutes < 10)
-  {
-    minutesstring = QString::number(0) + QString::number(minutes);
-  } else {
-    minutesstring = QString::number(minutes);
-  }
-  
-  if (hours != 0)
-  {
-    hoursstring = QString::number(hours) + ":";
-  }
-  
-  mDurationLabel->setText(hoursstring + minutesstring + ":" + secondsstring);
+    if (duration == 0)
+    {
+        mDurationLabel->clear();
+        return;
+    }
+    unsigned hours = duration/3600;
+    duration -= hours*3600;
+    unsigned minutes = duration/60;
+    duration -= minutes*60;
+    unsigned seconds = duration;
+
+    QString minutesstring;
+    QString secondsstring;
+    QString hoursstring("");
+    if (seconds < 10)
+    {
+        secondsstring = QString::number(0) + QString::number(seconds);
+    } else {
+        secondsstring = QString::number(seconds);
+    }
+
+    if (minutes < 10)
+    {
+        minutesstring = QString::number(0) + QString::number(minutes);
+    } else {
+        minutesstring = QString::number(minutes);
+    }
+
+    if (hours != 0)
+    {
+        hoursstring = QString::number(hours) + ":";
+    }
+
+    mDurationLabel->setText(hoursstring + minutesstring + ":" + secondsstring);
+}
+
+void MainView::keyPressEvent(QKeyEvent *ev)
+{
+  ev->setAccepted(true);
+  mKeyHandler->grabKeyEvent(ev->key());
+}
+
+MainViewKeyHandler* MainView::getKeyHandler()
+{
+return mKeyHandler.get();
 }

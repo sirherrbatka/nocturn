@@ -241,7 +241,7 @@ inline void PlayListModel::sortPlayList()
         mTracks[mCurrentTrack]->markAsCurrent(true);
     }
 
-    std::sort(mTracks.begin(), mTracks.end(), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
+    std::sort(begin(mTracks), begin(mTracks), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
     {
         if(0<((*prev).getAlbum().compare((*next).getAlbum(), Qt::CaseSensitive)))
         {
