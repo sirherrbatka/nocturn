@@ -187,3 +187,8 @@ long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist()
 {
   return mActivePlayList->getTotalDuration();
 }
+
+void PlayListManager::clearCurrentTrack()
+{
+  mCurrentPlayList->setTrackNumber(-1);
+}

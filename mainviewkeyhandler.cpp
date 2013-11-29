@@ -37,11 +37,27 @@ MainViewKeyHandler::~MainViewKeyHandler()
 
 void MainViewKeyHandler::grabKeyEvent(int key)
 {
-  qDebug()<<"Key handling";
-  switch (key)
-  {
+    qDebug()<<"Key handling";
+    switch (key)
+    {
     case Qt::Key_C:
-      MainControler::getMainControler()->clearActivePlayList();
-      break;
-  }
+        MainControler::getMainControler()->clearActivePlayList();
+        break;
+    case Qt::Key_P:
+        if(mState == SharedTypes::StoppedState)
+        {
+            MainControler::getMainControler()->startPlayback();
+            break;
+        }
+        MainControler::getMainControler()->togglePlayback();
+        break;
+    case Qt::Key_S:
+        MainControler::getMainControler()->stopPlayback();
+        break;
+    }
+}
+
+void MainViewKeyHandler::newPlaybackStatus(SharedTypes::PlaybackState newStatus, SharedTypes::PlaybackState oldStatus)
+{
+    mState = newStatus;
 }

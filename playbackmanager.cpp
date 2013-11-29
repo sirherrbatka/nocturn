@@ -59,3 +59,8 @@ void PlaybackManager::togglePlayback()
 {
   mPlaybackModel->togglePlayback();
 }
+
+void PlaybackManager::stopPlayback()
+{
+  mPlaybackModel->stopPlayback();
+}

@@ -44,7 +44,7 @@ signals:
 
 public slots:
     virtual void playFile(const QString& path);
-    virtual void stopPlaying();
+    virtual void stopPlayback();
 
 };
 

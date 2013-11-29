@@ -67,8 +67,9 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
     connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
     connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
+    connect(this, SIGNAL(ChangeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState) ), mKeyHandler.get(), SLOT(newPlaybackStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)) );
     show();
-    newPlayListView();
+    newPlayListView(); 
 }
 
 void MainView::dropEvent(QDropEvent *ev)
@@ -120,8 +121,9 @@ void MainView::changeStatus(SharedTypes::PlaybackState newstatus, SharedTypes::P
     if (newstatus == SharedTypes::PlayingState or newstatus == SharedTypes::StoppedState or newstatus == SharedTypes::PausedState)
     {
         updateLabel();
-        updateeToggleButtonIcon();
+        updateToggleButtonIcon();
     }
+    emit ChangeStatus(newstatus, oldstatus);
 }
 
 inline void MainView::updateLabel()
@@ -165,7 +167,7 @@ void MainView::toggleButtonControl()
     }
 }
 
-void MainView::updateeToggleButtonIcon()
+void MainView::updateToggleButtonIcon()
 {
     QIcon newIcon;
     switch (mState)

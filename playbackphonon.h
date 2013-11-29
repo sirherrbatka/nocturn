@@ -44,6 +44,7 @@ public slots:
     void changeStatus(Phonon::State oldstatus, Phonon::State newstatus);
     void playFile(const QString& path);
     void togglePlayback();
+    void stopPlayback();
 
 private:
     std::unique_ptr<Phonon::MediaObject> mPhonon {new Phonon::MediaObject()};

@@ -112,3 +112,9 @@ void MainControler::requestTotalDurationLabelUpdate(unsigned long long duration)
     emit TotalDurationChanged(duration);
 }
 
+void MainControler::stopPlayback()
+{
+  mModelManager->getPlaybackManager()->stopPlayback();
+  mModelManager->getPlayListManager()->clearCurrentTrack();
+}
+

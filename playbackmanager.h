@@ -41,6 +41,7 @@ public:
     
     void playFile(const QString& path);
     void togglePlayback();
+  void stopPlayback();
     
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);

@@ -56,6 +56,7 @@ public:
     bool getCurrent() const;
     void requestRefresh();
     int getTrackNumber(int locTrack) const;
+    void setTrackNumber(int locTrack);
     QString getArtist(int locTrack) const;
     void clearMe();
     unsigned long long int getTotalDuration();
@@ -87,7 +88,7 @@ private:
     bool operator==(const PlayListModel& other); //not implemented
     inline void goToFirstTrack();
     inline bool playListChecks();
-    inline void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
+    void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
     void generatePlayListName(); //makes new name (based on the album title) when mCustomPlayListName is false
     void calculateTotalDuration();
 

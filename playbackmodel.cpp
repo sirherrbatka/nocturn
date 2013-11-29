@@ -38,7 +38,7 @@ void PlaybackModel::playFile(const QString& path)
 
 }
 
-void PlaybackModel::stopPlaying()
+void PlaybackModel::stopPlayback()
 {
 
 }

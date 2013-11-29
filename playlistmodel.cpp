@@ -234,7 +234,7 @@ void PlayListModel::requestRefresh()
     emit NeedRefreshView();
 }
 
-inline void PlayListModel::sortPlayList()
+void PlayListModel::sortPlayList()
 {
     if(mCurrentTrack >= 0)
     {
@@ -351,3 +351,10 @@ long long unsigned int PlayListModel::getTotalDuration()
 {
     return mTotalDuration;
 }
+
+void PlayListModel::setTrackNumber(int locTrack)
+{
+    mCurrentTrack = locTrack;
+    emit requestRefresh();
+}
+

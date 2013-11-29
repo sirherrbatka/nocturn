@@ -55,6 +55,7 @@ signals:
     void modelSignal(PlayListModel*);
     void TogglePlayback();
     void StartPlaybackOnActivePlaylist();
+      void ChangeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
 
 private slots:
     void newPlayListView();
@@ -68,7 +69,7 @@ private:
     //methods
     PlayListModel* getPlayListModel(int index);
     inline void updateLabel();
-    inline void updateeToggleButtonIcon();
+    inline void updateToggleButtonIcon();
     QLabel* mDurationLabel{new QLabel};
     std::unique_ptr<MainViewKeyHandler> mKeyHandler{new MainViewKeyHandler};
     

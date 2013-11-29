@@ -57,6 +57,7 @@ public slots:
     void playFile(const QString& path);
     void fileEnded();
     void togglePlayback();
+    void stopPlayback();
     void startPlayback();
     void clearActivePlayList();
     

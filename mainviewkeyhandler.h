@@ -24,16 +24,25 @@
 #define MAINVIEWKEYHANDLER_H
 
 #include <QObject>
+#include "./sharedtypes.h"
 
-class MainViewKeyHandler
+class MainViewKeyHandler : public QObject
 {
+  Q_OBJECT
 public:
     MainViewKeyHandler();
     ~MainViewKeyHandler();
     
     void grabKeyEvent(int key);
     
+public slots:
+  void newPlaybackStatus(SharedTypes::PlaybackState newStatus, SharedTypes::PlaybackState oldStatus);
+  
 private:
+  //methods
+  
+  //variables
+  SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
 };
 
 #endif // MAINVIEWKEYHANDLER_H

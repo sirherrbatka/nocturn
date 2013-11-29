@@ -131,3 +131,8 @@ void PlaybackPhonon::changeStatus(Phonon::State newstatus, Phonon::State oldstat
     
     emit StatusChanged(locnew, locold);
 }
+
+void PlaybackPhonon::stopPlayback()
+{
+  mPhonon->stop();
+}
