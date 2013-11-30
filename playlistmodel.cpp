@@ -326,7 +326,7 @@ void PlayListModel::generatePlayListName()
 	    }
             for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
             {
-                if ( next->get()->getAlbum() != prev->get()->getAlbum() and noalbum)
+                if ( next->get()->getAlbum() != prev->get()->getAlbum() or noalbum)
                 {
                     locGeneratedNewName = false;
                     break;
