@@ -91,7 +91,8 @@ void MainView::newPlayListView()
 {
     const QString label = "Playlist";
     QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, mKeyHandler.get() );
-    this->PlayListsTabs->addTab(playlistpageview, label);
+    int index = this->PlayListsTabs->addTab(playlistpageview, label);
+    PlayListsTabs->setCurrentIndex(index);
 }
 
 void MainView::closeTab(int index = -1)
