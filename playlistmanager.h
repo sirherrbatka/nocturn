@@ -58,6 +58,7 @@ public:
     void playPrevTrack();
     void playNextTrack();
     void clearActivePlayList();
+    void playSelected();
     unsigned long long int getTotalDurationOfActivePlaylist();
 
 private:

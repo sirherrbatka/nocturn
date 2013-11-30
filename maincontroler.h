@@ -41,6 +41,7 @@ public:
     static MainControler* getMainControler();
     PlayListModel* generatePlayListModel(); //TODO consider different solution
     void requestTotalDurationLabelUpdate(unsigned long long duration);
+    void playSelected();
 
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);

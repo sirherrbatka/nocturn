@@ -54,17 +54,27 @@ void MainViewKeyHandler::grabKeyEvent(int key)
         MainControler::getMainControler()->stopPlayback();
         break;
     case Qt::Key_W:
-      emit CloseTabKey(-1);
-      break;
+        emit CloseTabKey(-1);
+        break;
     case Qt::Key_T:
-      emit NewTabKey();
-      break;
+        emit NewTabKey();
+        break;
     case Qt::Key_L:
-      emit SwitchTabKey(1);
-      break;
+        emit SwitchTabKey(1);
+        break;
     case Qt::Key_H:
-      emit SwitchTabKey(-1);
-      break;
+        emit SwitchTabKey(-1);
+        break;
+    case Qt::Key_J:
+        emit SwitchTrackKey(1);
+        break;
+    case Qt::Key_K:
+        emit SwitchTrackKey(-1);
+        break;
+    case Qt::Key_Return:
+        qDebug()<<"Pressed enter";
+        MainControler::getMainControler()->playSelected();
+        break;
     }
 }
 

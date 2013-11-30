@@ -60,6 +60,7 @@ public:
     QString getArtist(int locTrack) const;
     void clearMe();
     unsigned long long int getTotalDuration();
+    void playSelected();
 
 signals:
     void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
@@ -72,6 +73,7 @@ signals:
     void PlayListEmpty();
     void OutOfRange();
     void NeedRefreshPlayListName(const QString&);
+    void PlaySelected();
 
 public slots:
     void playNextTrack();

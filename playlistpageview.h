@@ -38,11 +38,14 @@ public:
     PlayListPageView(PlayListModel* model, QTabWidget* parent, MainViewKeyHandler* keyhandler);
     ~PlayListPageView();
     void keyPressEvent(QKeyEvent *ev);
+    int getCurrentRow();
 
 public slots:
     void refreshView();
     void doubleClicked ( QListWidgetItem* item );
     void NeedRefreshPlayListName(const QString& locNewName);
+    void switchRow(int direction);
+    void playSelected();
 
 signals:
     void PlayListViewDestroyed(unsigned long long int);

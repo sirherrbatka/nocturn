@@ -192,3 +192,8 @@ void PlayListManager::clearCurrentTrack()
 {
   mCurrentPlayList->setTrackNumber(-1);
 }
+
+void PlayListManager::playSelected()
+{
+  mActivePlayList->playSelected();
+}

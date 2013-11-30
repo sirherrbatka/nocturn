@@ -37,12 +37,16 @@ PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, Mai
     mModel(model),
     mKeyHandler(keyhandler)
 {
+    qDebug()<<"Playlist view created";
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
     connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem* )), this, SLOT(doubleClicked(QListWidgetItem* )));
     connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(NeedRefreshPlayListName(const QString&))); //ugly!
-    qDebug()<<"Playlist view created";
+    connect(mKeyHandler, SIGNAL(SwitchTrackKey(int)), this, SLOT(switchRow(int)));
+    connect(mModel, SIGNAL(PlaySelected()), this, SLOT(playSelected()));
     setSortingEnabled(false);
+    setCurrentRow(0);
+    setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 
@@ -62,6 +66,7 @@ PlayListPageView::~PlayListPageView()
 
 void PlayListPageView::refreshView()
 {
+    int selected = currentRow();
     clear();
     int locCurrent = getModel()->getCurrentTrack();
     int locSize = mModel->getPlayListSize();
@@ -76,6 +81,7 @@ void PlayListPageView::refreshView()
         }
         addItem(item);
     }
+    setCurrentRow(selected);
 }
 
 void PlayListPageView::doubleClicked(QListWidgetItem * item)
@@ -91,6 +97,25 @@ void PlayListPageView::NeedRefreshPlayListName(const QString &locNewName)
 
 void PlayListPageView::keyPressEvent(QKeyEvent *ev)
 {
-  ev->setAccepted(true);
-  mKeyHandler->grabKeyEvent(ev->key());
+    ev->setAccepted(true);
+    mKeyHandler->grabKeyEvent(ev->key());
+}
+
+void PlayListPageView::switchRow(int direction)
+{
+    int newRow = currentRow() + direction;
+    if(newRow >= count())
+    {
+        newRow = count() - 1;
+    }
+    if(newRow < 0)
+    {
+        newRow = 0;
+    }
+    setCurrentRow(newRow);
+}
+
+void PlayListPageView::playSelected()
+{
+    mModel->playTrack(currentRow());
 }

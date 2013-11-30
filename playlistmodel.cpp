@@ -358,3 +358,7 @@ void PlayListModel::setTrackNumber(int locTrack)
     emit requestRefresh();
 }
 
+void PlayListModel::playSelected()
+{
+ emit PlaySelected();
+}

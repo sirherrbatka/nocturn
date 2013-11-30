@@ -71,7 +71,7 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(mKeyHandler.get(), SIGNAL(NewTabKey()), this, SLOT(newPlayListView()));
     connect(mKeyHandler.get(), SIGNAL(SwitchTabKey(int)), this, SLOT(switchPlayListView(int)));
     show();
-    newPlayListView(); 
+    newPlayListView(false);
 }
 
 void MainView::dropEvent(QDropEvent *ev)
@@ -87,6 +87,16 @@ void MainView::dragEnterEvent(QDragEnterEvent *ev)
     }
 }
 
+void MainView::newPlayListView(bool autoswitch = true)
+{
+    const QString label = "Playlist";
+    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, mKeyHandler.get() );
+    int index = this->PlayListsTabs->addTab(playlistpageview, label);
+    if (autoswitch)
+    {
+        PlayListsTabs->setCurrentIndex(index);
+    }
+}
 void MainView::newPlayListView()
 {
     const QString label = "Playlist";
@@ -99,11 +109,11 @@ void MainView::closeTab(int index = -1)
 {
     if (PlayListsTabs->count() == 1) //there has to be at least on playlist all the time
     {
-        newPlayListView();
+        newPlayListView(false);
     }
     if (index == -1)
     {
-      index = this->PlayListsTabs->currentIndex();
+        index = this->PlayListsTabs->currentIndex();
     }
     QWidget* locDeleteMe = this->PlayListsTabs->widget(index);
     this->PlayListsTabs->removeTab(index);
@@ -236,28 +246,28 @@ void MainView::refreshTotalDurationLabel(unsigned long long duration)
 
 void MainView::keyPressEvent(QKeyEvent *ev)
 {
-  ev->setAccepted(true);
-  mKeyHandler->grabKeyEvent(ev->key());
+    ev->setAccepted(true);
+    mKeyHandler->grabKeyEvent(ev->key());
 }
 
 MainViewKeyHandler* MainView::getKeyHandler()
 {
-return mKeyHandler.get();
+    return mKeyHandler.get();
 }
 
 void MainView::switchPlayListView(int side)
 {
-  int size = this->PlayListsTabs->count();
-  int index = this->PlayListsTabs->currentIndex();
-  int newindex = index + side;
-  if (newindex < 0)
-  {
-    newindex = size + newindex;
-  }
-  
-  if (newindex >= size)
-  {
-    newindex = newindex - size ;
-  }
-  this->PlayListsTabs->setCurrentIndex(newindex);
+    int size = this->PlayListsTabs->count();
+    int index = this->PlayListsTabs->currentIndex();
+    int newindex = index + side;
+    if (newindex < 0)
+    {
+        newindex = size + newindex;
+    }
+
+    if (newindex >= size)
+    {
+        newindex = newindex - size ;
+    }
+    this->PlayListsTabs->setCurrentIndex(newindex);
 }

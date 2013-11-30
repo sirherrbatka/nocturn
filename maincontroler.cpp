@@ -118,3 +118,7 @@ void MainControler::stopPlayback()
   mModelManager->getPlayListManager()->clearCurrentTrack();
 }
 
+void MainControler::playSelected()
+{
+  mModelManager->getPlayListManager()->playSelected();
+}
