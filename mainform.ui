@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>342</width>
-    <height>504</height>
+    <width>427</width>
+    <height>509</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,7 +75,9 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset theme="task-recurring"/>
+           <iconset theme="task-recurring">
+            <normaloff/>
+           </iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -110,13 +112,13 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>90</width>
+          <width>105</width>
           <height>15</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>90</width>
+          <width>105</width>
           <height>15</height>
          </size>
         </property>
@@ -164,14 +166,14 @@
        <widget class="QToolButton" name="prevButton">
         <property name="minimumSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>25</width>
-          <height>25</height>
+          <width>16777215</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="text">
@@ -195,16 +197,22 @@
       </item>
       <item>
        <widget class="QToolButton" name="toggleButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>25</width>
-          <height>25</height>
+          <width>16777215</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="text">
@@ -236,14 +244,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>22</width>
-          <height>22</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>25</width>
-          <height>25</height>
+          <width>16777215</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="text">
@@ -302,7 +310,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>342</width>
+     <width>427</width>
      <height>23</height>
     </rect>
    </property>
