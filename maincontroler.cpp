@@ -122,3 +122,13 @@ void MainControler::playSelected()
 {
   mModelManager->getPlayListManager()->playSelected();
 }
+
+void MainControler::setRepeateMode()
+{
+mModelManager->getPlayListManager()->setRepeatMode();
+}
+
+bool MainControler::getRepeatMode() const
+{
+return mModelManager->getPlayListManager()->getRepeatMode();
+}

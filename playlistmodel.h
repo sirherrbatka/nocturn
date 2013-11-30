@@ -80,7 +80,6 @@ public slots:
     void playPrevTrack();
     void replayPlayList();
     void enableRandomMode(bool RandomMode);
-    void enableRepeateMode(bool RepeatMode);
     void startPlayback(bool locRequestPlayListCheck);
     void playTrack(int track);
 
@@ -99,7 +98,6 @@ private:
     std::vector<std::unique_ptr<AudioTrackModel> > mTracks;
     std::vector<std::unique_ptr<AudioTrackModel> > mRandomModeTracks;
     int mCurrentTrack {-1};
-    bool mRepateMode {true};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};
     bool mCustomPlayListName{false};

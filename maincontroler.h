@@ -25,8 +25,10 @@
 
 #include <qobject.h>
 #include <QUrl>
+#include <memory>
 #include <cassert>
 #include "./sharedtypes.h"
+#include "./keyhandler.h"
 
 class ModelManager;
 class PlayListModel;
@@ -42,15 +44,15 @@ public:
     PlayListModel* generatePlayListModel(); //TODO consider different solution
     void requestTotalDurationLabelUpdate(unsigned long long duration);
     void playSelected();
+    bool getRepeatMode() const;
 
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
     void TotalDurationChanged(unsigned long long);
 
 public slots:
-   void nextTrack();
-   void prevTrack();
-//   void stopPlayback();
+    void nextTrack();
+    void prevTrack();
     void changeCurrentPlayList(PlayListModel* currentPlaylist);
     void changeActivePlayList(PlayListModel* activePlayList);
     void addPathToPlayList(QList< QUrl > list); //called by the inteface drag&drop signal currently.
@@ -61,7 +63,8 @@ public slots:
     void stopPlayback();
     void startPlayback();
     void clearActivePlayList();
-    
+    void setRepeateMode();
+
 private:
     MainControler(const MainControler& other); //not implemented
     MainControler& operator=(const MainControler& other); //not implemented

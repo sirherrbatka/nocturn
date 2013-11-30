@@ -142,7 +142,7 @@ void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
     if (mCurrentPlayList)
     {
         mCurrentPlayList->setCurrent(false);
-	mCurrentPlayList->requestRefresh();
+        mCurrentPlayList->requestRefresh();
     }
     locPlayList->setCurrent(true);
     mCurrentPlayList = locPlayList;
@@ -180,20 +180,30 @@ void PlayListManager::playPrevTrack()
 
 void PlayListManager::clearActivePlayList()
 {
-  mActivePlayList->clearMe();
+    mActivePlayList->clearMe();
 }
 
 long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist()
 {
-  return mActivePlayList->getTotalDuration();
+    return mActivePlayList->getTotalDuration();
 }
 
 void PlayListManager::clearCurrentTrack()
 {
-  mCurrentPlayList->setTrackNumber(-1);
+    mCurrentPlayList->setTrackNumber(-1);
 }
 
 void PlayListManager::playSelected()
 {
-  mActivePlayList->playSelected();
+    mActivePlayList->playSelected();
+}
+
+void PlayListManager::setRepeatMode()
+{
+  mRepeateMode = !mRepeateMode;
+}
+
+bool PlayListManager::getRepeatMode() const
+{
+  return mRepeateMode;
 }

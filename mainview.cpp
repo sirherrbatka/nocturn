@@ -26,6 +26,7 @@
 #include <QUrl>
 #include <QKeyEvent>
 #include <Qt>
+#include <QHBoxLayout>
 #include "./maincontroler.h"
 #include "./playlistpageview.h"
 #include "playbackmodel.h"
@@ -62,6 +63,7 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(this, SIGNAL(TogglePlayback()), MainControler::getMainControler(), SLOT(togglePlayback()));
     connect(this, SIGNAL(StartPlaybackOnActivePlaylist()), MainControler::getMainControler(), SLOT(startPlayback()));
 
+    connect(this->repeatButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(setRepeateMode()));
     connect(MainControler::getMainControler(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SLOT(changeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
     connect(MainControler::getMainControler(), SIGNAL(TotalDurationChanged(unsigned long long)), this, SLOT(refreshTotalDurationLabel(unsigned long long)) );
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));

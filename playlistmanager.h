@@ -60,6 +60,8 @@ public:
     void clearActivePlayList();
     void playSelected();
     unsigned long long int getTotalDurationOfActivePlaylist();
+    void setRepeatMode();
+    bool getRepeatMode() const;
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
@@ -74,6 +76,7 @@ private:
     unsigned long long int mNewKey {0}; //used to make unique key for mPlayLists map.
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
+    bool mRepeateMode{true};
 };
 
 #endif // PLAYLISTMANAGER_H

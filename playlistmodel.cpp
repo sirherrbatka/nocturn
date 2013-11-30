@@ -85,11 +85,6 @@ void PlayListModel::enableRandomMode(bool RandomMode)
     mRandomMode = RandomMode;
 }
 
-void PlayListModel::enableRepeateMode(bool RepeatMode)
-{
-    mRepateMode = RepeatMode;
-}
-
 inline void PlayListModel::goToFirstTrack()
 {
     mCurrentTrack = 0;
@@ -210,8 +205,15 @@ QString PlayListModel::getCurrentTrackPath() const
 
 void PlayListModel::replayPlayList()
 {
-    mCurrentTrack = 0;
-    startPlayback();
+    if (MainControler::getMainControler()->getRepeatMode())
+    {
+        mCurrentTrack = 0;
+        startPlayback();
+        return;
+    } else {
+        mCurrentTrack = -1;
+        emit NeedRefreshView();
+    }
 }
 
 int PlayListModel::getCurrentTrack()
@@ -360,5 +362,5 @@ void PlayListModel::setTrackNumber(int locTrack)
 
 void PlayListModel::playSelected()
 {
- emit PlaySelected();
+    emit PlaySelected();
 }

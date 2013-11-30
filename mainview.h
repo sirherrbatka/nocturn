@@ -32,6 +32,7 @@
 #include "./sharedtypes.h"
 #include "./mainviewkeyhandler.h"
 #include <memory>
+#include <QHBoxLayout>
 
 class PlayListModel;
 class PlayListPageView;
@@ -47,7 +48,7 @@ public:
 
     MainView(PlaybackModel* PlaybackModel);
 //     ~MainView(); TODO add definition
-    
+
     MainViewKeyHandler* getKeyHandler();
 
 signals:
@@ -71,11 +72,11 @@ private:
     PlayListModel* getPlayListModel(int index);
     inline void updateLabel();
     inline void updateToggleButtonIcon();
-    QLabel* mDurationLabel{new QLabel};
-    std::unique_ptr<MainViewKeyHandler> mKeyHandler{new MainViewKeyHandler};
-    
+
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
+    QLabel* mDurationLabel {new QLabel};
+    std::unique_ptr<MainViewKeyHandler> mKeyHandler {new MainViewKeyHandler};
 };
 
 #endif
