@@ -318,12 +318,16 @@ void PlayListModel::generatePlayListName()
         QString locPlayListName = "Playlist";
         if(!mTracks.empty())
         {
+	    bool noalbum = false;
             auto prev = begin(mTracks);
+	    if (prev->get()->getAlbum() == "")
+	    {
+	      noalbum = true;
+	    }
             for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
             {
-                if ( next->get()->getAlbum() != prev->get()->getAlbum()  )
+                if ( next->get()->getAlbum() != prev->get()->getAlbum() and noalbum)
                 {
-                    qDebug()<<"different albums";
                     locGeneratedNewName = false;
                     break;
                 } else {
