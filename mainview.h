@@ -55,7 +55,6 @@ signals:
     void modelSignal(PlayListModel*);
     void TogglePlayback();
     void StartPlaybackOnActivePlaylist();
-      void ChangeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
 
 private slots:
     void newPlayListView();
@@ -64,6 +63,7 @@ private slots:
     void changeStatus(SharedTypes::PlaybackState oldstatus, SharedTypes::PlaybackState newstatus);
     void toggleButtonControl();
     void refreshTotalDurationLabel(unsigned long long duration);
+    void switchPlayListView(int side);
 
 private:
     //methods

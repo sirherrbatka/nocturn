@@ -37,7 +37,6 @@ MainViewKeyHandler::~MainViewKeyHandler()
 
 void MainViewKeyHandler::grabKeyEvent(int key)
 {
-    qDebug()<<"Key handling";
     switch (key)
     {
     case Qt::Key_C:
@@ -54,10 +53,22 @@ void MainViewKeyHandler::grabKeyEvent(int key)
     case Qt::Key_S:
         MainControler::getMainControler()->stopPlayback();
         break;
+    case Qt::Key_W:
+      emit CloseTabKey(-1);
+      break;
+    case Qt::Key_T:
+      emit NewTabKey();
+      break;
+    case Qt::Key_L:
+      emit SwitchTabKey(1);
+      break;
+    case Qt::Key_H:
+      emit SwitchTabKey(-1);
+      break;
     }
 }
 
-void MainViewKeyHandler::newPlaybackStatus(SharedTypes::PlaybackState newStatus, SharedTypes::PlaybackState oldStatus)
+void MainViewKeyHandler::newPlaybackStatus(SharedTypes::PlaybackState newStatus)
 {
     mState = newStatus;
 }

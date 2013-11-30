@@ -67,7 +67,9 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
     connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
     connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
-    connect(this, SIGNAL(ChangeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState) ), mKeyHandler.get(), SLOT(newPlaybackStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)) );
+    connect(mKeyHandler.get(), SIGNAL(CloseTabKey(int)), this, SLOT(closeTab(int)));
+    connect(mKeyHandler.get(), SIGNAL(NewTabKey()), this, SLOT(newPlayListView()));
+    connect(mKeyHandler.get(), SIGNAL(SwitchTabKey(int)), this, SLOT(switchPlayListView(int)));
     show();
     newPlayListView(); 
 }
@@ -92,11 +94,15 @@ void MainView::newPlayListView()
     this->PlayListsTabs->addTab(playlistpageview, label);
 }
 
-void MainView::closeTab(int index)
+void MainView::closeTab(int index = -1)
 {
     if (PlayListsTabs->count() == 1) //there has to be at least on playlist all the time
     {
         newPlayListView();
+    }
+    if (index == -1)
+    {
+      index = this->PlayListsTabs->currentIndex();
     }
     QWidget* locDeleteMe = this->PlayListsTabs->widget(index);
     this->PlayListsTabs->removeTab(index);
@@ -123,7 +129,7 @@ void MainView::changeStatus(SharedTypes::PlaybackState newstatus, SharedTypes::P
         updateLabel();
         updateToggleButtonIcon();
     }
-    emit ChangeStatus(newstatus, oldstatus);
+    mKeyHandler->newPlaybackStatus(newstatus);
 }
 
 inline void MainView::updateLabel()
@@ -236,4 +242,22 @@ void MainView::keyPressEvent(QKeyEvent *ev)
 MainViewKeyHandler* MainView::getKeyHandler()
 {
 return mKeyHandler.get();
+}
+
+void MainView::switchPlayListView(int side)
+{
+  int size = this->PlayListsTabs->count();
+  int index = this->PlayListsTabs->currentIndex();
+  int newindex = index + side;
+  if (newindex < 0)
+  {
+    newindex = size + newindex;
+  }
+  
+  if (newindex >= size)
+  {
+    newindex = newindex - size ;
+  }
+  qDebug()<<newindex;
+  this->PlayListsTabs->setCurrentIndex(newindex);
 }
