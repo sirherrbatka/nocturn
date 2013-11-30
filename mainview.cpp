@@ -258,6 +258,5 @@ void MainView::switchPlayListView(int side)
   {
     newindex = newindex - size ;
   }
-  qDebug()<<newindex;
   this->PlayListsTabs->setCurrentIndex(newindex);
 }
