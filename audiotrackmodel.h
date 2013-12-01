@@ -46,10 +46,10 @@ public:
     QString getArtist() const;
 
     void markAsCurrent(bool active); //for sorting purpose
-    bool isCurrent() const; //for sorting
+    bool isCurrent(); //for sorting
 
 private:
-    AudioTrackModel& operator=(const AudioTrackModel& other); //not implemented
+//     AudioTrackModel& operator=(const AudioTrackModel& other); //not implemented
     bool operator==(const AudioTrackModel& other); //not implemented
 
     inline void storeName(const QString& name);
@@ -58,11 +58,11 @@ private:
 
     //variables
     QString mPath;
-    QFileInfo* mFile;
+    QFileInfo mFile;
 
-    QString mName {""};
-    QString mAlbum {""};
-    QString mArtist {""};
+    QString mName;
+    QString mAlbum;
+    QString mArtist;
     long long mDuration {0};
     int mTrackNumber {0};
     int mDiscNumber {-1}; //-1 = disc number not present.

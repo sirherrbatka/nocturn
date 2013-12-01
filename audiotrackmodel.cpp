@@ -29,13 +29,13 @@
 
 AudioTrackModel::AudioTrackModel(const QString& path) :
     mPath(path),
-    mFile(new QFileInfo(path))
+    mFile(path)
 {
     qDebug()<<"loaded file"<<" "<<path;
     TagHandler TagHandler(path);
     if (TagHandler.hasTags() == false)
     {
-        mName = mFile->baseName();
+        mName = mFile.baseName();
     } else {
         storeName(TagHandler.getTitle());
         storeArtist(TagHandler.getArtist());
@@ -51,7 +51,6 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
 AudioTrackModel::~AudioTrackModel()
 {
     qDebug()<<"AudioTrackModel Destroyed";
-    delete mFile;
 }
 
 inline void AudioTrackModel::storeAlbum(const QString& album)
@@ -72,14 +71,14 @@ QString AudioTrackModel::getName() const
 
 bool AudioTrackModel::fileExists() const
 {
-    return mFile->exists();
+    return mFile.exists();
 }
 
 inline void AudioTrackModel::storeName(const QString& name)
 {
     if (name == "")
     {
-        mName = mFile->baseName();
+        mName = mFile.baseName();
     } else {
         mName = name;
     }
@@ -115,7 +114,7 @@ void AudioTrackModel::storeArtist(const QString& artist)
     mArtist = artist;
 }
 
-bool AudioTrackModel::isCurrent() const
+bool AudioTrackModel::isCurrent()
 {
     return mCurrent;
     mCurrent = false;
