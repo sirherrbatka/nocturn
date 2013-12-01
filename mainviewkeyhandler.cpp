@@ -57,13 +57,13 @@ void MainViewKeyHandler::grabKeyEvent(int key)
         emit CloseTabKey(-1);
         break;
     case Qt::Key_T:
-        emit NewTabKey();
+        emit NewPlayListViewKey();
         break;
     case Qt::Key_L:
-        emit SwitchTabKey(1);
+        emit SwitchPlayListViewKey(1);
         break;
     case Qt::Key_H:
-        emit SwitchTabKey(-1);
+        emit SwitchPlayListViewKey(-1);
         break;
     case Qt::Key_J:
         emit SwitchTrackKey(1);

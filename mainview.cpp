@@ -43,37 +43,44 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     setupUi(this);
     statusBar()->setVisible(false);
     this->statusLabel->setText(tr("Stopped"));
+    
+//Phonon related stuff.    
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
-
     this->seekSlider->setMediaObject(phonon->getPhonon());
     this->volumeSlider->setAudioOutput(phonon->getAudio());
+    
+    //Playlists tabwidget related.
     QWidget* newTabButton = new QToolButton(this->PlayListsTabs);
     (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
-    connect(newTabButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
+    newPlayListView(false);
 
-    connect(this, SIGNAL(pathDropped(QList<QUrl>)), MainControler::getMainControler(), SLOT(addPathToPlayList(QList<QUrl>)));
-    connect(this->PlayListsTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 
-//     TODO find more elegant way for the below connections
+    //Inner mainview connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
     connect(this, SIGNAL(modelSignal(PlayListModel*)), MainControler::getMainControler(), SLOT(changeActivePlayList(PlayListModel*)));
-
     connect(this->toggleButton, SIGNAL(clicked()), this, SLOT(toggleButtonControl()));
+    connect(this->PlayListsTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    connect(newTabButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
+
+//Mainview -> main controler
     connect(this, SIGNAL(TogglePlayback()), MainControler::getMainControler(), SLOT(togglePlayback()));
     connect(this, SIGNAL(StartPlaybackOnActivePlaylist()), MainControler::getMainControler(), SLOT(startPlayback()));
-
     connect(this->repeatButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(setRepeateMode()));
+    connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
+    connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
+    connect(this, SIGNAL(pathDropped(QList<QUrl>)), MainControler::getMainControler(), SLOT(addPathToPlayList(QList<QUrl>)));
+
+//     Main controler ->mainview
     connect(MainControler::getMainControler(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SLOT(changeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
     connect(MainControler::getMainControler(), SIGNAL(TotalDurationChanged(unsigned long long)), this, SLOT(refreshTotalDurationLabel(unsigned long long)) );
-    connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
-    connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
-    connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
+
+    //Key handler of main view -> MainView
     connect(mKeyHandler.get(), SIGNAL(CloseTabKey(int)), this, SLOT(closeTab(int)));
-    connect(mKeyHandler.get(), SIGNAL(NewTabKey()), this, SLOT(newPlayListView()));
-    connect(mKeyHandler.get(), SIGNAL(SwitchTabKey(int)), this, SLOT(switchPlayListView(int)));
+    connect(mKeyHandler.get(), SIGNAL(NewPlayListViewKey()), this, SLOT(newPlayListView()));
+    connect(mKeyHandler.get(), SIGNAL(SwitchPlayListViewKey(int)), this, SLOT(switchPlayListView(int)));
+
     show();
-    newPlayListView(false);
 }
 
 void MainView::dropEvent(QDropEvent *ev)

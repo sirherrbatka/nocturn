@@ -36,8 +36,8 @@ public:
     void grabKeyEvent(int key);
 signals:
     void CloseTabKey(int);
-    void NewTabKey();
-    void SwitchTabKey(int);
+    void NewPlayListViewKey();
+    void SwitchPlayListViewKey(int);
     void SwitchTrackKey(int);
     
 public:
