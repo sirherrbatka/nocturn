@@ -75,7 +75,6 @@ private:
 
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
-    QLabel* mDurationLabel {new QLabel};
     std::unique_ptr<MainViewKeyHandler> mKeyHandler {new MainViewKeyHandler};
 };
 

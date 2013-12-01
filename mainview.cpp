@@ -41,8 +41,8 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
 {
     setAcceptDrops(true);
     setupUi(this);
+    statusBar()->setVisible(false);
     this->statusLabel->setText(tr("Stopped"));
-    this->statusBar()->addPermanentWidget(mDurationLabel);
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
 
     this->seekSlider->setMediaObject(phonon->getPhonon());
