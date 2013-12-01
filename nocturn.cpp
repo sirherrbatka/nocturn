@@ -25,20 +25,15 @@
 #include <QObject>
 
 nocturn* nocturn::mThisPointer = nullptr;
-bool nocturn::mAboutToQuit = false;
 
 nocturn::nocturn()
 {
     assert(!mThisPointer);
     mThisPointer = this;
-    mAboutToQuit = false;
 }
 
 nocturn::~nocturn()
 {
-    delete View;
-    delete Manager;
-    delete Controler;
     delete app;
 }
 
@@ -46,9 +41,9 @@ int nocturn::runNoctrun(int argc, char** argv)
 {
     app = new QApplication(argc, argv);
     app->setApplicationName("Nocturn");
-    Manager = new ModelManager;
-    Controler = new MainControler(Manager);
-    View = new MainView (Manager->getPlaybackManager()->getPlaybackModel());
+    ModelManager Manager;
+    MainControler Controler(&Manager);
+    MainView View(Manager.getPlaybackManager()->getPlaybackModel());
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     return app->exec();
 }
@@ -63,7 +58,7 @@ nocturn* nocturn::getNocturn()
     return mThisPointer;
 }
 
-bool nocturn::nocturnQuits()
+bool nocturn::nocturnQuits() const
 {
     return mAboutToQuit;
 }

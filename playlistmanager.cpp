@@ -84,8 +84,7 @@ void PlayListManager::changeActivePlaylist(PlayListModel * locPlayList)
 PlayListModel* PlayListManager::newPlayList()
 {
     ++mNewKey;
-    PlayListModel* locPlayList = new PlayListModel(mNewKey);
-    mPlayLists.insert(std::pair<unsigned long long int, PlayListModel*>(mNewKey, locPlayList));
+    PlayListModel* locPlayList = (mPlayLists.insert(std::pair<unsigned long long int, PlayListModel*>(mNewKey, new PlayListModel(mNewKey)))).first->second;
     if (mPlayLists.size() == 1)
     {
         changeCurrentPlaylist(locPlayList);

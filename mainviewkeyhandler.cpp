@@ -46,9 +46,9 @@ void MainViewKeyHandler::grabKeyEvent(int key)
         if(mState == SharedTypes::StoppedState)
         {
             MainControler::getMainControler()->startPlayback();
-            break;
+        } else {
+            MainControler::getMainControler()->togglePlayback();
         }
-        MainControler::getMainControler()->togglePlayback();
         break;
     case Qt::Key_S:
         MainControler::getMainControler()->stopPlayback();

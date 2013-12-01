@@ -40,16 +40,13 @@ public:
     int runNoctrun(int argc, char** argv);
 
     static nocturn* getNocturn();
-    static bool nocturnQuits();
+    bool nocturnQuits() const;
 
 private slots:
     void quitNocturn();
 
 private:
-    ModelManager* Manager{nullptr};
-    MainView* View{nullptr};
-    MainControler* Controler{nullptr};
-    static bool mAboutToQuit;
+    bool mAboutToQuit{false};
     QApplication* app;
 
     static nocturn* mThisPointer;
