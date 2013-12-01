@@ -95,8 +95,7 @@ private:
 
     //variables
     unsigned long long int mKey;
-    std::vector<std::unique_ptr<AudioTrackModel> > mTracks;
-    std::vector<std::unique_ptr<AudioTrackModel> > mRandomModeTracks;
+    std::vector<AudioTrackModel>  mTracks;
     int mCurrentTrack {-1};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};

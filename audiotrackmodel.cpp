@@ -115,7 +115,7 @@ void AudioTrackModel::storeArtist(const QString& artist)
     mArtist = artist;
 }
 
-bool AudioTrackModel::isCurrent()
+bool AudioTrackModel::isCurrent() const
 {
     return mCurrent;
     mCurrent = false;

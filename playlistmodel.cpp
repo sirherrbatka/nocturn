@@ -62,7 +62,7 @@ long long unsigned int PlayListModel::getKey() const
 QString PlayListModel::getTrackPath(int tracknumber) const
 {
     assert(tracknumber < static_cast<int>(mTracks.size()) and tracknumber != 0);
-    return (mTracks[tracknumber-1])->getPath();
+    return (mTracks[tracknumber-1]).getPath();
 }
 
 const PlayListModel* PlayListModel::getPlayListModel()
@@ -94,11 +94,10 @@ void PlayListModel::addTracks(const QStringList& paths)
 {
     assert (!paths.empty()); //yes, assert. Make sure that you are actually passing any paths.
 
-    foreach(QString path, paths)
+    for(const auto &path : paths)
     {
-        std::unique_ptr<AudioTrackModel> track = std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path));
-        mTracks.push_back(std::move(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path))));
-        mTotalDuration += (mTracks.rbegin())->get()->getDuration();
+        mTracks.emplace_back(path);
+        mTotalDuration += (mTracks.rbegin())->getDuration();
     }
     generatePlayListName();
     sortPlayList();
@@ -148,17 +147,16 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
     {
         mCurrentTrack = 0; //Sets to the begining.
     }
-    if (mTracks[mCurrentTrack]->fileExists() == false)
+    if (mTracks[mCurrentTrack].fileExists() == false)
     {
         qDebug()<<"File does not exists!";
         emit FileDoesNotExists();
-        mTracks[mCurrentTrack].reset();
         mTracks.erase(mTracks.begin()+mCurrentTrack);
         emit NeedRefreshView();
         startPlayback();
         return;
     } else {
-        emit CurrentTrackChanged(mTracks[mCurrentTrack]->getPath());
+        emit CurrentTrackChanged(mTracks[mCurrentTrack].getPath());
         emit CurrentModelChanged(this);
         emit NeedRefreshView();
         return;
@@ -172,7 +170,7 @@ unsigned int PlayListModel::getPlayListSize() const
 
 QString PlayListModel::getTrackName(int tracknumber) const
 {
-    return (mTracks[tracknumber])->getName();
+    return (mTracks[tracknumber]).getName();
 }
 
 inline bool PlayListModel::playListChecks()
@@ -200,7 +198,7 @@ void PlayListModel::playTrack(int track)
 
 QString PlayListModel::getCurrentTrackPath() const
 {
-    return (mTracks[mCurrentTrack])->getPath();
+    return (mTracks[mCurrentTrack]).getPath();
 }
 
 void PlayListModel::replayPlayList()
@@ -240,37 +238,37 @@ void PlayListModel::sortPlayList()
 {
     if(mCurrentTrack >= 0)
     {
-        mTracks[mCurrentTrack]->markAsCurrent(true);
+        mTracks[mCurrentTrack].markAsCurrent(true);
     }
 
-    std::sort(begin(mTracks), begin(mTracks), [](const std::unique_ptr< AudioTrackModel >& prev, const std::unique_ptr< AudioTrackModel >& next)->bool
+    std::sort(begin(mTracks), begin(mTracks), [](const AudioTrackModel& prev, const AudioTrackModel& next)->bool
     {
-        if(0<((*prev).getAlbum().compare((*next).getAlbum(), Qt::CaseSensitive)))
+        if(0<(prev.getAlbum().compare(next.getAlbum()), Qt::CaseSensitive))
         {
             return true;
         }
 
-        if(0>((*prev).getAlbum().compare((*next).getAlbum(), Qt::CaseSensitive)))
+        if(0>(prev.getAlbum().compare(next.getAlbum()), Qt::CaseSensitive))
         {
             return false;
         }
 
-        if((*prev).getDiscNumber()>(*next).getDiscNumber() and (*prev).getDiscNumber() != -1 and (*next).getDiscNumber() != -1 )
+        if(prev.getDiscNumber()>next.getDiscNumber() and prev.getDiscNumber() != -1 and next.getDiscNumber() != -1 )
         {
             return false;
         }
 
-        if((*prev).getDiscNumber()<(*next).getDiscNumber() and (*prev).getDiscNumber() != -1 and (*next).getDiscNumber() != -1 )
+        if(prev.getDiscNumber()<next.getDiscNumber() and prev.getDiscNumber() != -1 and next.getDiscNumber() != -1 )
         {
             return true;
         }
 
-        if((*prev).getTrackNumber()<(*next).getTrackNumber() )
+        if(prev.getTrackNumber()<next.getTrackNumber() )
         {
             return true;
         }
 
-        if((*prev).getTrackNumber()>(*next).getTrackNumber() )
+        if(prev.getTrackNumber()>next.getTrackNumber() )
         {
             return false;
         }
@@ -281,7 +279,7 @@ void PlayListModel::sortPlayList()
     {
         for(unsigned i = 0; i<mTracks.size(); ++i)
         {
-            if (mTracks[i]->isCurrent())
+            if (mTracks[i].isCurrent())
             {
                 mCurrentTrack = i;
                 break;
@@ -292,17 +290,17 @@ void PlayListModel::sortPlayList()
 
 int PlayListModel::getTrackNumber(int locTrack) const
 {
-    return mTracks[locTrack]->getTrackNumber();
+    return mTracks[locTrack].getTrackNumber();
 }
 
 QString PlayListModel::getArtist(int locTrack) const
 {
-    return mTracks[locTrack]->getArtist();
+    return mTracks[locTrack].getArtist();
 }
 
 void PlayListModel::clearMe()
 {
-    mTracks.erase(mTracks.begin(), mTracks.end()); //no need to manually delete unique_ptr
+    mTracks.erase(mTracks.begin(), mTracks.end());  
     mCurrentTrack = -1;
     generatePlayListName();
     mTotalDuration = 0;
@@ -318,15 +316,15 @@ void PlayListModel::generatePlayListName()
         QString locPlayListName = "Playlist";
         if(!mTracks.empty())
         {
-	    bool noalbum = false;
+            bool noalbum = false;
             auto prev = begin(mTracks);
-	    if (prev->get()->getAlbum() == "")
-	    {
-	      noalbum = true;
-	    }
+            if (prev->getAlbum() == "")
+            {
+                noalbum = true;
+            }
             for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
             {
-                if ( next->get()->getAlbum() != prev->get()->getAlbum() or noalbum)
+                if ( next->getAlbum() != prev->getAlbum() or noalbum)
                 {
                     locGeneratedNewName = false;
                     break;
@@ -336,7 +334,7 @@ void PlayListModel::generatePlayListName()
             }
             if (locGeneratedNewName)
             {
-                locPlayListName = prev->get()->getAlbum();
+                locPlayListName = prev->getAlbum();
             }
         }
         mPlayListName = locPlayListName;
@@ -349,7 +347,7 @@ void PlayListModel::calculateTotalDuration()
     mTotalDuration = 0;
     for(auto& each : mTracks)
     {
-        mTotalDuration += each->getDuration();
+        mTotalDuration += each.getDuration();
     }
 }
 
