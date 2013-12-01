@@ -98,7 +98,7 @@ void PlayListModel::addTracks(const QStringList& paths)
     {
         std::unique_ptr<AudioTrackModel> track = std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path));
         mTracks.push_back(std::move(std::unique_ptr<AudioTrackModel>(new AudioTrackModel(path))));
-        mTotalDuration += (mTracks.end()-1)->get()->getDuration();
+        mTotalDuration += (mTracks.rbegin())->get()->getDuration();
     }
     generatePlayListName();
     sortPlayList();
