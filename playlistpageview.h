@@ -43,7 +43,7 @@ public:
 public slots:
     void refreshView();
     void doubleClicked ( QListWidgetItem* item );
-    void NeedRefreshPlayListName(const QString& locNewName);
+    void needRefreshPlayListName(const QString& locNewName);
     void switchRow(int direction);
     void playSelected();
 

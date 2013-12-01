@@ -66,10 +66,10 @@ void MainViewKeyHandler::grabKeyEvent(int key)
         emit SwitchPlayListViewKey(-1);
         break;
     case Qt::Key_J:
-        emit SwitchTrackKey(1);
+        emit SwitchRowKey(1);
         break;
     case Qt::Key_K:
-        emit SwitchTrackKey(-1);
+        emit SwitchRowKey(-1);
         break;
     case Qt::Key_Return:
         qDebug()<<"Pressed enter";

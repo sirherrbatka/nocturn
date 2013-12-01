@@ -38,7 +38,7 @@ signals:
     void CloseTabKey(int);
     void NewPlayListViewKey();
     void SwitchPlayListViewKey(int);
-    void SwitchTrackKey(int);
+    void SwitchRowKey(int);
     
 public:
     void newPlaybackStatus(SharedTypes::PlaybackState newStatus);

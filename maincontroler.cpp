@@ -34,6 +34,7 @@ MainControler::MainControler(ModelManager* locModelManager) :
     assert (!mThisPointer);
     mThisPointer = this;
 
+//     Status from PlaybackManager is forwarded by the main controler
     connect(mModelManager->getPlaybackManager(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
 }
 

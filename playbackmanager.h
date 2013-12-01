@@ -32,22 +32,22 @@
 
 class PlaybackManager : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
     PlaybackManager();
     ~PlaybackManager();
 
     PlaybackModel* getPlaybackModel() const;
-    
+
     void playFile(const QString& path);
     void togglePlayback();
-  void stopPlayback();
-    
+    void stopPlayback();
+
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
-    
+
 public slots:
-  void fileEnded();
+    void fileEnded();
 
 private:
     std::unique_ptr<PlaybackModel> mPlaybackModel {new PlaybackPhonon()};

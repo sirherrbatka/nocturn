@@ -49,7 +49,7 @@ public:
     PlayListModel* getActiveModel() const;
     PlayListModel* getCurrentModel() const;
     QString getCurrentTrackPath() const;
-    void clearCurrentTrack();
+    void clearCurrentTrack(); //used to set current track on current playlist to -1, this prevents bold text on any item.
 
     void addFilesToActivePlaylist(QList<QUrl> &locFiles);
     void deletePlayList(long long unsigned int locKey);
@@ -60,21 +60,22 @@ public:
     void clearActivePlayList();
     void playSelected();
     unsigned long long int getTotalDurationOfActivePlaylist();
-    void setRepeatMode();
+    void setRepeatMode(); //repeat mode is configured globally.
     bool getRepeatMode() const;
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
     PlayListManager& operator=(const PlayListManager& other); //not implemented
     bool operator==(const PlayListManager& other); //not implemented
-    QStringList scanDirectory(const QDir& dir);
+    QStringList scanDirectory(const QDir& dir); //not implemented
+    
     inline bool isSupportedFile(const QString& path);
     inline bool isAudioFile(const QString& path);
 
     //variables
     std::map<long long unsigned int, PlayListModel*> mPlayLists;
     unsigned long long int mNewKey {0}; //used to make unique key for mPlayLists map.
-    PlayListModel* mActivePlayList {nullptr}; //Playlist model with active interface. For dropping stuff.
+    PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     bool mRepeateMode{true};
 };

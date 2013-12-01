@@ -35,7 +35,6 @@ public:
     ModelManager();
     ~ModelManager();
 
-    void getConfigurationManager() const;
     PlayListManager* getPlayListManager() const;
     PlaybackManager* getPlaybackManager() const;
 

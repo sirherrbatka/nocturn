@@ -37,13 +37,21 @@ PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, Mai
     mModel(model),
     mKeyHandler(keyhandler)
 {
-    qDebug()<<"Playlist view created";
+  //PlayListPageView -> main controler
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
-    connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
+  
+  //internal connections
     connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem* )), this, SLOT(doubleClicked(QListWidgetItem* )));
-    connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(NeedRefreshPlayListName(const QString&))); //ugly!
-    connect(mKeyHandler, SIGNAL(SwitchTrackKey(int)), this, SLOT(switchRow(int)));
+    
+    //signals from model
     connect(mModel, SIGNAL(PlaySelected()), this, SLOT(playSelected()));
+    connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(needRefreshPlayListName(const QString&))); //ugly! works only for active playlist. At least I don't need to create new class from qtabwidget
+    connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
+    
+    //signals from keyhandler
+    connect(mKeyHandler, SIGNAL(SwitchRowKey(int)), this, SLOT(switchRow(int)));
+    
+    //Setting behavior
     setSortingEnabled(false);
     setCurrentRow(0);
     setSelectionMode(QAbstractItemView::SingleSelection);
@@ -89,7 +97,7 @@ void PlayListPageView::doubleClicked(QListWidgetItem * item)
     mModel->playTrack(dynamic_cast<PlayListPageViewItem*>(item)->getPosition());
 }
 
-void PlayListPageView::NeedRefreshPlayListName(const QString &locNewName)
+void PlayListPageView::needRefreshPlayListName(const QString &locNewName)
 {
     mParent->setTabText(mParent->currentIndex(), locNewName);
     mParent->update();
