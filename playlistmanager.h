@@ -52,8 +52,7 @@ public:
     QString getCurrentTrackPath() const;
     void clearCurrentTrack(); //used to set current track on current playlist to -1, this prevents bold text on any item.
 
-    void addFilesToActivePlaylist(const QList<QUrl> &locFiles);
-    void addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList);
+    void addFilesToActivePlayList(const QList<QUrl> &locFiles);
     void deletePlayList(long long unsigned int locKey);
     void fileEnded();
     void startPlayback();
@@ -73,6 +72,7 @@ private:
     
     inline bool isSupportedFile(const QString& path);
     inline bool isAudioFile(const QString& path);
+    void addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList);
 
     //variables
     std::map<long long unsigned int, PlayListModel> mPlayLists;

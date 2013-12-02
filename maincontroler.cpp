@@ -44,7 +44,7 @@ MainControler::~MainControler()
 
 void MainControler::addPathToPlayList(QList< QUrl > list)
 {
-    mModelManager->getPlayListManager()->addFilesToActivePlaylist(list);
+    mModelManager->getPlayListManager()->addFilesToActivePlayList(list);
 }
 
 MainControler* MainControler::getMainControler()

@@ -40,7 +40,7 @@ PlayListManager::~PlayListManager()
 {
 }
 
-void PlayListManager::addFilesToActivePlaylist(const QList< QUrl >& locFiles)
+void PlayListManager::addFilesToActivePlayList(const QList< QUrl >& locFiles)
 {
     QStringList locPaths;
     foreach(QUrl url, locFiles)
