@@ -40,7 +40,7 @@ PlayListManager::~PlayListManager()
 {
 }
 
-void PlayListManager::addFilesToActivePlaylist(QList< QUrl >& locFiles)
+void PlayListManager::addFilesToActivePlaylist(const QList< QUrl >& locFiles)
 {
     QStringList locPaths;
     foreach(QUrl url, locFiles)
@@ -63,6 +63,26 @@ void PlayListManager::addFilesToActivePlaylist(QList< QUrl >& locFiles)
         mActivePlayList->addTracks(locPaths);
     }
 }
+
+void PlayListManager::addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList)
+{
+
+    QStringList locPaths;
+    QDir dir(locpath);
+    if (dir.exists())
+    {
+        locPaths = locPaths + scanDirectory(dir);
+    } else if (isSupportedFile(locpath))
+    {
+        locPaths << locpath;
+    }
+
+    if (!locPaths.empty())
+    {
+        PlayList->addTracks(locPaths);
+    }
+}
+
 
 PlayListModel* PlayListManager::getCurrentModel() const
 {
@@ -89,6 +109,12 @@ PlayListModel* PlayListManager::newPlayList()
     {
         changeCurrentPlaylist(locPlayList);
         changeActivePlaylist(locPlayList);
+    }
+    if (mAutoLoadMode)
+    {
+        mAutoLoadMode = false;
+        addFilesToPlaylist(mAutoLoadPath, locPlayList);
+        locPlayList->replayPlayList();
     }
     return locPlayList;
 }
@@ -198,10 +224,16 @@ void PlayListManager::playSelected()
 
 void PlayListManager::setRepeatMode()
 {
-  mRepeateMode = !mRepeateMode;
+    mRepeateMode = !mRepeateMode;
 }
 
 bool PlayListManager::getRepeatMode() const
 {
-  return mRepeateMode;
+    return mRepeateMode;
+}
+
+void PlayListManager::autoLoadPath(const QString& path)
+{
+    mAutoLoadMode = true;
+    mAutoLoadPath = path;
 }

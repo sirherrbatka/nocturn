@@ -43,6 +43,7 @@ public:
     PlayListModel* newPlayList();
     void changeActivePlaylist(PlayListModel* locPlayList);
     void changeCurrentPlaylist(PlayListModel* locPlayList);
+    void autoLoadPath(const QString& path);
 
 //     Playing model is the playlist that currently plays music. Acvtive model is the model that is active in the interface
 
@@ -51,7 +52,8 @@ public:
     QString getCurrentTrackPath() const;
     void clearCurrentTrack(); //used to set current track on current playlist to -1, this prevents bold text on any item.
 
-    void addFilesToActivePlaylist(QList<QUrl> &locFiles);
+    void addFilesToActivePlaylist(const QList<QUrl> &locFiles);
+    void addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList);
     void deletePlayList(long long unsigned int locKey);
     void fileEnded();
     void startPlayback();
@@ -78,6 +80,8 @@ private:
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     bool mRepeateMode{true};
+    bool mAutoLoadMode{false};
+    QString mAutoLoadPath;
 };
 
 #endif // PLAYLISTMANAGER_H

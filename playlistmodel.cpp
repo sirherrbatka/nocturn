@@ -363,8 +363,9 @@ void PlayListModel::generatePlayListName()
         } else if(mTracks.size() == 1 and begin(mTracks)->getAlbum().isEmpty())
         {
             locGeneratedNewName = false;
-        } else if(mTracks.empty()) {
-	  locGeneratedNewName = false;
+        } else if(mTracks.empty())
+        {
+            locGeneratedNewName = false;
         }
 
         if (locGeneratedNewName)

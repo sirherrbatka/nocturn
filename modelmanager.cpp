@@ -41,5 +41,5 @@ PlayListManager* ModelManager::getPlayListManager()
 
 PlaybackManager* ModelManager::getPlaybackManager()
 {
-  return &mPlaybackManager;
+    return &mPlaybackManager;
 }

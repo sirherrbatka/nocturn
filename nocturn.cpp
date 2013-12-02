@@ -23,6 +23,7 @@
 #include "nocturn.h"
 #include <qapplication.h>
 #include <QObject>
+#include <QString>
 
 nocturn* nocturn::mThisPointer = nullptr;
 
@@ -41,7 +42,14 @@ int nocturn::runNoctrun(int argc, char** argv)
 {
     app = new QApplication(argc, argv);
     app->setApplicationName("Nocturn");
+
+    bool locLoadPath = false;
+    char * filename = getCmdOption(argv, argv + argc, "-f");
     ModelManager Manager;
+    if (filename)
+    {
+        Manager.getPlayListManager()->autoLoadPath(filename);
+    }
     MainControler Controler(&Manager);
     MainView View(Manager.getPlaybackManager()->getPlaybackModel());
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
@@ -61,4 +69,13 @@ nocturn* nocturn::getNocturn()
 bool nocturn::nocturnQuits() const
 {
     return mAboutToQuit;
+}
+
+char* nocturn::getCmdOption(char** begin, char** end, const std::string& option)
+{
+    char ** itr = std::find(begin, end, option);
+    if (itr != end && ++itr != end)
+    {
+        return *itr;
+    }
 }
