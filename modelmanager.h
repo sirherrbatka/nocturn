@@ -35,15 +35,15 @@ public:
     ModelManager();
     ~ModelManager();
 
-    PlayListManager* getPlayListManager() const;
-    PlaybackManager* getPlaybackManager() const;
+    PlayListManager* getPlayListManager();
+    PlaybackManager* getPlaybackManager();
 
 private:
     ModelManager(const ModelManager& other); //not implemented
 
     //variables
-    std::unique_ptr<PlayListManager> mPlayListManager{new PlayListManager};
-    std::unique_ptr<PlaybackManager> mPlaybackManager{new PlaybackManager}; 
+    PlayListManager mPlayListManager;
+    PlaybackManager mPlaybackManager; 
 };
 
 #endif // MODELMANAGER_H

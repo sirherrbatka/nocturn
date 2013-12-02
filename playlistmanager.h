@@ -73,7 +73,7 @@ private:
     inline bool isAudioFile(const QString& path);
 
     //variables
-    std::map<long long unsigned int, PlayListModel*> mPlayLists;
+    std::map<long long unsigned int, PlayListModel> mPlayLists;
     unsigned long long int mNewKey {0}; //used to make unique key for mPlayLists map.
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.

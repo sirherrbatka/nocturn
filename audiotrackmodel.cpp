@@ -53,6 +53,47 @@ AudioTrackModel::~AudioTrackModel()
     qDebug()<<"AudioTrackModel Destroyed";
 }
 
+AudioTrackModel::AudioTrackModel(const AudioTrackModel&& other) :
+    mName(other.mName),
+    mPath(other.mPath),
+    mFile(other.mFile),
+    mDuration(other.mDuration),
+    mDiscNumber(other.mDiscNumber),
+    mAlbum(other.mAlbum),
+    mArtist(other.mArtist),
+    mTrackNumber(other.mTrackNumber),
+    mCurrent(other.mCurrent)
+{
+}
+
+AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
+    mName(other.mName),
+    mPath(other.mPath),
+    mFile(other.mFile),
+    mDuration(other.mDuration),
+    mDiscNumber(other.mDiscNumber),
+    mAlbum(other.mAlbum),
+    mArtist(other.mArtist),
+    mTrackNumber(other.mTrackNumber),
+    mCurrent(other.mCurrent)
+{
+}
+
+
+AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
+{
+        mPath = other.mPath;
+        mFile = other.mFile;
+        mDuration = other.mDuration;
+        mDiscNumber = other.mDiscNumber;
+        mAlbum = other.mAlbum;
+        mArtist = other.mArtist;
+        mTrackNumber = other.mTrackNumber;
+        mCurrent = other.mCurrent;
+        return *this;
+}
+
+
 inline void AudioTrackModel::storeAlbum(const QString& album)
 {
     mAlbum = album;

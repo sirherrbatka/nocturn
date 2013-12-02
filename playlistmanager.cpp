@@ -84,7 +84,7 @@ void PlayListManager::changeActivePlaylist(PlayListModel * locPlayList)
 PlayListModel* PlayListManager::newPlayList()
 {
     ++mNewKey;
-    PlayListModel* locPlayList = (mPlayLists.insert(std::pair<unsigned long long int, PlayListModel*>(mNewKey, new PlayListModel(mNewKey)))).first->second;
+    PlayListModel* locPlayList = &(mPlayLists.emplace(mNewKey, PlayListModel(mNewKey)).first->second);
     if (mPlayLists.size() == 1)
     {
         changeCurrentPlaylist(locPlayList);
@@ -101,7 +101,6 @@ void PlayListManager::deletePlayList(long long unsigned int locKey)
         qDebug()<<"Deleting current playlist";
         mCurrentPlayList = nullptr;
     }
-    delete it->second;
     mPlayLists.erase(it);
 }
 

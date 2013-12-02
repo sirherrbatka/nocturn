@@ -41,7 +41,9 @@ class PlayListModel : public QObject
 public:
     PlayListModel(unsigned long long int key);
     ~PlayListModel();
-
+    PlayListModel& operator=(const PlayListModel&& other);
+    PlayListModel(const PlayListModel&& other); 
+    
     unsigned long long int getKey() const;
     void addTracks(const QStringList & paths);
     const PlayListModel* getPlayListModel();
@@ -84,8 +86,6 @@ public slots:
     void playTrack(int track);
 
 private:
-    PlayListModel(const PlayListModel& other); //not implemented
-    PlayListModel& operator=(const PlayListModel& other); //not implemented
     bool operator==(const PlayListModel& other); //not implemented
     inline void goToFirstTrack();
     inline bool playListChecks();

@@ -35,6 +35,9 @@ class AudioTrackModel
 public:
     AudioTrackModel(const QString& path);
     ~AudioTrackModel();
+    AudioTrackModel(const AudioTrackModel&& other);
+    AudioTrackModel(const AudioTrackModel& other);
+    AudioTrackModel& operator=(const AudioTrackModel& other);
 
     QString getPath() const;
     QString getName() const;
@@ -47,9 +50,7 @@ public:
 
     void markAsCurrent(bool active); //for sorting purpose
     bool isCurrent(); //for sorting
-
 private:
-//     AudioTrackModel& operator=(const AudioTrackModel& other); //not implemented
     bool operator==(const AudioTrackModel& other); //not implemented
 
     inline void storeName(const QString& name);

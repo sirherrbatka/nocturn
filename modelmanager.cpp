@@ -34,12 +34,12 @@ ModelManager::~ModelManager()
 
 }
 
-PlayListManager* ModelManager::getPlayListManager() const
+PlayListManager* ModelManager::getPlayListManager()
 {
-    return mPlayListManager.get();
+    return &mPlayListManager;
 }
 
-PlaybackManager* ModelManager::getPlaybackManager() const
+PlaybackManager* ModelManager::getPlaybackManager()
 {
-  return mPlaybackManager.get();
+  return &mPlaybackManager;
 }

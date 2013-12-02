@@ -41,7 +41,6 @@ PlayListModel::PlayListModel(unsigned long long int key) :
 {
     qDebug()<<"Playlist Model created";
 
-//     connect(this, SIGNAL(CurrentTrackChanged(const QString*)), SLOT() );
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
     connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
     connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
@@ -53,6 +52,50 @@ PlayListModel::~PlayListModel()
 {
     qDebug()<<"Play List model Is being destroyed";
 }
+
+PlayListModel& PlayListModel::operator=(const PlayListModel&& other)
+{
+    mKey = other.mKey;
+    mTracks = other.mTracks;
+    mCurrentTrack = other.mCurrentTrack;
+    mRandomMode = other.mRandomMode;
+    mPlayListName = other.mPlayListName;
+    mCustomPlayListName = other.mCustomPlayListName;
+    mCurrent = other.mCurrent;
+    mTotalDuration = other.mTotalDuration;
+
+    connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
+    connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
+    connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
+    connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
+
+    disconnect(&other, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
+    disconnect(&other, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
+    disconnect(&other, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
+    disconnect(&other, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
+}
+
+PlayListModel::PlayListModel(const PlayListModel&& other) :
+    mKey(other.mKey),
+    mTracks(other.mTracks),
+    mCurrentTrack(other.mCurrentTrack),
+    mRandomMode(other.mRandomMode),
+    mPlayListName(other.mPlayListName),
+    mCustomPlayListName(other.mCustomPlayListName),
+    mCurrent(other.mCurrent),
+    mTotalDuration(other.mTotalDuration)
+{
+    connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
+    connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
+    connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
+    connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
+
+    disconnect(&other, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
+    disconnect(&other, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
+    disconnect(&other, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
+    disconnect(&other, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
+}
+
 
 long long unsigned int PlayListModel::getKey() const
 {
@@ -300,7 +343,7 @@ QString PlayListModel::getArtist(int locTrack) const
 
 void PlayListModel::clearMe()
 {
-    mTracks.erase(mTracks.begin(), mTracks.end());  
+    mTracks.erase(mTracks.begin(), mTracks.end());
     mCurrentTrack = -1;
     generatePlayListName();
     mTotalDuration = 0;

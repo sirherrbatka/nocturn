@@ -75,7 +75,7 @@ private:
 
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
-    std::unique_ptr<MainViewKeyHandler> mKeyHandler {new MainViewKeyHandler};
+    MainViewKeyHandler mKeyHandler;
 };
 
 #endif

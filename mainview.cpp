@@ -43,7 +43,6 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     setupUi(this);
     statusBar()->setVisible(false);
     this->statusLabel->setText(tr("Stopped"));
-    
 //Phonon related stuff.    
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
     this->seekSlider->setMediaObject(phonon->getPhonon());
@@ -76,9 +75,9 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(MainControler::getMainControler(), SIGNAL(TotalDurationChanged(unsigned long long)), this, SLOT(refreshTotalDurationLabel(unsigned long long)) );
 
     //Key handler of main view -> MainView
-    connect(mKeyHandler.get(), SIGNAL(CloseTabKey(int)), this, SLOT(closeTab(int)));
-    connect(mKeyHandler.get(), SIGNAL(NewPlayListViewKey()), this, SLOT(newPlayListView()));
-    connect(mKeyHandler.get(), SIGNAL(SwitchPlayListViewKey(int)), this, SLOT(switchPlayListView(int)));
+    connect(&mKeyHandler, SIGNAL(CloseTabKey(int)), this, SLOT(closeTab(int)));
+    connect(&mKeyHandler, SIGNAL(NewPlayListViewKey()), this, SLOT(newPlayListView()));
+    connect(&mKeyHandler, SIGNAL(SwitchPlayListViewKey(int)), this, SLOT(switchPlayListView(int)));
 
     show();
 }
@@ -99,7 +98,7 @@ void MainView::dragEnterEvent(QDragEnterEvent *ev)
 void MainView::newPlayListView(bool autoswitch = true)
 {
     const QString label = "Playlist";
-    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, mKeyHandler.get() );
+    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler);
     int index = this->PlayListsTabs->addTab(playlistpageview, label);
     if (autoswitch)
     {
@@ -109,7 +108,7 @@ void MainView::newPlayListView(bool autoswitch = true)
 void MainView::newPlayListView()
 {
     const QString label = "Playlist";
-    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, mKeyHandler.get() );
+    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler );
     int index = this->PlayListsTabs->addTab(playlistpageview, label);
     PlayListsTabs->setCurrentIndex(index);
 }
@@ -149,7 +148,7 @@ void MainView::changeStatus(SharedTypes::PlaybackState newstatus, SharedTypes::P
         updateLabel();
         updateToggleButtonIcon();
     }
-    mKeyHandler->newPlaybackStatus(newstatus);
+    mKeyHandler.newPlaybackStatus(newstatus);
 }
 
 inline void MainView::updateLabel()
@@ -256,12 +255,12 @@ void MainView::refreshTotalDurationLabel(unsigned long long duration)
 void MainView::keyPressEvent(QKeyEvent *ev)
 {
     ev->setAccepted(true);
-    mKeyHandler->grabKeyEvent(ev->key());
+    mKeyHandler.grabKeyEvent(ev->key());
 }
 
 MainViewKeyHandler* MainView::getKeyHandler()
 {
-    return mKeyHandler.get();
+    return &mKeyHandler;
 }
 
 void MainView::switchPlayListView(int side)

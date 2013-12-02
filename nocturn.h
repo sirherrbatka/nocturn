@@ -47,7 +47,7 @@ private slots:
 
 private:
     bool mAboutToQuit{false};
-    QApplication* app;
+    QApplication* app{nullptr};
 
     static nocturn* mThisPointer;
 };
