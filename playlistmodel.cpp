@@ -68,11 +68,6 @@ PlayListModel& PlayListModel::operator=(const PlayListModel&& other)
     connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
     connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
     connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
-
-    disconnect(&other, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
-    disconnect(&other, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
-    disconnect(&other, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
-    disconnect(&other, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
 }
 
 PlayListModel::PlayListModel(const PlayListModel&& other) :
@@ -89,11 +84,6 @@ PlayListModel::PlayListModel(const PlayListModel&& other) :
     connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
     connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
     connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
-
-    disconnect(&other, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
-    disconnect(&other, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
-    disconnect(&other, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
-    disconnect(&other, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
 }
 
 
@@ -353,21 +343,16 @@ void PlayListModel::clearMe()
 
 void PlayListModel::generatePlayListName()
 {
+    QString locPlayListName("Playlist");
     if (!mCustomPlayListName)
     {
         bool locGeneratedNewName(true);
-        QString locPlayListName = "Playlist";
-        if(!mTracks.empty())
+        if(!mTracks.empty() and mTracks.size() != 1)
         {
-            bool noalbum = false;
             auto prev = begin(mTracks);
-            if (prev->getAlbum() == "")
-            {
-                noalbum = true;
-            }
             for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
             {
-                if ( next->getAlbum() != prev->getAlbum() or noalbum)
+                if ( (next->getAlbum() != prev->getAlbum()) or prev->getAlbum().isEmpty())
                 {
                     locGeneratedNewName = false;
                     break;
@@ -375,14 +360,20 @@ void PlayListModel::generatePlayListName()
                     ++prev;
                 }
             }
-            if (locGeneratedNewName)
-            {
-                locPlayListName = prev->getAlbum();
-            }
+        } else if(mTracks.size() == 1 and begin(mTracks)->getAlbum().isEmpty())
+        {
+            locGeneratedNewName = false;
+        } else if(mTracks.empty()) {
+	  locGeneratedNewName = false;
         }
-        mPlayListName = locPlayListName;
-        emit(NeedRefreshPlayListName(mPlayListName));
+
+        if (locGeneratedNewName)
+        {
+            locPlayListName = begin(mTracks)->getAlbum();
+        }
     }
+    mPlayListName = locPlayListName;
+    emit(NeedRefreshPlayListName(mPlayListName));
 }
 
 void PlayListModel::calculateTotalDuration()
