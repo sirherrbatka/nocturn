@@ -100,7 +100,7 @@ void MainView::newPlayListView(bool autoswitch, PlayListModel* playlist)
     QWidget* playlistpageview;
     if(playlist != nullptr)
     {
-	qDebug()<<"Playlist pointer supplied";
+        qDebug()<<"Playlist pointer supplied";
         playlistpageview = new PlayListPageView(playlist, this->PlayListsTabs, &mKeyHandler);
     } else {
         playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler);
@@ -283,7 +283,7 @@ void MainView::relayPlayListModel(const std::vector< PlayListModel* >& playlists
 {
     if (playlists.empty())
     {
-      newPlayListView(false);
+        newPlayListView(false);
     }
     for (auto &each : playlists)
     {
@@ -293,5 +293,13 @@ void MainView::relayPlayListModel(const std::vector< PlayListModel* >& playlists
 
 void MainView::autoLoadPlayList(PlayListModel* playlist)
 {
-  newPlayListView(true, playlist);
+    newPlayListView(true, playlist);
+}
+
+void MainView::setFirstTab()
+{
+    if (!(PlayListsTabs->count()))
+    {
+        newPlayListView();
+    }
 }

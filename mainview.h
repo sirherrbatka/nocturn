@@ -45,6 +45,7 @@ public:
     void dropEvent(QDropEvent *ev);
     void dragEnterEvent(QDragEnterEvent *ev);
     void keyPressEvent(QKeyEvent *ev);
+    void setFirstTab(); //creates one playlist if there is no playlist present.
 
     MainView(PlaybackModel* PlaybackModel, bool autoLoadMode);
 //     ~MainView(); TODO add definition

@@ -44,7 +44,6 @@ int nocturn::runNoctrun(int argc, char** argv)
     app->setApplicationName("Nocturn");
     bool autoLoadMode = false;
 
-    bool locLoadPath = false;
     char * filename = getCmdOption(argv, argv + argc, "-f");
     ModelManager Manager;
     MainControler Controler(&Manager);
@@ -55,8 +54,8 @@ int nocturn::runNoctrun(int argc, char** argv)
     if (filename)
     {
         Manager.getPlayListManager()->autoLoadPath(filename);
-	autoLoadMode = true;
     }
+    View.setFirstTab();
     return app->exec();
 }
 
