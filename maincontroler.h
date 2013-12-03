@@ -45,6 +45,7 @@ public:
     void requestTotalDurationLabelUpdate(unsigned long long duration);
     void playSelected();
     bool getRepeatMode() const;
+    KeyHandler* getGlobalKeyHandler();
 
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
@@ -72,6 +73,7 @@ private:
 
     ModelManager* mModelManager;
     static MainControler* mThisPointer;
+    KeyHandler mGlobalKeyHandler;
 };
 
 #endif // MAINCONTROLER_H

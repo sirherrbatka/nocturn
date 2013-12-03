@@ -24,6 +24,7 @@
 #define MAINVIEWKEYHANDLER_H
 
 #include "./sharedtypes.h"
+#include "keyhandler.h"
 #include <QObject>
 
 class MainViewKeyHandler : public QObject
@@ -39,7 +40,7 @@ signals:
     void NewPlayListViewKey();
     void SwitchPlayListViewKey(int);
     void SwitchRowKey(int);
-    
+
 public:
     void newPlaybackStatus(SharedTypes::PlaybackState newStatus);
 
@@ -47,7 +48,7 @@ private:
     //methods
 
     //variables
-    SharedTypes::PlaybackState mState {SharedTypes::StoppedState};
+    KeyHandler* mGlobalKeyHandler;
 };
 
 #endif // MAINVIEWKEYHANDLER_H

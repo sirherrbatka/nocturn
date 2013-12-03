@@ -36,7 +36,7 @@
 #include <qt4/QtGui/qicon.h>
 
 
-MainView::MainView(PlaybackModel* PlaybackModel) :
+MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     QMainWindow()
 {
     setAcceptDrops(true);

@@ -46,7 +46,7 @@ public:
     void dragEnterEvent(QDragEnterEvent *ev);
     void keyPressEvent(QKeyEvent *ev);
 
-    MainView(PlaybackModel* PlaybackModel);
+    MainView(PlaybackModel* PlaybackModel, bool autoLoadMode);
 //     ~MainView(); TODO add definition
 
     MainViewKeyHandler* getKeyHandler();

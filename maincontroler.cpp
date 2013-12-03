@@ -115,21 +115,26 @@ void MainControler::requestTotalDurationLabelUpdate(unsigned long long duration)
 
 void MainControler::stopPlayback()
 {
-  mModelManager->getPlaybackManager()->stopPlayback();
-  mModelManager->getPlayListManager()->clearCurrentTrack();
+    mModelManager->getPlaybackManager()->stopPlayback();
+    mModelManager->getPlayListManager()->clearCurrentTrack();
 }
 
 void MainControler::playSelected()
 {
-  mModelManager->getPlayListManager()->playSelected();
+    mModelManager->getPlayListManager()->playSelected();
 }
 
 void MainControler::setRepeateMode()
 {
-mModelManager->getPlayListManager()->setRepeatMode();
+    mModelManager->getPlayListManager()->setRepeatMode();
 }
 
 bool MainControler::getRepeatMode() const
 {
-return mModelManager->getPlayListManager()->getRepeatMode();
+    return mModelManager->getPlayListManager()->getRepeatMode();
+}
+
+KeyHandler* MainControler::getGlobalKeyHandler()
+{
+    return &mGlobalKeyHandler;
 }

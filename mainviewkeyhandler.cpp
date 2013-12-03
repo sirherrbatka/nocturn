@@ -27,7 +27,7 @@
 
 MainViewKeyHandler::MainViewKeyHandler()
 {
-
+    mGlobalKeyHandler = MainControler::getMainControler()->getGlobalKeyHandler();
 }
 
 MainViewKeyHandler::~MainViewKeyHandler()
@@ -40,18 +40,13 @@ void MainViewKeyHandler::grabKeyEvent(int key)
     switch (key)
     {
     case Qt::Key_C:
-        MainControler::getMainControler()->clearActivePlayList();
+        mGlobalKeyHandler->grabGlobalKeyEvent(key);
         break;
     case Qt::Key_P:
-        if(mState == SharedTypes::StoppedState)
-        {
-            MainControler::getMainControler()->startPlayback();
-        } else {
-            MainControler::getMainControler()->togglePlayback();
-        }
+        mGlobalKeyHandler->grabGlobalKeyEvent(key);
         break;
     case Qt::Key_S:
-        MainControler::getMainControler()->stopPlayback();
+        mGlobalKeyHandler->grabGlobalKeyEvent(key);
         break;
     case Qt::Key_W:
         emit CloseTabKey(-1);
@@ -80,5 +75,5 @@ void MainViewKeyHandler::grabKeyEvent(int key)
 
 void MainViewKeyHandler::newPlaybackStatus(SharedTypes::PlaybackState newStatus)
 {
-    mState = newStatus;
+    mGlobalKeyHandler->storeState(newStatus);
 }

@@ -55,8 +55,7 @@ PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, Mai
     setSortingEnabled(false);
     setCurrentRow(0);
     setSelectionMode(QAbstractItemView::SingleSelection);
-    mModel->requestRefresh();
-    mModel->generatePlayListName(true);
+    refreshView();
 }
 
 

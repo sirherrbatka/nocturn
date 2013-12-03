@@ -21,6 +21,8 @@
  */
 
 #include "keyhandler.h"
+#include "maincontroler.h"
+#include <Qt>
 
 KeyHandler::KeyHandler()
 {
@@ -30,4 +32,30 @@ KeyHandler::KeyHandler()
 KeyHandler::~KeyHandler()
 {
 
+}
+
+void KeyHandler::grabGlobalKeyEvent(int key)
+{
+    switch (key)
+    {
+    case Qt::Key_C:
+        MainControler::getMainControler()->clearActivePlayList();
+        break;
+    case Qt::Key_P:
+        if(mState == SharedTypes::StoppedState)
+        {
+            MainControler::getMainControler()->startPlayback();
+        } else {
+            MainControler::getMainControler()->togglePlayback();
+        }
+        break;
+    case Qt::Key_S:
+        MainControler::getMainControler()->stopPlayback();
+        break;
+    }
+}
+
+void KeyHandler::storeState(SharedTypes::PlaybackState state)
+{
+    mState = state;
 }

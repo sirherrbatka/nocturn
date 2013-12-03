@@ -42,6 +42,7 @@ int nocturn::runNoctrun(int argc, char** argv)
 {
     app = new QApplication(argc, argv);
     app->setApplicationName("Nocturn");
+    bool autoLoadMode = false;
 
     bool locLoadPath = false;
     char * filename = getCmdOption(argv, argv + argc, "-f");
@@ -49,9 +50,10 @@ int nocturn::runNoctrun(int argc, char** argv)
     if (filename)
     {
         Manager.getPlayListManager()->autoLoadPath(filename);
+	autoLoadMode = true;
     }
     MainControler Controler(&Manager);
-    MainView View(Manager.getPlaybackManager()->getPlaybackModel());
+    MainView View(Manager.getPlaybackManager()->getPlaybackModel(), autoLoadMode);
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     return app->exec();
 }

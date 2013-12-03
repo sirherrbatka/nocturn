@@ -22,12 +22,19 @@
 
 #ifndef KEYHANDLER_H
 #define KEYHANDLER_H
+#include "./sharedtypes.h"
 
 class KeyHandler
 {
 public:
     KeyHandler();
     ~KeyHandler();
+    
+    void grabGlobalKeyEvent(int key);
+    void storeState(SharedTypes::PlaybackState state);
+    
+protected:
+    SharedTypes::PlaybackState mState {SharedTypes::StoppedState};
 };
 
 #endif // KEYHANDLER_H
