@@ -74,7 +74,7 @@ MainView::MainView(PlaybackModel* PlaybackModel) :
     connect(MainControler::getMainControler(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SLOT(changeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
     connect(MainControler::getMainControler(), SIGNAL(TotalDurationChanged(unsigned long long)), this, SLOT(refreshTotalDurationLabel(unsigned long long)) );
 
-    //Key handler of main view -> MainView
+    //Key handler of main view -> Main view key handler
     connect(&mKeyHandler, SIGNAL(CloseTabKey(int)), this, SLOT(closeTab(int)));
     connect(&mKeyHandler, SIGNAL(NewPlayListViewKey()), this, SLOT(newPlayListView()));
     connect(&mKeyHandler, SIGNAL(SwitchPlayListViewKey(int)), this, SLOT(switchPlayListView(int)));
@@ -95,22 +95,14 @@ void MainView::dragEnterEvent(QDragEnterEvent *ev)
     }
 }
 
-void MainView::newPlayListView(bool autoswitch = true)
+void MainView::newPlayListView(bool autoswitch)
 {
-    const QString label = "Playlist";
     QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler);
-    int index = this->PlayListsTabs->addTab(playlistpageview, label);
+    int index = this->PlayListsTabs->addTab(playlistpageview, dynamic_cast<PlayListPageView*>(playlistpageview)->getPlayListName());
     if (autoswitch)
     {
         PlayListsTabs->setCurrentIndex(index);
     }
-}
-void MainView::newPlayListView()
-{
-    const QString label = "Playlist";
-    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler );
-    int index = this->PlayListsTabs->addTab(playlistpageview, label);
-    PlayListsTabs->setCurrentIndex(index);
 }
 
 void MainView::closeTab(int index = -1)

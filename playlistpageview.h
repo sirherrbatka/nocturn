@@ -39,6 +39,7 @@ public:
     ~PlayListPageView();
     void keyPressEvent(QKeyEvent *ev);
     int getCurrentRow();
+    QString getPlayListName();
 
 public slots:
     void refreshView();

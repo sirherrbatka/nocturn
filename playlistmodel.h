@@ -63,6 +63,7 @@ public:
     void clearMe();
     unsigned long long int getTotalDuration();
     void playSelected();
+    void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
 
 signals:
     void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
@@ -90,7 +91,6 @@ private:
     inline void goToFirstTrack();
     inline bool playListChecks();
     void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
-    void generatePlayListName(); //makes new name (based on the album title) when mCustomPlayListName is false
     void calculateTotalDuration();
 
     //variables

@@ -58,8 +58,7 @@ signals:
     void StartPlaybackOnActivePlaylist();
 
 private slots:
-    void newPlayListView();
-    void newPlayListView(bool autoswitch);
+    void newPlayListView(bool autoswitch = true);
     void closeTab(int index);
     void notifyPlayListManagerAboutActivePlayListChange(int index);
     void changeStatus(SharedTypes::PlaybackState oldstatus, SharedTypes::PlaybackState newstatus);

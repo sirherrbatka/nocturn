@@ -341,8 +341,13 @@ void PlayListModel::clearMe()
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
 
-void PlayListModel::generatePlayListName()
+void PlayListModel::generatePlayListName(bool onlyUpdate)
 {
+    if (onlyUpdate)
+    {
+        emit(NeedRefreshPlayListName(mPlayListName));
+        return;
+    }
     QString locPlayListName("Playlist");
     if (!mCustomPlayListName)
     {

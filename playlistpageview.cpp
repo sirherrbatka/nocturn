@@ -37,25 +37,26 @@ PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, Mai
     mModel(model),
     mKeyHandler(keyhandler)
 {
-  //PlayListPageView -> main controler
+    //PlayListPageView -> main controler
     connect(this, SIGNAL( PlayListViewDestroyed(unsigned long long int) ), MainControler::getMainControler(), SLOT( deletePlayList(unsigned long long int ) ) );
-  
-  //internal connections
+
+    //internal connections
     connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem* )), this, SLOT(doubleClicked(QListWidgetItem* )));
-    
+
     //signals from model
     connect(mModel, SIGNAL(PlaySelected()), this, SLOT(playSelected()));
     connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(needRefreshPlayListName(const QString&))); //ugly! works only for active playlist. At least I don't need to create new class from qtabwidget
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
-    
+
     //signals from keyhandler
     connect(mKeyHandler, SIGNAL(SwitchRowKey(int)), this, SLOT(switchRow(int)));
-    
+
     //Setting behavior
     setSortingEnabled(false);
     setCurrentRow(0);
     setSelectionMode(QAbstractItemView::SingleSelection);
-    refreshView();
+    mModel->requestRefresh();
+    mModel->generatePlayListName(true);
 }
 
 
@@ -127,4 +128,9 @@ void PlayListPageView::switchRow(int direction)
 void PlayListPageView::playSelected()
 {
     mModel->playTrack(currentRow());
+}
+
+QString PlayListPageView::getPlayListName()
+{
+    return mModel->getPlayListName();
 }
