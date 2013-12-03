@@ -406,3 +406,13 @@ void PlayListModel::playSelected()
 {
     emit PlaySelected();
 }
+
+QStringList PlayListModel::getPaths()
+{
+    QStringList Paths;
+    for (auto &each : mTracks)
+    {
+        Paths<<(each.getPath());
+    }
+    return Paths;
+}

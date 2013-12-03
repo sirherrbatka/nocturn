@@ -63,6 +63,8 @@ public:
     unsigned long long int getTotalDurationOfActivePlaylist();
     void setRepeatMode(); //repeat mode is configured globally.
     bool getRepeatMode() const;
+    void savePlayListFiles();
+    void restorePlayListFromFiles();
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
@@ -80,8 +82,6 @@ private:
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     bool mRepeateMode{true};
-    bool mAutoLoadMode{false};
-    QString mAutoLoadPath;
 };
 
 #endif // PLAYLISTMANAGER_H

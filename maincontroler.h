@@ -46,10 +46,14 @@ public:
     void playSelected();
     bool getRepeatMode() const;
     KeyHandler* getGlobalKeyHandler();
+    void relayPlayListModel(const std::vector<PlayListModel*>& playlists);
+    void relayPlayListModel(PlayListModel* playlist);
 
 signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
     void TotalDurationChanged(unsigned long long);
+    void RelayPlayListModel(const std::vector<PlayListModel*>&);
+    void AutoLoadedPlayList(PlayListModel* playlist);
 
 public slots:
     void nextTrack();
@@ -65,6 +69,7 @@ public slots:
     void startPlayback();
     void clearActivePlayList();
     void setRepeateMode();
+    void quitNocturn();
 
 private:
     MainControler(const MainControler& other); //not implemented

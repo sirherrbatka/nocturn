@@ -138,3 +138,18 @@ KeyHandler* MainControler::getGlobalKeyHandler()
 {
     return &mGlobalKeyHandler;
 }
+
+void MainControler::quitNocturn()
+{
+    mModelManager->getPlayListManager()->savePlayListFiles();
+}
+
+void MainControler::relayPlayListModel(const std::vector< PlayListModel* >& playlists)
+{
+    emit RelayPlayListModel(playlists);
+}
+
+void MainControler::relayPlayListModel(PlayListModel* playlist)
+{
+    emit AutoLoadedPlayList(playlist);
+}

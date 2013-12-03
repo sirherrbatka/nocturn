@@ -47,14 +47,16 @@ int nocturn::runNoctrun(int argc, char** argv)
     bool locLoadPath = false;
     char * filename = getCmdOption(argv, argv + argc, "-f");
     ModelManager Manager;
+    MainControler Controler(&Manager);
+    MainView View(Manager.getPlaybackManager()->getPlaybackModel(), autoLoadMode);
+    connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
+    connect(app, SIGNAL(aboutToQuit()), &Controler, SLOT(quitNocturn()));
+    Manager.getPlayListManager()->restorePlayListFromFiles();
     if (filename)
     {
         Manager.getPlayListManager()->autoLoadPath(filename);
 	autoLoadMode = true;
     }
-    MainControler Controler(&Manager);
-    MainView View(Manager.getPlaybackManager()->getPlaybackModel(), autoLoadMode);
-    connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     return app->exec();
 }
 

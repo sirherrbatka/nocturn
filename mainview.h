@@ -58,13 +58,15 @@ signals:
     void StartPlaybackOnActivePlaylist();
 
 private slots:
-    void newPlayListView(bool autoswitch = true);
+    void newPlayListView(bool autoswitch = true, PlayListModel* playlist = nullptr);
     void closeTab(int index);
     void notifyPlayListManagerAboutActivePlayListChange(int index);
     void changeStatus(SharedTypes::PlaybackState oldstatus, SharedTypes::PlaybackState newstatus);
     void toggleButtonControl();
     void refreshTotalDurationLabel(unsigned long long duration);
     void switchPlayListView(int side);
+    void relayPlayListModel(const std::vector<PlayListModel*>& playlists);
+    void autoLoadPlayList(PlayListModel* playlist);
 
 private:
     //methods

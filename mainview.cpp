@@ -43,17 +43,15 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     setupUi(this);
     statusBar()->setVisible(false);
     this->statusLabel->setText(tr("Stopped"));
-//Phonon related stuff.    
+//Phonon related stuff.
     PlaybackPhonon* phonon = dynamic_cast<PlaybackPhonon*>(PlaybackModel);
     this->seekSlider->setMediaObject(phonon->getPhonon());
     this->volumeSlider->setAudioOutput(phonon->getAudio());
-    
+
     //Playlists tabwidget related.
     QWidget* newTabButton = new QToolButton(this->PlayListsTabs);
     (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
-    newPlayListView(false);
-
 
     //Inner mainview connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
@@ -73,6 +71,8 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
 //     Main controler ->mainview
     connect(MainControler::getMainControler(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SLOT(changeStatus(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
     connect(MainControler::getMainControler(), SIGNAL(TotalDurationChanged(unsigned long long)), this, SLOT(refreshTotalDurationLabel(unsigned long long)) );
+    connect(MainControler::getMainControler(), SIGNAL(RelayPlayListModel(std::vector<PlayListModel*>)),this, SLOT(relayPlayListModel(std::vector<PlayListModel*>)));
+    connect(MainControler::getMainControler(), SIGNAL(AutoLoadedPlayList(PlayListModel*)), this, SLOT(autoLoadPlayList(PlayListModel*)));
 
     //Key handler of main view -> Main view key handler
     connect(&mKeyHandler, SIGNAL(CloseTabKey(int)), this, SLOT(closeTab(int)));
@@ -95,9 +95,16 @@ void MainView::dragEnterEvent(QDragEnterEvent *ev)
     }
 }
 
-void MainView::newPlayListView(bool autoswitch)
+void MainView::newPlayListView(bool autoswitch, PlayListModel* playlist)
 {
-    QWidget* playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler);
+    QWidget* playlistpageview;
+    if(playlist != nullptr)
+    {
+	qDebug()<<"Playlist pointer supplied";
+        playlistpageview = new PlayListPageView(playlist, this->PlayListsTabs, &mKeyHandler);
+    } else {
+        playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler);
+    }
     int index = this->PlayListsTabs->addTab(playlistpageview, dynamic_cast<PlayListPageView*>(playlistpageview)->getPlayListName());
     if (autoswitch)
     {
@@ -109,7 +116,7 @@ void MainView::closeTab(int index = -1)
 {
     if (PlayListsTabs->count() == 1) //there has to be at least on playlist all the time
     {
-        newPlayListView(false);
+        newPlayListView(false); //false = no auto switching
     }
     if (index == -1)
     {
@@ -270,4 +277,21 @@ void MainView::switchPlayListView(int side)
         newindex = newindex - size ;
     }
     this->PlayListsTabs->setCurrentIndex(newindex);
+}
+
+void MainView::relayPlayListModel(const std::vector< PlayListModel* >& playlists)
+{
+    if (playlists.empty())
+    {
+      newPlayListView(false);
+    }
+    for (auto &each : playlists)
+    {
+        newPlayListView(false, each);
+    }
+}
+
+void MainView::autoLoadPlayList(PlayListModel* playlist)
+{
+  newPlayListView(true, playlist);
 }

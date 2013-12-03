@@ -64,6 +64,7 @@ public:
     unsigned long long int getTotalDuration();
     void playSelected();
     void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
+    QStringList getPaths();
 
 signals:
     void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.

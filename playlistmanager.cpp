@@ -31,6 +31,7 @@
 #include <QFileInfo>
 #include <iostream>
 #include "./maincontroler.h"
+#include "./playlistmodelfilehandler.h"
 
 PlayListManager::PlayListManager()
 {
@@ -109,12 +110,6 @@ PlayListModel* PlayListManager::newPlayList()
     {
         changeCurrentPlaylist(locPlayList);
         changeActivePlaylist(locPlayList);
-    }
-    if (mAutoLoadMode)
-    {
-        mAutoLoadMode = false;
-        addFilesToPlaylist(mAutoLoadPath, locPlayList);
-        locPlayList->replayPlayList();
     }
     return locPlayList;
 }
@@ -234,6 +229,42 @@ bool PlayListManager::getRepeatMode() const
 
 void PlayListManager::autoLoadPath(const QString& path)
 {
-    mAutoLoadMode = true;
-    mAutoLoadPath = path;
+    PlayListModel* tmpPlayList = newPlayList();
+    addFilesToPlaylist(path, tmpPlayList);
+    MainControler::getMainControler()->relayPlayListModel(tmpPlayList);
+    changeActivePlaylist(tmpPlayList);
+    changeCurrentPlaylist(tmpPlayList);
+    startPlayback();
 }
+
+void PlayListManager::savePlayListFiles()
+{
+    PlayListModelFileHandler saver;
+    for (auto &each : mPlayLists)
+    {
+        saver.savePlayListFile(each.second.getPaths());
+    }
+}
+
+void PlayListManager::restorePlayListFromFiles()
+{
+    std::vector<PlayListModel*> PlayLists;
+    PlayListModelFileHandler loader;
+    for (auto &each : loader.loadPlayListFile())
+    {
+        QStringList paths;
+        PlayLists.push_back(newPlayList());
+        for (auto &path : each)
+        {
+            paths<<path;
+        }
+        PlayListModel* tmpPlayList = *(PlayLists.rbegin());
+        if (!(paths.empty()))
+        {
+            tmpPlayList->addTracks(paths);
+        }
+    }
+    MainControler::getMainControler()->relayPlayListModel(PlayLists);
+    loader.removePlayListFile();
+}
+
