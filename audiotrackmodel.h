@@ -35,9 +35,9 @@ class AudioTrackModel
 public:
     AudioTrackModel(const QString& path);
     ~AudioTrackModel();
-    AudioTrackModel(AudioTrackModel&& other);
+     AudioTrackModel(AudioTrackModel&& other);
     AudioTrackModel(const AudioTrackModel& other);
-    AudioTrackModel& operator=(AudioTrackModel&& other);
+     AudioTrackModel& operator=(AudioTrackModel&& other);
     AudioTrackModel& operator=(const AudioTrackModel& other);
 
     QString getPath() const;

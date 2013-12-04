@@ -189,6 +189,10 @@ void PlayListManager::startPlayback()
 
 void PlayListManager::playNextTrack()
 {
+    if (mCurrentPlayList != nullptr)
+    {
+        mCurrentPlayList = mActivePlayList;
+    }
     mCurrentPlayList->playNextTrack();
 }
 
@@ -270,7 +274,7 @@ void PlayListManager::restorePlayListFromFiles()
 
 void PlayListManager::removeSelected()
 {
-mActivePlayList->removeSelected();
+    mActivePlayList->removeSelected();
 }
 
- 
+

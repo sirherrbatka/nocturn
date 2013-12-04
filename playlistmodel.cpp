@@ -424,10 +424,13 @@ void PlayListModel::removeSelected()
 
 void PlayListModel::removeTrack(int track) //does not work
 {
+    qDebug()<<track;
     assert(track >= 0);
     if (not mTracks.empty() and static_cast<int>(track) < mTracks.size())
     {
-        mTracks.erase(begin(mTracks) + track);
+	auto iterator = begin(mTracks) + track;
+	qDebug()<<iterator->getName();
+        mTracks.erase(iterator);
         emit NeedRefreshView();
     }
 }
