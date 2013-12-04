@@ -268,3 +268,9 @@ void PlayListManager::restorePlayListFromFiles()
     loader.removePlayListFile();
 }
 
+void PlayListManager::removeSelected()
+{
+mActivePlayList->removeSelected();
+}
+
+ 

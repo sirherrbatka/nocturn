@@ -1,4 +1,5 @@
 #include "./playlistpageviewitem.h"
+#include <QDebug>
 
 PlayListPageViewItem::PlayListPageViewItem(const QString& text, int position) :
     QListWidgetItem(text),
@@ -9,7 +10,7 @@ PlayListPageViewItem::PlayListPageViewItem(const QString& text, int position) :
 
 PlayListPageViewItem::~PlayListPageViewItem()
 {
-
+qDebug()<<"Item destroyed";
 }
 
 int PlayListPageViewItem::getPosition() const

@@ -223,7 +223,7 @@ inline bool PlayListModel::playListChecks()
     return true;
 }
 
-void PlayListModel::playTrack(int track)
+void PlayListModel::playTrack(unsigned int track)
 {
     mCurrentTrack = track;
     startPlayback();
@@ -352,7 +352,7 @@ void PlayListModel::generatePlayListName(bool onlyUpdate)
     if (!mCustomPlayListName)
     {
         bool locGeneratedNewName(true);
-        if(!mTracks.empty() and mTracks.size() != 1)
+        if(mTracks.size() > 1)
         {
             auto prev = begin(mTracks);
             for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
@@ -415,4 +415,19 @@ QStringList PlayListModel::getPaths()
         Paths<<(each.getPath());
     }
     return Paths;
+}
+
+void PlayListModel::removeSelected()
+{
+    emit RemoveSelected();
+}
+
+void PlayListModel::removeTrack(int track) //does not work
+{
+    assert(track >= 0);
+    if (not mTracks.empty() and static_cast<int>(track) < mTracks.size())
+    {
+        mTracks.erase(begin(mTracks) + track);
+        emit NeedRefreshView();
+    }
 }

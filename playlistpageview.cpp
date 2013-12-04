@@ -45,6 +45,7 @@ PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, Mai
 
     //signals from model
     connect(mModel, SIGNAL(PlaySelected()), this, SLOT(playSelected()));
+    connect(mModel, SIGNAL(RemoveSelected()), this, SLOT(removeSelected()));
     connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(needRefreshPlayListName(const QString&))); //ugly! works only for active playlist. At least I don't need to create new class from qtabwidget
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
 
@@ -132,4 +133,9 @@ void PlayListPageView::playSelected()
 QString PlayListPageView::getPlayListName()
 {
     return mModel->getPlayListName();
+}
+
+void PlayListPageView::removeSelected()
+{
+  mModel->removeTrack(currentRow());
 }

@@ -50,10 +50,10 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
 
 AudioTrackModel::~AudioTrackModel()
 {
-    qDebug()<<"AudioTrackModel Destroyed";
+    qDebug()<<"AudioTrackModel Destroyed "<<mName;
 }
 
-AudioTrackModel::AudioTrackModel(const AudioTrackModel&& other) :
+AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
     mName(other.mName),
     mPath(other.mPath),
     mFile(other.mFile),
@@ -80,19 +80,31 @@ AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
 }
 
 
-AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
+AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
 {
-        mPath = other.mPath;
-        mFile = other.mFile;
-        mDuration = other.mDuration;
-        mDiscNumber = other.mDiscNumber;
-        mAlbum = other.mAlbum;
-        mArtist = other.mArtist;
-        mTrackNumber = other.mTrackNumber;
-        mCurrent = other.mCurrent;
-        return *this;
+    mPath =other.mPath;
+    mFile = other.mFile;
+    mDuration = other.mDuration;
+    mDiscNumber = other.mDiscNumber;
+    mAlbum = other.mAlbum;
+    mArtist = other.mArtist;
+    mTrackNumber = other.mTrackNumber;
+    mCurrent = other.mCurrent;
+    return *this;
 }
 
+AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
+{
+    mPath =other.mPath;
+    mFile = other.mFile;
+    mDuration = other.mDuration;
+    mDiscNumber = other.mDiscNumber;
+    mAlbum = other.mAlbum;
+    mArtist = other.mArtist;
+    mTrackNumber = other.mTrackNumber;
+    mCurrent = other.mCurrent;
+    return *this;
+}
 
 inline void AudioTrackModel::storeAlbum(const QString& album)
 {

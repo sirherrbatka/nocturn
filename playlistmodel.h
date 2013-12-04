@@ -65,6 +65,8 @@ public:
     void playSelected();
     void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
     QStringList getPaths();
+    void removeSelected();
+    void removeTrack(int track);
 
 signals:
     void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
@@ -78,6 +80,7 @@ signals:
     void OutOfRange();
     void NeedRefreshPlayListName(const QString&);
     void PlaySelected();
+    void RemoveSelected();
 
 public slots:
     void playNextTrack();
@@ -85,7 +88,7 @@ public slots:
     void replayPlayList();
     void enableRandomMode(bool RandomMode);
     void startPlayback(bool locRequestPlayListCheck);
-    void playTrack(int track);
+    void playTrack(unsigned track);
 
 private:
     bool operator==(const PlayListModel& other); //not implemented

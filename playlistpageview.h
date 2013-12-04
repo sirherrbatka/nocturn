@@ -47,6 +47,7 @@ public slots:
     void needRefreshPlayListName(const QString& locNewName);
     void switchRow(int direction);
     void playSelected();
+    void removeSelected();
 
 signals:
     void PlayListViewDestroyed(unsigned long long int);

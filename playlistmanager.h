@@ -60,6 +60,7 @@ public:
     void playNextTrack();
     void clearActivePlayList();
     void playSelected();
+    void removeSelected();
     unsigned long long int getTotalDurationOfActivePlaylist();
     void setRepeatMode(); //repeat mode is configured globally.
     bool getRepeatMode() const;

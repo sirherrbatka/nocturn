@@ -124,6 +124,12 @@ void MainControler::playSelected()
     mModelManager->getPlayListManager()->playSelected();
 }
 
+void MainControler::removeSelected()
+{
+  mModelManager->getPlayListManager()->removeSelected();
+}
+
+
 void MainControler::setRepeateMode()
 {
     mModelManager->getPlayListManager()->setRepeatMode();

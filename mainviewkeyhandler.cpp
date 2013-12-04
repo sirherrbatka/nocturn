@@ -48,6 +48,9 @@ void MainViewKeyHandler::grabKeyEvent(int key)
     case Qt::Key_S:
         mGlobalKeyHandler->grabGlobalKeyEvent(key);
         break;
+    case Qt::Key_D:
+	MainControler::getMainControler()->removeSelected();
+        break;
     case Qt::Key_W:
         emit CloseTabKey(-1);
         break;
@@ -67,7 +70,6 @@ void MainViewKeyHandler::grabKeyEvent(int key)
         emit SwitchRowKey(-1);
         break;
     case Qt::Key_Return:
-        qDebug()<<"Pressed enter";
         MainControler::getMainControler()->playSelected();
         break;
     }

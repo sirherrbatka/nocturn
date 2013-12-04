@@ -44,6 +44,7 @@ public:
     PlayListModel* generatePlayListModel(); //TODO consider different solution
     void requestTotalDurationLabelUpdate(unsigned long long duration);
     void playSelected();
+    void removeSelected();
     bool getRepeatMode() const;
     KeyHandler* getGlobalKeyHandler();
     void relayPlayListModel(const std::vector<PlayListModel*>& playlists);
