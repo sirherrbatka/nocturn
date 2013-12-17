@@ -71,32 +71,24 @@ PlayListPageView::~PlayListPageView()
     {
         emit PlayListViewDestroyed(mModel->getKey());
     }
-    qDebug()<<"Play List view Is being destroyed";
 }
 
 void PlayListPageView::refreshView()
 {
-    int selected = currentRow();
     clear();
-    int locCurrent = getModel()->getCurrentTrack();
-    int locSize = mModel->getPlayListSize();
-    for (int i = 0; i < locSize; ++i )
+    mModel->resetLooper();
+    unsigned locPosition {0};
+    while(mModel->modelsToAdd())
     {
-        QListWidgetItem* item = new PlayListPageViewItem(mModel->getArtist(i) + " - " + mModel->getTrackName(i), i);
-        if (i == locCurrent and mModel->getCurrent())
-        {
-            QFont font;
-            font.setBold(true);
-            item->setFont(font);
-        }
-        addItem(item);
+        addItem(static_cast<QListWidgetItem*>(new PlayListPageViewItem(mModel->getAudioTrackModel(), locPosition, this)));
+        ++locPosition;
     }
-    setCurrentRow(selected);
+    update();
 }
 
 void PlayListPageView::doubleClicked(QListWidgetItem * item)
 {
-    mModel->playTrack(dynamic_cast<PlayListPageViewItem*>(item)->getPosition());
+    static_cast<PlayListPageViewItem*>(item)->playThisTrack();
 }
 
 void PlayListPageView::needRefreshPlayListName(const QString &locNewName)
@@ -127,7 +119,10 @@ void PlayListPageView::switchRow(int direction)
 
 void PlayListPageView::playSelected()
 {
-    mModel->playTrack(currentRow());
+    if (currentItem())
+    {
+        static_cast<PlayListPageViewItem*>(currentItem())->playThisTrack();
+    }
 }
 
 QString PlayListPageView::getPlayListName()
@@ -137,5 +132,16 @@ QString PlayListPageView::getPlayListName()
 
 void PlayListPageView::removeSelected()
 {
-  mModel->removeTrack(currentRow());
+    if(currentRow() >=0)
+    {
+        mModel->deleteTrackModel(static_cast<PlayListPageViewItem*>(item(currentRow()))->getAudioTrackModel());
+        delete takeItem(currentRow());
+        update();
+    }
+}
+
+void PlayListPageView::updateMe()
+{
+    update();
+    
 }

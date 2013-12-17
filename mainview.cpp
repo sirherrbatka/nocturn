@@ -65,6 +65,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     connect(this, SIGNAL(StartPlaybackOnActivePlaylist()), MainControler::getMainControler(), SLOT(startPlayback()));
     connect(this->repeatButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(setRepeateMode()));
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
+    connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
     connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));
     connect(this, SIGNAL(pathDropped(QList<QUrl>)), MainControler::getMainControler(), SLOT(addPathToPlayList(QList<QUrl>)));
 

@@ -24,18 +24,31 @@
 #define PLAYLISTPAGEVIEWITEM_H
 #include <QListWidgetItem>
 #include <QObject>
+#include "./audiotrackmodel.h"
+#include <map>
 
-class PlayListPageViewItem : public  QListWidgetItem
+class PlayListPageView;
+
+class PlayListPageViewItem : public QObject, public QListWidgetItem
 {
+  Q_OBJECT
 public:
-    PlayListPageViewItem(const QString & text, int position);
+    PlayListPageViewItem(const std::map< unsigned long long, AudioTrackModel >::iterator& Model, int position, PlayListPageView* parent);
     ~PlayListPageViewItem();
 
 public:
     int getPosition() const;
+    void playThisTrack();
+    void storeAudioTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator& Model);
+    std::map<unsigned long long, AudioTrackModel>::iterator getAudioTrackModel();
+    
+private slots:
+    void setLabel(bool bold = false);
 
 private:
     int mPosition;
+    std::map<unsigned long long, AudioTrackModel>::iterator mAudioTrackModel;
+    bool mPlaying{false};
+    PlayListPageView* mParent;
 };
-
 #endif // PLAYLISTPAGEVIEWITEM_H

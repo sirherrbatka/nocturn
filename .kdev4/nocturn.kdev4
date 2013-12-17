@@ -9,7 +9,7 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/herr/Archiwum/Program%C3%B3w/projekty%20kdevelop/nocturn/build
-Build Type=
+Build Type=Release
 CMake Binary=file:///usr/bin/cmake
 Environment Profile=
 Extra Arguments=

@@ -29,17 +29,27 @@
 #include <QFileInfo>
 #include <memory>
 #include "./taghandler.h"
+#include "./playlistmodel.h"
 
-class AudioTrackModel
+class PlayListPageViewItem;
+class PlayListModel;
+
+class AudioTrackModel : public QObject
 {
+  Q_OBJECT
 public:
-    AudioTrackModel(const QString& path);
+    AudioTrackModel(const QString& path, PlayListModel* playlist);
     ~AudioTrackModel();
-     AudioTrackModel(AudioTrackModel&& other);
+    AudioTrackModel(AudioTrackModel&& other);
     AudioTrackModel(const AudioTrackModel& other);
-     AudioTrackModel& operator=(AudioTrackModel&& other);
+    AudioTrackModel& operator=(AudioTrackModel&& other);
     AudioTrackModel& operator=(const AudioTrackModel& other);
+    bool operator>(const AudioTrackModel& other) const;
+    bool operator<(const AudioTrackModel& other) const;
+    bool operator<(const std::unique_ptr<AudioTrackModel>& other);
 
+    void setAsPlayed(bool played);
+    bool isPlayed() const;
     QString getPath() const;
     QString getName() const;
     long long unsigned int getDuration() const;
@@ -48,9 +58,16 @@ public:
     QString getAlbum() const;
     int getDiscNumber() const;
     QString getArtist() const;
-
-    void markAsCurrent(bool active); //for sorting purpose
-    bool isCurrent(); //for sorting
+    void playThisTrack();
+    void storeNext(const std::map<unsigned long long, AudioTrackModel>::iterator& next);
+    void storePrev(const std::map<unsigned long long, AudioTrackModel>::iterator& prev);
+    void storeThis(const std::map<unsigned long long, AudioTrackModel>::iterator& thistrack);
+    std::map<unsigned long long, AudioTrackModel>::iterator getNextTrack() const;
+    std::map<unsigned long long, AudioTrackModel>::iterator getPrevTrack() const;
+    
+signals:
+  void NeedRefreshLabel();
+    
 private:
 
     inline void storeName(const QString& name);
@@ -60,14 +77,20 @@ private:
     //variables
     QString mPath;
     QFileInfo mFile;
-
+    PlayListModel* mModel;
     QString mName;
     QString mAlbum;
     QString mArtist;
+    bool mLinked{false};
+    bool mPlayed{false};
     long long mDuration {0};
     int mTrackNumber {0};
     int mDiscNumber {-1}; //-1 = disc number not present.
     bool mCurrent {false}; //for sorting
+    std::map<unsigned long long, AudioTrackModel>::iterator mThis;
+    std::map<unsigned long long, AudioTrackModel>::iterator mNext;
+    std::map<unsigned long long, AudioTrackModel>::iterator mPrev;
+    PlayListPageViewItem* mView{nullptr};
 };
 
 #endif // AUDIOTRACKMODEL_H

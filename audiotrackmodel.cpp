@@ -25,11 +25,15 @@
 #include <QFile>
 #include <QDebug>
 #include <memory>
+#include <QString>
+#include "./maincontroler.h"
+#include "playlistpageviewitem.h"
 
-
-AudioTrackModel::AudioTrackModel(const QString& path) :
+class AudioTracksHolder;
+AudioTrackModel::AudioTrackModel(const QString& path, PlayListModel* playlist) :
     mPath(path),
-    mFile(path)
+    mFile(path),
+    mModel(playlist)
 {
     qDebug()<<"loaded file"<<" "<<path;
     TagHandler TagHandler(path);
@@ -50,46 +54,47 @@ AudioTrackModel::AudioTrackModel(const QString& path) :
 
 AudioTrackModel::~AudioTrackModel()
 {
-    qDebug()<<"AudioTrackModel Destroyed "<<mName;
 }
 
 AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
-    mName(other.mName),
-    mPath(other.mPath),
-    mFile(other.mFile),
+    mName(std::move(other.mName)),
+    mPath(std::move(other.mPath)),
+    mFile(std::move(other.mFile)),
     mDuration(other.mDuration),
     mDiscNumber(other.mDiscNumber),
-    mAlbum(other.mAlbum),
-    mArtist(other.mArtist),
+    mAlbum(std::move(other.mAlbum)),
+    mArtist(std::move(other.mArtist)),
     mTrackNumber(other.mTrackNumber),
-    mCurrent(other.mCurrent)
+    mCurrent(other.mCurrent),
+    mModel(other.mModel)
 {
 }
 
 AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
-    mName(other.mName),
-    mPath(other.mPath),
-    mFile(other.mFile),
+    mName(std::move(other.mName)),
+    mPath(std::move(other.mPath)),
+    mFile(std::move(other.mFile)),
     mDuration(other.mDuration),
     mDiscNumber(other.mDiscNumber),
-    mAlbum(other.mAlbum),
-    mArtist(other.mArtist),
+    mAlbum(std::move(other.mAlbum)),
+    mArtist(std::move(other.mArtist)),
     mTrackNumber(other.mTrackNumber),
-    mCurrent(other.mCurrent)
+    mCurrent(other.mCurrent),
+    mModel(other.mModel)
 {
 }
 
-
 AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
 {
-    mPath =other.mPath;
-    mFile = other.mFile;
-    mDuration = other.mDuration;
-    mDiscNumber = other.mDiscNumber;
-    mAlbum = other.mAlbum;
-    mArtist = other.mArtist;
-    mTrackNumber = other.mTrackNumber;
-    mCurrent = other.mCurrent;
+    mPath = std::move(other.mPath);
+    mFile = std::move(other.mFile);
+    mDuration = std::move(other.mDuration);
+    mDiscNumber = std::move(other.mDiscNumber);
+    mAlbum = std::move(other.mAlbum);
+    mArtist = std::move(other.mArtist);
+    mTrackNumber = std::move(other.mTrackNumber);
+    mCurrent = std::move(other.mCurrent);
+    mModel = std::move(other.mModel);
     return *this;
 }
 
@@ -103,6 +108,7 @@ AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
     mArtist = other.mArtist;
     mTrackNumber = other.mTrackNumber;
     mCurrent = other.mCurrent;
+    mModel = other.mModel;
     return *this;
 }
 
@@ -167,13 +173,158 @@ void AudioTrackModel::storeArtist(const QString& artist)
     mArtist = artist;
 }
 
-bool AudioTrackModel::isCurrent()
+bool AudioTrackModel::operator>(const AudioTrackModel& other) const
 {
-    return mCurrent;
-    mCurrent = false;
+    if(mAlbum != other.mAlbum)
+    {
+        if(0<(mAlbum.compare(other.mAlbum), Qt::CaseSensitive))
+        {
+            return true;
+        }
+
+        if(0>(mAlbum.compare(other.mAlbum), Qt::CaseSensitive))
+        {
+            return false;
+        }
+        return true;
+    }
+    if(mDiscNumber>other.mDiscNumber and mDiscNumber != -1 and other.mDiscNumber != -1 )
+    {
+        return false;
+    }
+
+    if(mDiscNumber<other.mDiscNumber and other.mDiscNumber != -1 and other.mDiscNumber != -1 )
+    {
+        return true;
+    }
+
+    if(mTrackNumber<other.mTrackNumber )
+    {
+        return true;
+    }
+
+    if(mTrackNumber>other.mTrackNumber )
+    {
+        return false;
+    }
+    return false; //silencing warning
 }
 
-void AudioTrackModel::markAsCurrent(bool active)
+bool AudioTrackModel::operator<(const std::unique_ptr< AudioTrackModel >& other)
 {
-    mCurrent = active;
+    if(0<(mAlbum.compare(other->mAlbum), Qt::CaseSensitive))
+    {
+        return true;
+    }
+
+    if(0>(mAlbum.compare(other->mAlbum), Qt::CaseSensitive))
+    {
+        return false;
+    }
+
+    if(mDiscNumber>other->mDiscNumber and mDiscNumber != -1 and other->mDiscNumber != -1 )
+    {
+        return false;
+    }
+
+    if(mDiscNumber<other->mDiscNumber and other->mDiscNumber != -1 and other->mDiscNumber != -1 )
+    {
+        return true;
+    }
+
+    if(mTrackNumber<other->mTrackNumber )
+    {
+        return true;
+    }
+
+    if(mTrackNumber>other->mTrackNumber )
+    {
+        return false;
+    }
+    return false; //silencing warning
+}
+
+bool AudioTrackModel::operator<(const AudioTrackModel& other) const
+{
+    if (mAlbum != other.mAlbum)
+    {
+        if(0<(mAlbum.localeAwareCompare(other.mAlbum), Qt::CaseSensitive))
+        {
+            return true;
+        }
+
+        if(0>(mAlbum.localeAwareCompare(other.mAlbum), Qt::CaseSensitive))
+        {
+            return false;
+        }
+    }
+
+    if(getDiscNumber() < other.getDiscNumber() and getDiscNumber() != -1 and other.getDiscNumber() != -1 )
+    {
+        return true;
+    }
+
+    if(getDiscNumber() > other.getDiscNumber() and other.getDiscNumber() != -1 and other.getDiscNumber() != -1 )
+    {
+        return false;
+    }
+
+    if (mTrackNumber == other.mTrackNumber)
+    {
+        return true;
+    } else {
+        if(getTrackNumber() < other.getTrackNumber() )
+        {
+            return true;
+        }
+
+        if(getTrackNumber() > other.getTrackNumber() )
+        {
+            return false;
+        }
+    }
+    return false; //silencing warning
+}
+
+void AudioTrackModel::playThisTrack()
+{
+    mModel->changeCurrentAudioTrackModel(mThis);
+    MainControler::getMainControler()->playFile(mPath);
+    mModel->updateCurrentPlayListModel();
+}
+
+std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getNextTrack() const
+{
+    return mNext;
+}
+
+std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getPrevTrack() const
+{
+    return mPrev;
+}
+
+void AudioTrackModel::storeNext(const std::map< unsigned long long, AudioTrackModel >::iterator& next)
+{
+    mNext = next;
+}
+
+void AudioTrackModel::storePrev(const std::map< unsigned long long, AudioTrackModel >::iterator& prev)
+{
+    mPrev = prev;
+}
+
+void AudioTrackModel::storeThis(const std::map< unsigned long long, AudioTrackModel >::iterator& thistrack)
+{
+    mThis = thistrack;
+}
+
+bool AudioTrackModel::isPlayed() const
+{
+    return mPlayed;
+}
+
+void AudioTrackModel::setAsPlayed(bool played)
+{
+    mPlayed = played;
+    emit NeedRefreshLabel();
 }

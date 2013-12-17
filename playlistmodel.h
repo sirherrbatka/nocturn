@@ -25,13 +25,13 @@
 
 #include <vector>
 #include <memory>
+#include <map>
 #include <qlist.h>
 #include <qstringlist.h>
 #include <QString>
 #include <qobject.h>
 
 class AudioTrackModel;
-class TagHandler;
 
 class PlayListModel : public QObject
 {
@@ -41,38 +41,43 @@ class PlayListModel : public QObject
 public:
     PlayListModel(unsigned long long int key);
     ~PlayListModel();
-    PlayListModel& operator=(const PlayListModel&& other);
-    PlayListModel(const PlayListModel&& other); 
-    
+    PlayListModel& operator=(PlayListModel&& other);
+    PlayListModel(PlayListModel&& other);
+
     unsigned long long int getKey() const;
     void addTracks(const QStringList & paths);
     const PlayListModel* getPlayListModel();
-    QString getTrackPath(int tracknumber) const;
-    QString getCurrentTrackPath() const;
+    
+    std::map<unsigned long long, AudioTrackModel>::iterator getAudioTrackModel();
     QString getPlayListName() const;
     void changePlayListName(const QString& name);
     unsigned int getPlayListSize() const;
-    QString getTrackName(int tracknumber) const;
-    int getCurrentTrack();
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
-    int getTrackNumber(int locTrack) const;
-    void setTrackNumber(int locTrack);
-    QString getArtist(int locTrack) const;
+    void changeCurrentAudioTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator& newcurrent);
     void clearMe();
     unsigned long long int getTotalDuration();
     void playSelected();
-    void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
     QStringList getPaths();
     void removeSelected();
-    void removeTrack(int track);
+    void deleteTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator);
+    bool modelsToAdd();
+    bool iteratorCurrent(std::map<unsigned long long, AudioTrackModel>::iterator& iterator) const;
+
+    std::map<unsigned long long, AudioTrackModel>::iterator getFirstAudioTrackModel() const;
+    std::map<unsigned long long, AudioTrackModel>::iterator getLastAudioTrackModel() const;
+
+    void playCurrentTrack();
+    void playFirstTrack();
+    bool iteratorExists(std::map< unsigned long long, AudioTrackModel >::iterator& iterator);
+    void clearCurrentTrack();
+    void resetLooper();
+    void updateCurrentPlayListModel();
 
 signals:
     void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
     void CurrentModelChanged(PlayListModel*); //transmits the playlist model to the playlistmanager. Emited after track changed.
-    void NoNextTrack();
-    void NoPrevTrack();
     void FileDoesNotExists();
     void PlayListNameChanged();
     void NeedRefreshView();
@@ -85,27 +90,37 @@ signals:
 public slots:
     void playNextTrack();
     void playPrevTrack();
-    void replayPlayList();
+    void replayPlayList(bool skipModeCheck);
     void enableRandomMode(bool RandomMode);
     void startPlayback(bool locRequestPlayListCheck);
-    void playTrack(unsigned track);
+    void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
 
 private:
     bool operator==(const PlayListModel& other); //not implemented
     inline void goToFirstTrack();
     inline bool playListChecks();
-    void sortPlayList(); //sorts playlist according to the: album name, disc nr., track nr.
     void calculateTotalDuration();
+    void deleteCurrentTrackModel();
+    void sortPlayList();
+    void delinkModel(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator);
+    void linkTwo(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator1, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator2);
+    void linkThree(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator1, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator2, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator3);
 
     //variables
     unsigned long long int mKey;
-    std::vector<AudioTrackModel>  mTracks;
-    int mCurrentTrack {-1};
     bool mRandomMode {false};
     QString mPlayListName {"Playlist"};
-    bool mCustomPlayListName{false};
+    bool mCustomPlayListName {false};
     bool mCurrent {false};
-    unsigned long long int mTotalDuration{0};
+    unsigned long long int mTotalDuration {0};
+    std::map<unsigned long long, AudioTrackModel> mTracks;
+    unsigned long long mTrackKey{0};
+    
+    std::map<unsigned long long, AudioTrackModel>::iterator mCurrentTrack;
+    std::map<unsigned long long, AudioTrackModel>::iterator mFirstTrack;
+    std::map<unsigned long long, AudioTrackModel>::iterator mLastTrack;
+    std::map<unsigned long long, AudioTrackModel>::iterator mAddingIterator;
+    
 };
 
 #endif // PLAYLISTMODEL_H

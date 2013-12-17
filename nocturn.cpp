@@ -53,7 +53,7 @@ int nocturn::runNoctrun(int argc, char** argv)
     Manager.getPlayListManager()->restorePlayListFromFiles();
     if (filename)
     {
-        Manager.getPlayListManager()->autoLoadPath(filename);
+//         Manager.getPlayListManager()->autoLoadPath(filename);
     }
     View.setFirstTab();
     return app->exec();

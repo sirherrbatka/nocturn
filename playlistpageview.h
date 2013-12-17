@@ -48,6 +48,7 @@ public slots:
     void switchRow(int direction);
     void playSelected();
     void removeSelected();
+    void updateMe();
 
 signals:
     void PlayListViewDestroyed(unsigned long long int);

@@ -31,7 +31,6 @@
 #include <QString>
 #include <vector>
 #include <qt4/QtCore/qnamespace.h>
-#include "./taghandler.h"
 #include <Qt>
 #include <algorithm>
 
@@ -39,63 +38,53 @@
 PlayListModel::PlayListModel(unsigned long long int key) :
     mKey(key)
 {
-    qDebug()<<"Playlist Model created";
-
+    mCurrentTrack = mTracks.end();
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
     connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
-    connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
-    connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
-
 }
 
 PlayListModel::~PlayListModel()
 {
-    qDebug()<<"Play List model Is being destroyed";
 }
 
-PlayListModel& PlayListModel::operator=(const PlayListModel&& other)
+PlayListModel& PlayListModel::operator=(PlayListModel&& other)
 {
     mKey = other.mKey;
-    mTracks = other.mTracks;
-    mCurrentTrack = other.mCurrentTrack;
     mRandomMode = other.mRandomMode;
-    mPlayListName = other.mPlayListName;
+    mPlayListName = std::move(other.mPlayListName);
     mCustomPlayListName = other.mCustomPlayListName;
     mCurrent = other.mCurrent;
     mTotalDuration = other.mTotalDuration;
+    mTracks = std::move(other.mTracks);
+    mCurrentTrack = std::move(other.mCurrentTrack);
+    mFirstTrack = std::move(other.mFirstTrack);
+    mLastTrack = std::move(other.mLastTrack);
 
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
     connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
-    connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
-    connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
+    return *this;
 }
 
-PlayListModel::PlayListModel(const PlayListModel&& other) :
+PlayListModel::PlayListModel(PlayListModel&& other) :
     mKey(other.mKey),
-    mTracks(other.mTracks),
-    mCurrentTrack(other.mCurrentTrack),
     mRandomMode(other.mRandomMode),
-    mPlayListName(other.mPlayListName),
+    mPlayListName(std::move(other.mPlayListName)),
     mCustomPlayListName(other.mCustomPlayListName),
     mCurrent(other.mCurrent),
-    mTotalDuration(other.mTotalDuration)
+    mTotalDuration(other.mTotalDuration),
+    mTracks(std::move(other.mTracks)),
+    mCurrentTrack(std::move(other.mCurrentTrack)),
+    mFirstTrack(std::move(other.mFirstTrack)),
+    mLastTrack(std::move(other.mLastTrack))
 {
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
     connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
-    connect(this, SIGNAL(NoNextTrack()), this, SLOT(replayPlayList()));
-    connect(this, SIGNAL(NoPrevTrack()), this, SLOT(replayPlayList()));
 }
 
 
 long long unsigned int PlayListModel::getKey() const
 {
     return mKey;
-}
-
-QString PlayListModel::getTrackPath(int tracknumber) const
-{
-    assert(tracknumber < static_cast<int>(mTracks.size()) and tracknumber != 0);
-    return (mTracks[tracknumber-1]).getPath();
 }
 
 const PlayListModel* PlayListModel::getPlayListModel()
@@ -118,52 +107,57 @@ void PlayListModel::enableRandomMode(bool RandomMode)
     mRandomMode = RandomMode;
 }
 
-inline void PlayListModel::goToFirstTrack()
-{
-    mCurrentTrack = 0;
-}
-
 void PlayListModel::addTracks(const QStringList& paths)
 {
     assert (!paths.empty()); //yes, assert. Make sure that you are actually passing any paths.
 
-    for(const auto &path : paths)
+    for (auto &each : paths)
     {
-        mTracks.emplace_back(path);
-        mTotalDuration += (mTracks.rbegin())->getDuration();
+        mTracks.emplace(mTrackKey, AudioTrackModel(each, this));
+        ++mTrackKey;
+        mTotalDuration += mTracks.rbegin()->second.getDuration();
     }
-    generatePlayListName();
     sortPlayList();
+//     debugOrder();
+    generatePlayListName();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
 
-void PlayListModel::playNextTrack()
+void PlayListModel::playNextTrack() //TODO
 {
-    if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() ) //silencing the warning.
+    if (mCurrentTrack != mTracks.end())
     {
-        emit NoNextTrack();
-        return;
+        auto iterator = mCurrentTrack->second.getNextTrack();
+        if (iterator != mTracks.end())
+        {
+            if(mCurrentTrack == mLastTrack)
+            {
+                replayPlayList(false);
+                return;
+            } else {
+                iterator->second.playThisTrack();
+            }
+        } else {
+            replayPlayList(false);
+        }
     }
-    ++mCurrentTrack;
-    qDebug()<<"Playing Next track";
-    startPlayback(true);
+    return;
 }
 
-void PlayListModel::playPrevTrack()
+void PlayListModel::playPrevTrack() //TODO
 {
-    if (!playListChecks())
+    if (mCurrentTrack != mTracks.end())
     {
-        return;
+        auto iterator = mCurrentTrack->second.getPrevTrack();
+        if (iterator != mTracks.end())
+        {
+            iterator->second.playThisTrack();
+        } else {
+            replayPlayList(false);
+        }
     }
-    if (mCurrentTrack <= 0 ) //initial value for mCurrentTrack = -1. This way playlist initially does not display active track.
-    {
-        emit NoPrevTrack();
-        return;
-    }
-    --mCurrentTrack;
-    qDebug()<<"Playing Prev track";
-    startPlayback(false); //Playlist checks already done
+    return;
 }
 
 void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
@@ -172,38 +166,57 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
     {
         if (playListChecks() == false)
         {
-            qDebug()<<"Playlist not usable";
             return;
         }
     }
-    if (mCurrentTrack == -1) //true for newly created playlist, without active track. If we reached the point when we start playback on such playlist, we should start from the begining (0);
+
+    if (mCurrentTrack == mTracks.end() )
     {
-        mCurrentTrack = 0; //Sets to the begining.
+        replayPlayList(false);
+        return;
     }
-    if (mTracks[mCurrentTrack].fileExists() == false)
+
+
+    if (mCurrentTrack->second.fileExists() == false)
     {
-        qDebug()<<"File does not exists!";
         emit FileDoesNotExists();
-        mTracks.erase(mTracks.begin()+mCurrentTrack);
-        emit NeedRefreshView();
+        deleteCurrentTrackModel();
         startPlayback();
         return;
     } else {
-        emit CurrentTrackChanged(mTracks[mCurrentTrack].getPath());
+        mCurrentTrack->second.playThisTrack();
         emit CurrentModelChanged(this);
-        emit NeedRefreshView();
         return;
     }
+}
+
+void PlayListModel::deleteCurrentTrackModel() //TODO
+{
+    if (mCurrentTrack != mTracks.end())
+    {
+
+        if (mCurrentTrack == mFirstTrack)
+        {
+            mFirstTrack = mCurrentTrack->second.getNextTrack();
+        }
+
+        if (mCurrentTrack == mLastTrack)
+        {
+            mLastTrack = mCurrentTrack->second.getPrevTrack();
+        }
+
+        auto tmpnewcurrent = mCurrentTrack;
+        mCurrentTrack = tmpnewcurrent->second.getNextTrack();
+        deleteTrackModel(tmpnewcurrent);
+        mCurrentTrack->second.playThisTrack();
+    }
+
+    mAddingIterator = mTracks.end();
 }
 
 unsigned int PlayListModel::getPlayListSize() const
 {
     return mTracks.size();
-}
-
-QString PlayListModel::getTrackName(int tracknumber) const
-{
-    return (mTracks[tracknumber]).getName();
 }
 
 inline bool PlayListModel::playListChecks()
@@ -214,42 +227,23 @@ inline bool PlayListModel::playListChecks()
         return false;
     }
 
-    if (static_cast<unsigned>(mCurrentTrack) >= mTracks.size() ) //static_cast silences the warning.
-    {
-        emit NoNextTrack();
-        return false;
-    }
-
     return true;
 }
 
-void PlayListModel::playTrack(unsigned int track)
+void PlayListModel::replayPlayList(bool skipModeCheck = false)
 {
-    mCurrentTrack = track;
-    startPlayback();
-}
-
-QString PlayListModel::getCurrentTrackPath() const
-{
-    return (mTracks[mCurrentTrack]).getPath();
-}
-
-void PlayListModel::replayPlayList()
-{
-    if (MainControler::getMainControler()->getRepeatMode())
+    clearCurrentTrack();
+    if (MainControler::getMainControler()->getRepeatMode() or skipModeCheck)
     {
-        mCurrentTrack = 0;
-        startPlayback();
+        mCurrentTrack = mFirstTrack;
+        if (mCurrentTrack != mTracks.end() and playListChecks())
+        {
+            mCurrentTrack->second.playThisTrack();
+        }
         return;
     } else {
-        mCurrentTrack = -1;
-        emit NeedRefreshView();
+        MainControler::getMainControler()->stopPlayback();
     }
-}
-
-int PlayListModel::getCurrentTrack()
-{
-    return mCurrentTrack;
 }
 
 bool PlayListModel::getCurrent() const
@@ -269,72 +263,119 @@ void PlayListModel::requestRefresh()
 
 void PlayListModel::sortPlayList()
 {
-    if(mCurrentTrack >= 0)
+    mFirstTrack = mTracks.begin();
+    mLastTrack = mTracks.begin();
+
+    for (auto each = mTracks.begin(); each != mTracks.end(); ++each)
     {
-        mTracks[mCurrentTrack].markAsCurrent(true);
+        delinkModel(each);
     }
 
-    std::sort(begin(mTracks), begin(mTracks), [](const AudioTrackModel& prev, const AudioTrackModel& next)->bool
+    for (auto each = mTracks.begin(); each != mTracks.end(); ++each)
     {
-        if(0<(prev.getAlbum().compare(next.getAlbum()), Qt::CaseSensitive))
+        auto current = mFirstTrack;
+        auto next = current->second.getNextTrack();
+        auto prev = current->second.getPrevTrack();
+        if (each != current)
         {
-            return true;
-        }
-
-        if(0>(prev.getAlbum().compare(next.getAlbum()), Qt::CaseSensitive))
-        {
-            return false;
-        }
-
-        if(prev.getDiscNumber()>next.getDiscNumber() and prev.getDiscNumber() != -1 and next.getDiscNumber() != -1 )
-        {
-            return false;
-        }
-
-        if(prev.getDiscNumber()<next.getDiscNumber() and prev.getDiscNumber() != -1 and next.getDiscNumber() != -1 )
-        {
-            return true;
-        }
-
-        if(prev.getTrackNumber()<next.getTrackNumber() )
-        {
-            return true;
-        }
-
-        if(prev.getTrackNumber()>next.getTrackNumber() )
-        {
-            return false;
-        }
-        return false; //silencing warning
-    }); //lambda expression
-
-    if (mCurrentTrack >= 0)
-    {
-        for(unsigned i = 0; i<mTracks.size(); ++i)
-        {
-            if (mTracks[i].isCurrent())
+            if (next == mTracks.end() and prev == mTracks.end()) //first iteration
             {
-                mCurrentTrack = i;
+//                 qDebug()<<"First iteration!";
+                if(current->second < each->second)
+                {
+//                     qDebug()<<"First iteration! Linking after current!";
+                    linkTwo(current, each);
+                    mFirstTrack = current;
+                    mLastTrack = each;
+                    continue;
+                }
+                if(each->second < current->second)
+                {
+//                     qDebug()<<"First iteration! Linking before current!";
+                    linkTwo(each, current);
+                    mFirstTrack = each;
+                    mLastTrack = current;
+                    continue;
+                }
+            }
+        }
+
+        while (true)
+        {
+            if(each != current and each != next and each != prev)
+            {
+                if (next != mTracks.end() and prev == mTracks.end())
+                {
+//                     qDebug()<<"next non-empty!";
+                    if (each->second < current->second)
+                    {
+//                         qDebug()<<"While loop link before current. 1";
+                        linkTwo(each, current);
+                        mFirstTrack = each;
+                        break;
+                    }
+                    if ((current->second < each->second) and (each->second < next->second))
+                    {
+//                         qDebug()<<"While loop link after current. 2";
+                        linkThree(current, each, next);
+                        mFirstTrack = current;
+                        break;
+                    }
+                }
+                if (next == mTracks.end() and prev != mTracks.end())
+                {
+//                     qDebug()<<"Prev non-empty!";
+                    if (each->second < current->second and prev->second < each->second)
+                    {
+//                         qDebug()<<"While loop link before current. 2";
+                        linkThree(prev, each, current);
+                        mLastTrack = current;
+                        break;
+                    }
+                    if (current->second < each->second)
+                    {
+//                         qDebug()<<"While loop link after current. 2";
+                        linkTwo(current, each);
+                        mLastTrack = each;
+                        break;
+                    }
+                }
+                if (next != mTracks.end() and prev != mTracks.end())
+                {
+//                     qDebug()<<"Both non empty";
+                    if (each->second < current->second and prev->second < each->second)
+                    {
+//                         qDebug()<<"While dual loop.";
+                        linkThree(prev, each, current);
+                        break;
+                    }
+                    if (current->second < each->second and each->second < next->second)
+                    {
+//                         qDebug()<<"While dual loop 2.";
+                        linkThree(current, each, next);
+                        break;
+                    }
+                }
+            }
+            if(next == mTracks.end())
+            {
                 break;
+            } else {
+//                 qDebug()<<"Moving current.";
+                current = next;
+                prev = current->second.getPrevTrack();
+                next = current->second.getNextTrack();
             }
         }
     }
-}
-
-int PlayListModel::getTrackNumber(int locTrack) const
-{
-    return mTracks[locTrack].getTrackNumber();
-}
-
-QString PlayListModel::getArtist(int locTrack) const
-{
-    return mTracks[locTrack].getArtist();
+    mAddingIterator = mFirstTrack;
 }
 
 void PlayListModel::clearMe()
 {
     mTracks.erase(mTracks.begin(), mTracks.end());
-    mCurrentTrack = -1;
+    mCurrentTrack = mTracks.end();
+    mAddingIterator = mTracks.end();
     generatePlayListName();
     mTotalDuration = 0;
     emit NeedRefreshView();
@@ -354,18 +395,21 @@ void PlayListModel::generatePlayListName(bool onlyUpdate)
         bool locGeneratedNewName(true);
         if(mTracks.size() > 1)
         {
-            auto prev = begin(mTracks);
-            for(auto next = begin(mTracks) + 1; next != end(mTracks); ++next)
+            auto prev = mTracks.begin();
+            auto next = mTracks.begin();
+            ++next;
+            while(next != mTracks.end())
             {
-                if ( (next->getAlbum() != prev->getAlbum()) or prev->getAlbum().isEmpty())
+                if(next->second.getAlbum() != prev->second.getAlbum() or prev->second.getAlbum().isEmpty())
                 {
-                    locGeneratedNewName = false;
+                    locGeneratedNewName  = false;
                     break;
                 } else {
                     ++prev;
+                    ++next;
                 }
             }
-        } else if(mTracks.size() == 1 and begin(mTracks)->getAlbum().isEmpty())
+        } else if(mTracks.size() == 1 and mTracks.begin()->second.getAlbum().isEmpty())
         {
             locGeneratedNewName = false;
         } else if(mTracks.empty())
@@ -375,7 +419,7 @@ void PlayListModel::generatePlayListName(bool onlyUpdate)
 
         if (locGeneratedNewName)
         {
-            locPlayListName = begin(mTracks)->getAlbum();
+            locPlayListName = mTracks.begin()->second.getAlbum();
         }
     }
     mPlayListName = locPlayListName;
@@ -385,21 +429,15 @@ void PlayListModel::generatePlayListName(bool onlyUpdate)
 void PlayListModel::calculateTotalDuration()
 {
     mTotalDuration = 0;
-    for(auto& each : mTracks)
+    for (auto &each : mTracks)
     {
-        mTotalDuration += each.getDuration();
+        mTotalDuration += each.second.getDuration();
     }
 }
 
 long long unsigned int PlayListModel::getTotalDuration()
 {
     return mTotalDuration;
-}
-
-void PlayListModel::setTrackNumber(int locTrack)
-{
-    mCurrentTrack = locTrack;
-    emit requestRefresh();
 }
 
 void PlayListModel::playSelected()
@@ -412,7 +450,7 @@ QStringList PlayListModel::getPaths()
     QStringList Paths;
     for (auto &each : mTracks)
     {
-        Paths<<(each.getPath());
+        Paths<<each.second.getPath();
     }
     return Paths;
 }
@@ -422,15 +460,105 @@ void PlayListModel::removeSelected()
     emit RemoveSelected();
 }
 
-void PlayListModel::removeTrack(int track) //does not work
+void PlayListModel::deleteTrackModel(const std::map< unsigned long long, AudioTrackModel >::iterator& track) //does not work
 {
-    qDebug()<<track;
-    assert(track >= 0);
-    if (not mTracks.empty() and static_cast<int>(track) < mTracks.size())
+    if (mCurrentTrack == track)
     {
-	auto iterator = begin(mTracks) + track;
-	qDebug()<<iterator->getName();
-        mTracks.erase(iterator);
-        emit NeedRefreshView();
+        deleteCurrentTrackModel();
+        return;
     }
+    assert(!mAudioTrackModels.empty());
+    linkTwo( track->second.getPrevTrack(), track->second.getNextTrack() );
+    mTracks.erase(track);
+    mAddingIterator = mTracks.end();
+}
+
+void PlayListModel::playCurrentTrack()
+{
+    if (mCurrentTrack != mTracks.end())
+    {
+        mCurrentTrack->second.playThisTrack();
+    }
+}
+
+std::map< unsigned long long, AudioTrackModel >::iterator PlayListModel::getFirstAudioTrackModel() const
+{
+    return mFirstTrack;
+}
+
+std::map< unsigned long long, AudioTrackModel >::iterator PlayListModel::getLastAudioTrackModel() const
+{
+    return mLastTrack;
+}
+
+bool PlayListModel::modelsToAdd()
+{
+    if (mAddingIterator == mTracks.end() or mTracks.empty())
+    {
+        return false;
+    }
+
+    return true;
+}
+
+std::map< unsigned long long, AudioTrackModel >::iterator PlayListModel::getAudioTrackModel()
+{
+    assert(mAddingIterator != mAudioTrackModels.end());
+    auto resoult = mAddingIterator;
+    mAddingIterator = mAddingIterator->second.getNextTrack();
+    return resoult;
+}
+
+void PlayListModel::changeCurrentAudioTrackModel(const std::map< unsigned long long, AudioTrackModel >::iterator& newcurrent)
+{
+    if (mCurrentTrack != mTracks.end())
+    {
+        mCurrentTrack->second.setAsPlayed(false);
+    }
+    mCurrentTrack = newcurrent;
+    if (mCurrentTrack != mTracks.end())
+    {
+        mCurrentTrack->second.setAsPlayed(true);
+    }
+}
+
+void PlayListModel::resetLooper()
+{
+    mAddingIterator = mTracks.begin();
+}
+
+void PlayListModel::clearCurrentTrack()
+{
+    if (mCurrentTrack!= mTracks.end() and not mTracks.empty())
+    {
+        mCurrentTrack->second.setAsPlayed(false);
+    }
+    mCurrentTrack = mTracks.end();
+    mAddingIterator = mTracks.end();
+}
+
+
+void PlayListModel::delinkModel(const std::map< unsigned long long, AudioTrackModel >::iterator& iterator)
+{
+    iterator->second.storeNext(mTracks.end());
+    iterator->second.storePrev(mTracks.end());
+}
+
+void PlayListModel::linkTwo(const std::map< unsigned long long, AudioTrackModel >::iterator& iterator1, const std::map< unsigned long long, AudioTrackModel >::iterator& iterator2)
+{
+    iterator1->second.storeNext(iterator2);
+    iterator2->second.storePrev(iterator1);
+}
+
+void PlayListModel::linkThree(const std::map< unsigned long long, AudioTrackModel >::iterator& iterator1, const std::map< unsigned long long, AudioTrackModel >::iterator& iterator2, const std::map< unsigned long long, AudioTrackModel >::iterator& iterator3)
+{
+    iterator1->second.storeNext(iterator2);
+    iterator2->second.storePrev(iterator1);
+    iterator2->second.storeNext(iterator3);
+    iterator3->second.storePrev(iterator2);
+}
+
+void PlayListModel::updateCurrentPlayListModel()
+{
+    emit CurrentModelChanged(this);
 }

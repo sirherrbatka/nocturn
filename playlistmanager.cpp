@@ -157,19 +157,17 @@ inline bool PlayListManager::isAudioFile(const QString& path)
 
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
 {
-    qDebug()<<"Changing current model";
-    if (mCurrentPlayList)
+    if(mCurrentPlayList != locPlayList)
     {
-        mCurrentPlayList->setCurrent(false);
-        mCurrentPlayList->requestRefresh();
+//     qDebug()<<"Changing current model";
+        if (mCurrentPlayList)
+        {
+            mCurrentPlayList->clearCurrentTrack();
+            mCurrentPlayList->setCurrent(false);
+        }
+        locPlayList->setCurrent(true);
+        mCurrentPlayList = locPlayList;
     }
-    locPlayList->setCurrent(true);
-    mCurrentPlayList = locPlayList;
-}
-
-QString PlayListManager::getCurrentTrackPath() const
-{
-    return mCurrentPlayList->getCurrentTrackPath();
 }
 
 void PlayListManager::fileEnded()
@@ -184,7 +182,7 @@ void PlayListManager::fileEnded()
 void PlayListManager::startPlayback()
 {
     changeCurrentPlaylist(mActivePlayList);
-    mCurrentPlayList->replayPlayList();
+    mCurrentPlayList->replayPlayList(true);
 }
 
 void PlayListManager::playNextTrack()
@@ -213,7 +211,7 @@ long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist()
 
 void PlayListManager::clearCurrentTrack()
 {
-    mCurrentPlayList->setTrackNumber(-1);
+    mCurrentPlayList->clearCurrentTrack();
 }
 
 void PlayListManager::playSelected()
@@ -276,5 +274,3 @@ void PlayListManager::removeSelected()
 {
     mActivePlayList->removeSelected();
 }
-
-

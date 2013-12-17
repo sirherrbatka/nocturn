@@ -49,7 +49,6 @@ public:
 
     PlayListModel* getActiveModel() const;
     PlayListModel* getCurrentModel() const;
-    QString getCurrentTrackPath() const;
     void clearCurrentTrack(); //used to set current track on current playlist to -1, this prevents bold text on any item.
 
     void addFilesToActivePlayList(const QList<QUrl> &locFiles);
