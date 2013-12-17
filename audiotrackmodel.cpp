@@ -257,22 +257,21 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
         {
             return false;
         }
-    }
-
-    if(getDiscNumber() < other.getDiscNumber() and getDiscNumber() != -1 and other.getDiscNumber() != -1 )
+    }  
+    if (mTrackNumber != other.mTrackNumber)
     {
-        return true;
-    }
+        if(getDiscNumber() < other.getDiscNumber() and getDiscNumber() != -1 and other.getDiscNumber() != -1 )
+        {
+            return true;
+        }
 
-    if(getDiscNumber() > other.getDiscNumber() and other.getDiscNumber() != -1 and other.getDiscNumber() != -1 )
-    {
-        return false;
+        if(getDiscNumber() > other.getDiscNumber() and other.getDiscNumber() != -1 and other.getDiscNumber() != -1 )
+        {
+            return false;
+        }
     }
-
-    if (mTrackNumber == other.mTrackNumber)
+    if (mTrackNumber != other.mTrackNumber)
     {
-        return true;
-    } else {
         if(getTrackNumber() < other.getTrackNumber() )
         {
             return true;
@@ -328,3 +327,5 @@ void AudioTrackModel::setAsPlayed(bool played)
     mPlayed = played;
     emit NeedRefreshLabel();
 }
+
+

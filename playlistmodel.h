@@ -105,7 +105,8 @@ private:
     void delinkModel(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator);
     void linkTwo(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator1, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator2);
     void linkThree(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator1, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator2, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator3);
-
+    void debugOrder();
+      
     //variables
     unsigned long long int mKey;
     bool mRandomMode {false};

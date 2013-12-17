@@ -118,8 +118,8 @@ void PlayListModel::addTracks(const QStringList& paths)
         mTotalDuration += mTracks.rbegin()->second.getDuration();
     }
     sortPlayList();
-//     debugOrder();
     generatePlayListName();
+//     debugOrder();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
@@ -273,6 +273,7 @@ void PlayListModel::sortPlayList()
 
     for (auto each = mTracks.begin(); each != mTracks.end(); ++each)
     {
+        qDebug()<<each->second.getPath();
         auto current = mFirstTrack;
         auto next = current->second.getNextTrack();
         auto prev = current->second.getPrevTrack();
@@ -302,47 +303,50 @@ void PlayListModel::sortPlayList()
 
         while (true)
         {
-            if(each != current and each != next and each != prev)
+            if(each != current)
             {
                 if (next != mTracks.end() and prev == mTracks.end())
                 {
-//                     qDebug()<<"next non-empty!";
                     if (each->second < current->second)
                     {
 //                         qDebug()<<"While loop link before current. 1";
                         linkTwo(each, current);
-                        mFirstTrack = each;
+                        if (current == mFirstTrack)
+                        {
+                            each->second.storePrev(mTracks.end());
+                            mFirstTrack = each;
+                        }
                         break;
                     }
                     if ((current->second < each->second) and (each->second < next->second))
                     {
 //                         qDebug()<<"While loop link after current. 2";
                         linkThree(current, each, next);
-                        mFirstTrack = current;
                         break;
                     }
                 }
                 if (next == mTracks.end() and prev != mTracks.end())
                 {
-//                     qDebug()<<"Prev non-empty!";
                     if (each->second < current->second and prev->second < each->second)
                     {
 //                         qDebug()<<"While loop link before current. 2";
                         linkThree(prev, each, current);
-                        mLastTrack = current;
                         break;
                     }
                     if (current->second < each->second)
                     {
 //                         qDebug()<<"While loop link after current. 2";
                         linkTwo(current, each);
-                        mLastTrack = each;
+                        if (current == mLastTrack)
+                        {
+                            each->second.storeNext(mTracks.end());
+                            mLastTrack = each;
+                        }
                         break;
                     }
                 }
                 if (next != mTracks.end() and prev != mTracks.end())
                 {
-//                     qDebug()<<"Both non empty";
                     if (each->second < current->second and prev->second < each->second)
                     {
 //                         qDebug()<<"While dual loop.";
@@ -524,7 +528,7 @@ void PlayListModel::changeCurrentAudioTrackModel(const std::map< unsigned long l
 
 void PlayListModel::resetLooper()
 {
-    mAddingIterator = mTracks.begin();
+    mAddingIterator = mFirstTrack;
 }
 
 void PlayListModel::clearCurrentTrack()
@@ -561,4 +565,17 @@ void PlayListModel::linkThree(const std::map< unsigned long long, AudioTrackMode
 void PlayListModel::updateCurrentPlayListModel()
 {
     emit CurrentModelChanged(this);
+}
+
+void PlayListModel::debugOrder()
+{
+    qDebug()<<"\n";
+    resetLooper();
+    while(modelsToAdd())
+    {
+        qDebug()<<getAudioTrackModel()->second.getPath();
+    }
+    qDebug()<<"The First track is: "<<mFirstTrack->second.getPath();
+    qDebug()<<"The Last track is: "<<mLastTrack->second.getPath();
+    resetLooper();
 }
