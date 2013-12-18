@@ -28,7 +28,7 @@ set(QTGUILIBS ${QT_QTGUI_LIBRARY})
 QT4_WRAP_UI(nocturn_FORMS_HEADERS ${nocturn_FORMS})
 QT4_WRAP_CPP(nocturn_HEADERS_MOC )
 ADD_EXECUTABLE(nocturn ${nocturn_SOURCES} ${nocturn_FORMS_HEADERS} ${nocturn_HEADERS_MOC})
-set(CMAKE_CXX_FLAGS"-Wall -ggdb -Wextra -Weffc++ -Werror -Wshadow -pedantic -Wsign-compare")
+set(CMAKE_CXX_FLAGS"-Wall -ggdb -Wextra -Weffc++ -Werror -Wshadow -pedantic -Wsign-compare -Wmaybe-uninitialized")
   
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 TARGET_LINK_LIBRARIES(nocturn 
