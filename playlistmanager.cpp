@@ -187,7 +187,7 @@ void PlayListManager::startPlayback()
 
 void PlayListManager::playNextTrack()
 {
-    if (mCurrentPlayList != nullptr)
+    if (mCurrentPlayList == nullptr)
     {
         mCurrentPlayList = mActivePlayList;
     }
