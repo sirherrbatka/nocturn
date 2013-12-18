@@ -47,7 +47,6 @@ private slots:
 
 private:
   //methods
-  char* getCmdOption(char ** begin, char ** end, const std::string & option);
   
     bool mAboutToQuit{false};
     QApplication* app{nullptr};

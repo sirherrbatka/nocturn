@@ -51,10 +51,6 @@ int nocturn::runNoctrun(int argc, char** argv)
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     connect(app, SIGNAL(aboutToQuit()), &Controler, SLOT(quitNocturn()));
     Manager.getPlayListManager()->restorePlayListFromFiles();
-    if (filename)
-    {
-//         Manager.getPlayListManager()->autoLoadPath(filename);
-    }
     View.setFirstTab();
     return app->exec();
 }
@@ -72,13 +68,4 @@ nocturn* nocturn::getNocturn()
 bool nocturn::nocturnQuits() const
 {
     return mAboutToQuit;
-}
-
-char* nocturn::getCmdOption(char** begin, char** end, const std::string& option)
-{
-    char ** itr = std::find(begin, end, option);
-    if (itr != end && ++itr != end)
-    {
-        return *itr;
-    }
 }
