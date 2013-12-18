@@ -70,7 +70,7 @@ private:
     PlayListManager(const PlayListManager& other); //not implemented
     PlayListManager& operator=(const PlayListManager& other); //not implemented
     bool operator==(const PlayListManager& other); //not implemented
-    QStringList scanDirectory(const QDir& dir); //not implemented
+    QList< QUrl > scanDirectory(const QDir& dir); //not implemented
     
     inline bool isSupportedFile(const QString& path);
     inline bool isAudioFile(const QString& path);

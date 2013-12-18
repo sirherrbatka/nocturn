@@ -30,6 +30,7 @@
 #include <qstringlist.h>
 #include <QString>
 #include <qobject.h>
+#include <QUrl>
 
 class AudioTrackModel;
 
@@ -45,6 +46,7 @@ public:
     PlayListModel(PlayListModel&& other);
 
     unsigned long long int getKey() const;
+    void addTracks(const QList< QUrl >& paths);
     void addTracks(const QStringList & paths);
     const PlayListModel* getPlayListModel();
     

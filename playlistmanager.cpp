@@ -43,18 +43,17 @@ PlayListManager::~PlayListManager()
 
 void PlayListManager::addFilesToActivePlayList(const QList< QUrl >& locFiles)
 {
-    QStringList locPaths;
+    QList<QUrl> locPaths;
     foreach(QUrl url, locFiles)
     {
-        QString locpath = url.path();
-        QDir dir(locpath);
+        QDir dir(url.path());
         if (dir.exists())
         {
             locPaths = locPaths + scanDirectory(dir);
         } else {
-            if (isSupportedFile(locpath))
+            if (isSupportedFile(url.path()))
             {
-                locPaths << locpath;
+                locPaths.push_back(url);
             }
         }
     }
@@ -68,7 +67,7 @@ void PlayListManager::addFilesToActivePlayList(const QList< QUrl >& locFiles)
 void PlayListManager::addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList)
 {
 
-    QStringList locPaths;
+    QList<QUrl> locPaths;
     QDir dir(locpath);
     if (dir.exists())
     {
@@ -130,9 +129,9 @@ void PlayListManager::deletePlayList(long long unsigned int locKey)
     mPlayLists.erase(it);
 }
 
-QStringList PlayListManager::scanDirectory(const QDir & dir)
+QList<QUrl> PlayListManager::scanDirectory(const QDir & dir)
 {
-    QStringList locFiles;
+    QList <QUrl> locFiles;
     const QFileInfoList list = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
     foreach(const QFileInfo & info, list)
     {

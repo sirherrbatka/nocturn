@@ -30,14 +30,14 @@
 #include "playlistpageviewitem.h"
 
 class AudioTracksHolder;
-AudioTrackModel::AudioTrackModel(const QString& path, PlayListModel* playlist) :
-    mPath(path),
-    mFile(path),
+AudioTrackModel::AudioTrackModel(const QUrl& path, PlayListModel* playlist) :
+    mFile(path.path()),
+    mURL(path),
     mModel(playlist)
 //     mView(nullptr)
 {
     qDebug()<<"loaded file"<<" "<<path;
-    TagHandler TagHandler(path);
+    TagHandler TagHandler(path.path());
     if (TagHandler.hasTags() == false)
     {
         mName = mFile.baseName();
@@ -58,8 +58,8 @@ AudioTrackModel::~AudioTrackModel()
 }
 
 AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
+    mURL(std::move(other.mURL)),
     mName(std::move(other.mName)),
-    mPath(std::move(other.mPath)),
     mFile(std::move(other.mFile)),
     mDuration(other.mDuration),
     mDiscNumber(other.mDiscNumber),
@@ -73,8 +73,8 @@ AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
 }
 
 AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
+    mURL(std::move(other.mURL)),
     mName(std::move(other.mName)),
-    mPath(std::move(other.mPath)),
     mFile(std::move(other.mFile)),
     mDuration(other.mDuration),
     mDiscNumber(other.mDiscNumber),
@@ -89,8 +89,8 @@ AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
 
 AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
 {
+    mURL = std::move(other.mURL);
     mName = std::move(other.mName);
-    mPath = std::move(other.mPath);
     mFile = std::move(other.mFile);
     mDuration = std::move(other.mDuration);
     mDiscNumber = std::move(other.mDiscNumber);
@@ -105,8 +105,8 @@ AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
 
 AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
 {
+    mURL = std::move(other.mURL);
     mName = other.mName;
-    mPath =other.mPath;
     mFile = other.mFile;
     mDuration = other.mDuration;
     mDiscNumber = other.mDiscNumber;
@@ -127,7 +127,7 @@ inline void AudioTrackModel::storeAlbum(const QString& album)
 
 QString AudioTrackModel::getPath() const
 {
-    return mPath;
+    return mURL.path();
 }
 
 QString AudioTrackModel::getName() const
@@ -244,7 +244,7 @@ void AudioTrackModel::playThisTrack()
 {
     mModel->updateCurrentPlayListModel();
     mModel->changeCurrentAudioTrackModel(mThis);
-    MainControler::getMainControler()->playFile(mPath);
+    MainControler::getMainControler()->playFile(mURL.path());
 }
 
 std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getNextTrack() const
@@ -290,3 +290,8 @@ void AudioTrackModel::storeView(PlayListPageViewItem* item)
     qDebug()<<"View Stored!";
     mView = item;
 }*/
+
+QUrl AudioTrackModel::getURL() const
+{
+    return mURL;
+}

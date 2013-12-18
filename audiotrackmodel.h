@@ -38,7 +38,7 @@ class AudioTrackModel : public QObject
 {
   Q_OBJECT
 public:
-    AudioTrackModel(const QString& path, PlayListModel* playlist);
+    AudioTrackModel(const QUrl& path, PlayListModel* playlist);
     ~AudioTrackModel();
     AudioTrackModel(AudioTrackModel&& other);
     AudioTrackModel(const AudioTrackModel& other);
@@ -50,6 +50,7 @@ public:
     void setAsPlayed(bool played);
     bool isPlayed() const;
     QString getPath() const;
+    QUrl getURL() const;
     QString getName() const;
     long long unsigned int getDuration() const;
     bool fileExists() const;
@@ -75,12 +76,12 @@ private:
     inline void storeArtist(const QString& artist);
 
     //variables
-    QString mPath;
     QFileInfo mFile;
     PlayListModel* mModel;
     QString mName;
     QString mAlbum;
     QString mArtist;
+    QUrl mURL;
     bool mLinked{false};
     bool mPlayed{false};
     long long mDuration {0};

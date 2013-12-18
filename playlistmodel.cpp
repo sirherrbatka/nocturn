@@ -105,9 +105,15 @@ void PlayListModel::enableRandomMode(bool RandomMode)
     mRandomMode = RandomMode;
 }
 
-void PlayListModel::addTracks(const QStringList& paths)
+void PlayListModel::addTracks(const QList<QUrl>& paths)
 {
     assert (!paths.empty()); //yes, assert. Make sure that you are actually passing any paths.
+
+//     bool noCurrent = false;
+//     if (mCurrentTrack == mTracks.end())
+//     {
+//         noCurrent = true;
+//     }
 
     for (auto &each : paths)
     {
@@ -120,7 +126,37 @@ void PlayListModel::addTracks(const QStringList& paths)
 //     debugOrder();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
+//     if (noCurrent)
+//     {
     mCurrentTrack = mTracks.end();
+//     }
+}
+
+void PlayListModel::addTracks(const QStringList & paths)
+{
+    assert (!paths.empty()); //yes, assert. Make sure that you are actually passing any paths.
+
+//     bool noCurrent = false;
+//     if (mCurrentTrack == mTracks.end())
+//     {
+//         noCurrent = true;
+//     }
+
+    for (auto &each : paths)
+    {
+        mTracks.emplace(mTrackKey, AudioTrackModel(QUrl(each), this));
+        ++mTrackKey;
+        mTotalDuration += mTracks.rbegin()->second.getDuration();
+    }
+    sortPlayList();
+    generatePlayListName();
+//     debugOrder();
+    emit NeedRefreshView();
+    MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
+//     if (noCurrent)
+//     {
+    mCurrentTrack = mTracks.end();
+//     }
 }
 
 void PlayListModel::playNextTrack() //TODO
@@ -308,7 +344,7 @@ void PlayListModel::sortPlayList()
         {
             if(each != current)
             {
-                if (current->second == each->second)
+                if (current->second == each->second) //when no tag is present, mostly
                 {
                     if (next == mTracks.end())
                     {
@@ -550,7 +586,7 @@ void PlayListModel::clearCurrentTrack()
 {
     if (mCurrentTrack != mTracks.end())
     {
-         mCurrentTrack->second.setAsPlayed(false);
+        mCurrentTrack->second.setAsPlayed(false);
     }
     mCurrentTrack = mTracks.end();
     mAddingIterator = mTracks.end();
