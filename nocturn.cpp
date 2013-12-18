@@ -24,6 +24,7 @@
 #include <qapplication.h>
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 nocturn* nocturn::mThisPointer = nullptr;
 
@@ -42,7 +43,15 @@ int nocturn::runNoctrun(int argc, char** argv)
 {
     app = new QApplication(argc, argv);
     app->setApplicationName("Nocturn");
+    QStringList args = app->arguments();
     bool autoLoadMode = false;
+    QString path;
+
+    if (args.count() >= 3 and args.at(1) == "-f" and args.at(2) != "")
+    {
+        path = args.at(2); 
+        autoLoadMode = true;
+    }
 
     ModelManager Manager;
     MainControler Controler(&Manager);
@@ -50,6 +59,10 @@ int nocturn::runNoctrun(int argc, char** argv)
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     connect(app, SIGNAL(aboutToQuit()), &Controler, SLOT(quitNocturn()));
     Manager.getPlayListManager()->restorePlayListFromFiles();
+    if (autoLoadMode)
+    {
+        Manager.getPlayListManager()->autoLoadPath(path);
+    }
     View.setFirstTab();
     return app->exec();
 }
