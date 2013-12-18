@@ -44,9 +44,8 @@ public:
     AudioTrackModel(const AudioTrackModel& other);
     AudioTrackModel& operator=(AudioTrackModel&& other);
     AudioTrackModel& operator=(const AudioTrackModel& other);
-    bool operator>(const AudioTrackModel& other) const;
     bool operator<(const AudioTrackModel& other) const;
-    bool operator<(const std::unique_ptr<AudioTrackModel>& other);
+    bool operator==(const AudioTrackModel& other) const;
 
     void setAsPlayed(bool played);
     bool isPlayed() const;

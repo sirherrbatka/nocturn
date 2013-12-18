@@ -173,76 +173,23 @@ void AudioTrackModel::storeArtist(const QString& artist)
     mArtist = artist;
 }
 
-bool AudioTrackModel::operator>(const AudioTrackModel& other) const
+bool AudioTrackModel::operator==(const AudioTrackModel& other) const
 {
-    if(mAlbum != other.mAlbum)
-    {
-        if(0<(mAlbum.compare(other.mAlbum), Qt::CaseSensitive))
-        {
-            return true;
-        }
-
-        if(0>(mAlbum.compare(other.mAlbum), Qt::CaseSensitive))
-        {
-            return false;
-        }
-        return true;
-    }
-    if(mDiscNumber>other.mDiscNumber and mDiscNumber != -1 and other.mDiscNumber != -1 )
+    if (mAlbum != other.mAlbum)
     {
         return false;
     }
-
-    if(mDiscNumber<other.mDiscNumber and other.mDiscNumber != -1 and other.mDiscNumber != -1 )
-    {
-        return true;
-    }
-
-    if(mTrackNumber<other.mTrackNumber )
-    {
-        return true;
-    }
-
-    if(mTrackNumber>other.mTrackNumber )
+    if (mTrackNumber != other.mTrackNumber)
     {
         return false;
     }
-    return false; //silencing warning
+    if (mTrackNumber != other.mTrackNumber)
+    {
+        return false;
+    }
+    return true; //silencing warning
 }
 
-bool AudioTrackModel::operator<(const std::unique_ptr< AudioTrackModel >& other)
-{
-    if(0<(mAlbum.compare(other->mAlbum), Qt::CaseSensitive))
-    {
-        return true;
-    }
-
-    if(0>(mAlbum.compare(other->mAlbum), Qt::CaseSensitive))
-    {
-        return false;
-    }
-
-    if(mDiscNumber>other->mDiscNumber and mDiscNumber != -1 and other->mDiscNumber != -1 )
-    {
-        return false;
-    }
-
-    if(mDiscNumber<other->mDiscNumber and other->mDiscNumber != -1 and other->mDiscNumber != -1 )
-    {
-        return true;
-    }
-
-    if(mTrackNumber<other->mTrackNumber )
-    {
-        return true;
-    }
-
-    if(mTrackNumber>other->mTrackNumber )
-    {
-        return false;
-    }
-    return false; //silencing warning
-}
 
 bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 {
@@ -257,7 +204,8 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
         {
             return false;
         }
-    }  
+    }
+    
     if (mTrackNumber != other.mTrackNumber)
     {
         if(getDiscNumber() < other.getDiscNumber() and getDiscNumber() != -1 and other.getDiscNumber() != -1 )
@@ -270,6 +218,7 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
             return false;
         }
     }
+    
     if (mTrackNumber != other.mTrackNumber)
     {
         if(getTrackNumber() < other.getTrackNumber() )

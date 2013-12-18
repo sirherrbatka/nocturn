@@ -281,10 +281,8 @@ void PlayListModel::sortPlayList()
         {
             if (next == mTracks.end() and prev == mTracks.end()) //first iteration
             {
-//                 qDebug()<<"First iteration!";
-                if(current->second < each->second)
+                if(each->second == current->second)
                 {
-//                     qDebug()<<"First iteration! Linking after current!";
                     linkTwo(current, each);
                     mFirstTrack = current;
                     mLastTrack = each;
@@ -292,10 +290,16 @@ void PlayListModel::sortPlayList()
                 }
                 if(each->second < current->second)
                 {
-//                     qDebug()<<"First iteration! Linking before current!";
                     linkTwo(each, current);
                     mFirstTrack = each;
                     mLastTrack = current;
+                    continue;
+                }
+                if (current->second < each->second)
+                {
+                    linkTwo(current, each);
+                    mFirstTrack = current;
+                    mLastTrack = each;
                     continue;
                 }
             }
@@ -305,6 +309,18 @@ void PlayListModel::sortPlayList()
         {
             if(each != current)
             {
+                if (current->second == each->second)
+                {
+                    if (next == mTracks.end())
+                    {
+                        linkTwo(current, each);
+                        if (current == mLastTrack)
+                        {
+                            mLastTrack = each;
+                        }
+                        break;
+                    }
+                }
                 if (next != mTracks.end() and prev == mTracks.end())
                 {
                     if (each->second < current->second)
@@ -579,3 +595,6 @@ void PlayListModel::debugOrder()
     qDebug()<<"The Last track is: "<<mLastTrack->second.getPath();
     resetLooper();
 }
+
+
+
