@@ -25,6 +25,7 @@
 #include <qobject.h>
 #include "./sharedtypes.h"
 
+class QUrl;
 class PlaybackModel : public QObject
 {
     Q_OBJECT
@@ -43,7 +44,7 @@ signals:
     void StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState);
 
 public slots:
-    virtual void playFile(const QString& path);
+    virtual void playFile(const QUrl& url);
     virtual void stopPlayback();
 
 };

@@ -46,9 +46,9 @@ PlaybackManager::~PlaybackManager()
 
 }
 
-void PlaybackManager::playFile(const QString& path)
+void PlaybackManager::playFile(const QUrl& url)
 {
-    mPlaybackModel.get()->playFile(path);
+    mPlaybackModel.get()->playFile(url);
 }
 
 void PlaybackManager::fileEnded()

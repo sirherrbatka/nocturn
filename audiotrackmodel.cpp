@@ -244,7 +244,7 @@ void AudioTrackModel::playThisTrack()
 {
     mModel->updateCurrentPlayListModel();
     mModel->changeCurrentAudioTrackModel(mThis);
-    MainControler::getMainControler()->playFile(mURL.path());
+    MainControler::getMainControler()->playFile(mURL);
 }
 
 std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getNextTrack() const

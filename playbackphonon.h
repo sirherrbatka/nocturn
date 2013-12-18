@@ -42,7 +42,7 @@ public:
 public slots:
 
     void changeStatus(Phonon::State oldstatus, Phonon::State newstatus);
-    void playFile(const QString& path);
+    void playFile(const QUrl& url);
     void togglePlayback();
     void stopPlayback();
 

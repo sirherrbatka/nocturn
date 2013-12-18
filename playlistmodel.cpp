@@ -108,13 +108,6 @@ void PlayListModel::enableRandomMode(bool RandomMode)
 void PlayListModel::addTracks(const QList<QUrl>& paths)
 {
     assert (!paths.empty()); //yes, assert. Make sure that you are actually passing any paths.
-
-//     bool noCurrent = false;
-//     if (mCurrentTrack == mTracks.end())
-//     {
-//         noCurrent = true;
-//     }
-
     for (auto &each : paths)
     {
         mTracks.emplace(mTrackKey, AudioTrackModel(each, this));
@@ -126,10 +119,7 @@ void PlayListModel::addTracks(const QList<QUrl>& paths)
 //     debugOrder();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
-//     if (noCurrent)
-//     {
     mCurrentTrack = mTracks.end();
-//     }
 }
 
 void PlayListModel::addTracks(const QStringList & paths)
@@ -159,7 +149,7 @@ void PlayListModel::addTracks(const QStringList & paths)
 //     }
 }
 
-void PlayListModel::playNextTrack() //TODO
+void PlayListModel::playNextTrack()
 {
     if (mCurrentTrack != mTracks.end() and not mTracks.empty())
     {
@@ -180,7 +170,7 @@ void PlayListModel::playNextTrack() //TODO
     return;
 }
 
-void PlayListModel::playPrevTrack() //TODO
+void PlayListModel::playPrevTrack()
 {
     if (mCurrentTrack != mTracks.end() and not mTracks.empty())
     {
@@ -225,7 +215,7 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
     }
 }
 
-void PlayListModel::deleteCurrentTrackModel() //TODO
+void PlayListModel::deleteCurrentTrackModel()
 {
     if (mCurrentTrack != mTracks.end())
     {
@@ -308,7 +298,7 @@ void PlayListModel::sortPlayList()
 
     for (auto each = mTracks.begin(); each != mTracks.end(); ++each)
     {
-        qDebug()<<each->second.getPath();
+//         qDebug()<<each->second.getPath();
         auto current = mFirstTrack;
         auto next = current->second.getNextTrack();
         auto prev = current->second.getPrevTrack();
@@ -490,7 +480,7 @@ void PlayListModel::calculateTotalDuration()
     }
 }
 
-long long unsigned int PlayListModel::getTotalDuration()
+long long unsigned int PlayListModel::getTotalDuration() const
 {
     return mTotalDuration;
 }

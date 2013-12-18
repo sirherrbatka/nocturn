@@ -21,6 +21,7 @@
  */
 
 #include "playbackmodel.h"
+#include <qurl.h>
 
 
 qint64 PlaybackModel::getTotalTime()
@@ -33,7 +34,7 @@ PlaybackModel::PlaybackModel(): QObject()
 
 }
 
-void PlaybackModel::playFile(const QString& path)
+void PlaybackModel::playFile(const QUrl& url)
 {
 
 }

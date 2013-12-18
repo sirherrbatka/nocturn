@@ -59,7 +59,7 @@ public:
     void requestRefresh();
     void changeCurrentAudioTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator& newcurrent);
     void clearMe();
-    unsigned long long int getTotalDuration();
+    unsigned long long int getTotalDuration() const;
     void playSelected();
     QStringList getPaths();
     void removeSelected();
