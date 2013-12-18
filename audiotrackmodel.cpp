@@ -34,6 +34,7 @@ AudioTrackModel::AudioTrackModel(const QString& path, PlayListModel* playlist) :
     mPath(path),
     mFile(path),
     mModel(playlist)
+//     mView(nullptr)
 {
     qDebug()<<"loaded file"<<" "<<path;
     TagHandler TagHandler(path);
@@ -67,6 +68,7 @@ AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
+//     mView(other.mView)
 {
 }
 
@@ -81,11 +83,13 @@ AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
+//     mView(other.mView)
 {
 }
 
 AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
 {
+    mName = std::move(other.mName);
     mPath = std::move(other.mPath);
     mFile = std::move(other.mFile);
     mDuration = std::move(other.mDuration);
@@ -95,11 +99,13 @@ AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
     mTrackNumber = std::move(other.mTrackNumber);
     mCurrent = std::move(other.mCurrent);
     mModel = std::move(other.mModel);
+//     mView = other.mView;
     return *this;
 }
 
 AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
 {
+    mName = other.mName;
     mPath =other.mPath;
     mFile = other.mFile;
     mDuration = other.mDuration;
@@ -109,6 +115,7 @@ AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
     mTrackNumber = other.mTrackNumber;
     mCurrent = other.mCurrent;
     mModel = other.mModel;
+//     mView = other.mView;
     return *this;
 }
 
@@ -204,7 +211,7 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
             return false;
         }
     }
-    
+
     if (mTrackNumber != other.mTrackNumber)
     {
         if(getDiscNumber() < other.getDiscNumber() and getDiscNumber() != -1 and other.getDiscNumber() != -1 )
@@ -217,7 +224,7 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
             return false;
         }
     }
-    
+
     if (mTrackNumber != other.mTrackNumber)
     {
         if(getTrackNumber() < other.getTrackNumber() )
@@ -235,8 +242,8 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 
 void AudioTrackModel::playThisTrack()
 {
-    mModel->changeCurrentAudioTrackModel(mThis);
     mModel->updateCurrentPlayListModel();
+    mModel->changeCurrentAudioTrackModel(mThis);
     MainControler::getMainControler()->playFile(mPath);
 }
 
@@ -273,10 +280,13 @@ bool AudioTrackModel::isPlayed() const
 void AudioTrackModel::setAsPlayed(bool played)
 {
     mPlayed = played;
-    emit NeedRefreshLabel();
+    assert(mView);
+//       mView->setLabel(played);
+     emit NeedRefreshLabel();
 }
-
-// void AudioTrackModel::storeViewItem(PlayListPageViewItem* item)
-// {
-//     mView = item;
-// }
+/*
+void AudioTrackModel::storeView(PlayListPageViewItem* item)
+{
+    qDebug()<<"View Stored!";
+    mView = item;
+}*/

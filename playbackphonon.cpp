@@ -39,7 +39,6 @@ void PlaybackPhonon::playFile(const QString& path)
     qDebug()<<"Phonon playing";
     mPhonon->setCurrentSource(path);
     mPhonon->play();
-    emit PlayingLocalFile();
 }
 
 PlaybackPhonon::~PlaybackPhonon()

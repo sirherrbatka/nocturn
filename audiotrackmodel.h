@@ -63,6 +63,7 @@ public:
     void storeThis(const std::map<unsigned long long, AudioTrackModel>::iterator& thistrack);
     std::map<unsigned long long, AudioTrackModel>::iterator getNextTrack() const;
     std::map<unsigned long long, AudioTrackModel>::iterator getPrevTrack() const;
+//     void storeView(PlayListPageViewItem* view);
     
 signals:
   void NeedRefreshLabel();
@@ -86,6 +87,7 @@ private:
     int mTrackNumber {0};
     int mDiscNumber {-1}; //-1 = disc number not present.
     bool mCurrent {false}; //for sorting
+//     PlayListPageViewItem* mView;
     std::map<unsigned long long, AudioTrackModel>::iterator mThis;
     std::map<unsigned long long, AudioTrackModel>::iterator mNext;
     std::map<unsigned long long, AudioTrackModel>::iterator mPrev;

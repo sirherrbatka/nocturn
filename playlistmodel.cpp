@@ -44,6 +44,7 @@ PlayListModel::PlayListModel(unsigned long long int key) :
 
 PlayListModel::~PlayListModel()
 {
+    mCurrentTrack = mTracks.end();
 }
 
 PlayListModel& PlayListModel::operator=(PlayListModel&& other)
@@ -119,6 +120,7 @@ void PlayListModel::addTracks(const QStringList& paths)
 //     debugOrder();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
+    mCurrentTrack = mTracks.end();
 }
 
 void PlayListModel::playNextTrack() //TODO
@@ -528,17 +530,14 @@ std::map< unsigned long long, AudioTrackModel >::iterator PlayListModel::getAudi
 
 void PlayListModel::changeCurrentAudioTrackModel(const std::map< unsigned long long, AudioTrackModel >::iterator& newcurrent)
 {
-    if (not mTracks.empty())
+    if (mCurrentTrack != mTracks.end())
     {
-        if (mCurrentTrack != mTracks.end())
-        {
-            mCurrentTrack->second.setAsPlayed(false);
-        }
-        mCurrentTrack = newcurrent;
-        if (mCurrentTrack != mTracks.end())
-        {
-            mCurrentTrack->second.setAsPlayed(true);
-        }
+        mCurrentTrack->second.setAsPlayed(false);
+    }
+    mCurrentTrack = newcurrent;
+    if (mCurrentTrack != mTracks.end())
+    {
+        mCurrentTrack->second.setAsPlayed(true);
     }
 }
 
@@ -549,9 +548,9 @@ void PlayListModel::resetLooper()
 
 void PlayListModel::clearCurrentTrack()
 {
-    if (mCurrentTrack!= mTracks.end() and not mTracks.empty())
+    if (mCurrentTrack != mTracks.end())
     {
-        mCurrentTrack->second.setAsPlayed(false);
+         mCurrentTrack->second.setAsPlayed(false);
     }
     mCurrentTrack = mTracks.end();
     mAddingIterator = mTracks.end();
@@ -595,6 +594,3 @@ void PlayListModel::debugOrder()
     qDebug()<<"The Last track is: "<<mLastTrack->second.getPath();
     resetLooper();
 }
-
-
-

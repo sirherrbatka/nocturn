@@ -10,6 +10,7 @@ PlayListPageViewItem::PlayListPageViewItem(const std::map<unsigned long long, Au
 {
     setLabel(false);
     mAudioTrackModel->second.storeThis(Model);
+//     mAudioTrackModel->second.storeView(this);
     connect(&(mAudioTrackModel->second), SIGNAL(NeedRefreshLabel()), this, SLOT(setLabel()));
 }
 
