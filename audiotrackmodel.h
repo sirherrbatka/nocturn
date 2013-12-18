@@ -89,7 +89,6 @@ private:
     std::map<unsigned long long, AudioTrackModel>::iterator mThis;
     std::map<unsigned long long, AudioTrackModel>::iterator mNext;
     std::map<unsigned long long, AudioTrackModel>::iterator mPrev;
-    PlayListPageViewItem* mView{nullptr};
 };
 
 #endif // AUDIOTRACKMODEL_H

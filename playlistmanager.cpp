@@ -120,7 +120,12 @@ void PlayListManager::deletePlayList(long long unsigned int locKey)
     if (locKey == mCurrentPlayList->getKey())
     {
         qDebug()<<"Deleting current playlist";
-        mCurrentPlayList = nullptr;
+        if (mActivePlayList)
+        {
+            mCurrentPlayList = mActivePlayList;
+        } else {
+	  mCurrentPlayList = nullptr;
+        }
     }
     mPlayLists.erase(it);
 }
@@ -157,17 +162,14 @@ inline bool PlayListManager::isAudioFile(const QString& path)
 
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
 {
-    if(mCurrentPlayList != locPlayList)
+    qDebug()<<"Changing current model";
+    if (mCurrentPlayList)
     {
-//     qDebug()<<"Changing current model";
-        if (mCurrentPlayList)
-        {
-            mCurrentPlayList->clearCurrentTrack();
-            mCurrentPlayList->setCurrent(false);
-        }
-        locPlayList->setCurrent(true);
-        mCurrentPlayList = locPlayList;
+        mCurrentPlayList->clearCurrentTrack();
+        mCurrentPlayList->setCurrent(false);
     }
+    locPlayList->setCurrent(true);
+    mCurrentPlayList = locPlayList;
 }
 
 void PlayListManager::fileEnded()
@@ -211,6 +213,7 @@ long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist()
 
 void PlayListManager::clearCurrentTrack()
 {
+    assert(mCurrentPlayList);
     mCurrentPlayList->clearCurrentTrack();
 }
 

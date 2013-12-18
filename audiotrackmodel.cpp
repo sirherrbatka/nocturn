@@ -190,7 +190,6 @@ bool AudioTrackModel::operator==(const AudioTrackModel& other) const
     return true; //silencing warning
 }
 
-
 bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 {
     if (mAlbum != other.mAlbum)
@@ -237,8 +236,8 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 void AudioTrackModel::playThisTrack()
 {
     mModel->changeCurrentAudioTrackModel(mThis);
-    MainControler::getMainControler()->playFile(mPath);
     mModel->updateCurrentPlayListModel();
+    MainControler::getMainControler()->playFile(mPath);
 }
 
 std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getNextTrack() const
@@ -277,4 +276,7 @@ void AudioTrackModel::setAsPlayed(bool played)
     emit NeedRefreshLabel();
 }
 
-
+// void AudioTrackModel::storeViewItem(PlayListPageViewItem* item)
+// {
+//     mView = item;
+// }

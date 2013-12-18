@@ -76,7 +76,6 @@ public:
     void updateCurrentPlayListModel();
 
 signals:
-    void CurrentTrackChanged(const QString&); //transmits the path to the playback controler. Emited after track changed.
     void CurrentModelChanged(PlayListModel*); //transmits the playlist model to the playlistmanager. Emited after track changed.
     void FileDoesNotExists();
     void PlayListNameChanged();

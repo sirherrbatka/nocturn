@@ -23,7 +23,6 @@
 #ifndef PLAYLISTPAGEVIEWITEM_H
 #define PLAYLISTPAGEVIEWITEM_H
 #include <QListWidgetItem>
-#include <QObject>
 #include "./audiotrackmodel.h"
 #include <map>
 
@@ -41,8 +40,9 @@ public:
     void playThisTrack();
     void storeAudioTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator& Model);
     std::map<unsigned long long, AudioTrackModel>::iterator getAudioTrackModel();
+    void disconnectMe();
     
-private slots:
+public slots:
     void setLabel(bool bold = false);
 
 private:

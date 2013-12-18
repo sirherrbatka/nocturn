@@ -13,6 +13,11 @@ PlayListPageViewItem::PlayListPageViewItem(const std::map<unsigned long long, Au
     connect(&(mAudioTrackModel->second), SIGNAL(NeedRefreshLabel()), this, SLOT(setLabel()));
 }
 
+void PlayListPageViewItem::disconnectMe()
+{
+    disconnect(&(mAudioTrackModel->second), SIGNAL(NeedRefreshLabel()), this, SLOT(setLabel()));
+}
+
 PlayListPageViewItem::~PlayListPageViewItem()
 {
 }

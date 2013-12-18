@@ -40,7 +40,6 @@ PlayListModel::PlayListModel(unsigned long long int key) :
 {
     mCurrentTrack = mTracks.end();
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
-    connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
 }
 
 PlayListModel::~PlayListModel()
@@ -61,7 +60,6 @@ PlayListModel& PlayListModel::operator=(PlayListModel&& other)
     mLastTrack = std::move(other.mLastTrack);
 
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
-    connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
     return *this;
 }
 
@@ -78,7 +76,6 @@ PlayListModel::PlayListModel(PlayListModel&& other) :
     mLastTrack(std::move(other.mLastTrack))
 {
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(), SLOT(changeCurrentPlayList(PlayListModel*)));
-    connect(this, SIGNAL(CurrentTrackChanged(const QString&)), MainControler::getMainControler(), SLOT(playFile(const QString&)));
 }
 
 
@@ -126,7 +123,7 @@ void PlayListModel::addTracks(const QStringList& paths)
 
 void PlayListModel::playNextTrack() //TODO
 {
-    if (mCurrentTrack != mTracks.end())
+    if (mCurrentTrack != mTracks.end() and not mTracks.empty())
     {
         auto iterator = mCurrentTrack->second.getNextTrack();
         if (iterator != mTracks.end())
@@ -147,7 +144,7 @@ void PlayListModel::playNextTrack() //TODO
 
 void PlayListModel::playPrevTrack() //TODO
 {
-    if (mCurrentTrack != mTracks.end())
+    if (mCurrentTrack != mTracks.end() and not mTracks.empty())
     {
         auto iterator = mCurrentTrack->second.getPrevTrack();
         if (iterator != mTracks.end())
@@ -531,14 +528,17 @@ std::map< unsigned long long, AudioTrackModel >::iterator PlayListModel::getAudi
 
 void PlayListModel::changeCurrentAudioTrackModel(const std::map< unsigned long long, AudioTrackModel >::iterator& newcurrent)
 {
-    if (mCurrentTrack != mTracks.end())
+    if (not mTracks.empty())
     {
-        mCurrentTrack->second.setAsPlayed(false);
-    }
-    mCurrentTrack = newcurrent;
-    if (mCurrentTrack != mTracks.end())
-    {
-        mCurrentTrack->second.setAsPlayed(true);
+        if (mCurrentTrack != mTracks.end())
+        {
+            mCurrentTrack->second.setAsPlayed(false);
+        }
+        mCurrentTrack = newcurrent;
+        if (mCurrentTrack != mTracks.end())
+        {
+            mCurrentTrack->second.setAsPlayed(true);
+        }
     }
 }
 
