@@ -123,7 +123,7 @@ void PlayListManager::deletePlayList(long long unsigned int locKey)
         {
             mCurrentPlayList = mActivePlayList;
         } else {
-	  mCurrentPlayList = nullptr;
+            mCurrentPlayList = nullptr;
         }
     }
     mPlayLists.erase(it);
@@ -240,6 +240,20 @@ void PlayListManager::autoLoadPath(const QString& path)
     changeCurrentPlaylist(tmpPlayList);
     startPlayback();
 }
+
+void PlayListManager::autoLoadPath(const QStringList& paths)
+{
+    PlayListModel* tmpPlayList = newPlayList();
+    for (auto &path : paths)
+    {
+        addFilesToPlaylist(path, tmpPlayList);
+    }
+    MainControler::getMainControler()->relayPlayListModel(tmpPlayList);
+    changeActivePlaylist(tmpPlayList);
+    changeCurrentPlaylist(tmpPlayList);
+    startPlayback();
+}
+
 
 void PlayListManager::savePlayListFiles()
 {

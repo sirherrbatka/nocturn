@@ -44,6 +44,7 @@ public:
     void changeActivePlaylist(PlayListModel* locPlayList);
     void changeCurrentPlaylist(PlayListModel* locPlayList);
     void autoLoadPath(const QString& path);
+    void autoLoadPath(const QStringList& paths);
 
 //     Playing model is the playlist that currently plays music. Acvtive model is the model that is active in the interface
 

@@ -45,11 +45,14 @@ int nocturn::runNoctrun(int argc, char** argv)
     app->setApplicationName("Nocturn");
     QStringList args = app->arguments();
     bool autoLoadMode = false;
-    QString path;
+    QStringList path;
 
     if (args.count() >= 3 and args.at(1) == "-f" and args.at(2) != "")
     {
-        path = args.at(2); 
+        for (unsigned i = 2; i < argc; ++i)
+        {
+            path << args.at(i);
+        }
         autoLoadMode = true;
     }
 
