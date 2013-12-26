@@ -507,12 +507,21 @@ void PlayListModel::removeSelected()
 
 void PlayListModel::deleteTrackModel(const std::map< unsigned long long, AudioTrackModel >::iterator& track) //does not work
 {
+    assert(!mAudioTrackModels.empty());
     if (mCurrentTrack == track)
     {
         deleteCurrentTrackModel();
         return;
     }
-    assert(!mAudioTrackModels.empty());
+    if (track == mFirstTrack)
+    {
+      mFirstTrack = track->second.getNextTrack();
+    }
+    if (track == mLastTrack)
+    {
+      mLastTrack = track->second.getPrevTrack();
+    }
+    
     linkTwo( track->second.getPrevTrack(), track->second.getNextTrack() );
     mTracks.erase(track);
     mAddingIterator = mTracks.end();
