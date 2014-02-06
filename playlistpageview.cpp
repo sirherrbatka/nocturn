@@ -48,7 +48,6 @@ PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, Mai
     connect(mModel, SIGNAL(RemoveSelected()), this, SLOT(removeSelected()));
     connect(mModel, SIGNAL(NeedRefreshPlayListName(const QString&)), this, SLOT(needRefreshPlayListName(const QString&))); //ugly! works only for active playlist. At least I don't need to create new class from qtabwidget
     connect(mModel, SIGNAL( NeedRefreshView() ), this, SLOT( refreshView() ) );
-    connect(mModel, SIGNAL(CurrentPlaybackChanged(int, int)), this, SLOT(markNewPlayed(int, int)) );
 
     //signals from keyhandler
     connect(mKeyHandler, SIGNAL(SwitchRowKey(int)), this, SLOT(switchRow(int)));
@@ -79,7 +78,14 @@ void PlayListPageView::refreshView()
     clear();
     for(unsigned i = 0; i < mModel->getPlayListSize(); ++i)
     {
-        addItem(static_cast<QListWidgetItem*>(new PlayListPageViewItem(i, this)));
+	PlayListPageViewItem* newItem = new PlayListPageViewItem(i, this);
+        addItem(static_cast<QListWidgetItem*>(newItem));
+	if (mModel->getAudioTrackModel(i).isPlayed())
+	{
+	  newItem->setLabel(true);
+	} else {
+	  newItem->setLabel(false);
+	}
     }
     update();
 }
@@ -134,6 +140,12 @@ void PlayListPageView::removeSelected()
 {
     if(currentRow() >=0)
     {
+	if(currentRow() == mFormerCurrent)
+	{
+	  mFormerCurrent = -1;
+	} else if(currentRow() < mFormerCurrent) {
+	  --mFormerCurrent;
+	}
         mModel->deleteTrackModel(currentRow());
         delete takeItem(currentRow());
         update();
@@ -149,18 +161,3 @@ const AudioTrackModel& PlayListPageView::getAudioTrackModel(unsigned int number)
 {
     return mModel->getAudioTrackModel(number);
 }
-
-void PlayListPageView::markNewPlayed(int oldNumber, int newNumber)
-{
-  /*
-    if (oldNumber != -1)
-    {
-        static_cast<PlayListPageViewItem*>(item(oldNumber))->setLabel(false);
-    }
-    if (newNumber != -1)
-    {
-        static_cast<PlayListPageViewItem*>(item(newNumber))->setLabel(true);
-    }
-    */
-}
-

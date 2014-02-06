@@ -39,7 +39,7 @@ PlayListModel::PlayListModel(unsigned long long int key) :
     mKey(key)
 {
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(),
-		  SLOT(changeCurrentPlayList(PlayListModel*)));
+            SLOT(changeCurrentPlayList(PlayListModel*)));
 }
 
 PlayListModel::~PlayListModel()
@@ -58,7 +58,7 @@ PlayListModel& PlayListModel::operator=(PlayListModel&& other)
     mCurrentTrack = std::move(other.mCurrentTrack);
 
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(),
-		  SLOT(changeCurrentPlayList(PlayListModel*)));
+            SLOT(changeCurrentPlayList(PlayListModel*)));
     return *this;
 }
 
@@ -73,7 +73,7 @@ PlayListModel::PlayListModel(PlayListModel&& other) :
     mCurrentTrack(std::move(other.mCurrentTrack))
 {
     connect(this, SIGNAL(CurrentModelChanged(PlayListModel*)), MainControler::getMainControler(),
-		  SLOT(changeCurrentPlayList(PlayListModel*)));
+            SLOT(changeCurrentPlayList(PlayListModel*)));
 }
 
 
@@ -128,22 +128,32 @@ void PlayListModel::addTracks(const QStringList & paths)
 
 void PlayListModel::playNextTrack()
 {
-  mCurrentTrack += 1;
-  startPlayback(true);
+    if (mCurrentTrack < mTracksVector.size())
+    {
+        mTracksVector[mCurrentTrack].setAsPlayed(false);
+    }
+    mCurrentTrack += 1;
+    startPlayback(true);
 }
 
 void PlayListModel::playPrevTrack()
 {
-  if (mCurrentTrack == -1)
-  {
-    mCurrentTrack = 0;
-  }
-  startPlayback(true);
+    if (mCurrentTrack <= 0)
+    {
+        mCurrentTrack = 0;
+        startPlayback(true);
+        return;
+    } else if (mCurrentTrack < mTracksVector.size()) {
+        mTracksVector[mCurrentTrack].setAsPlayed(false);
+    }
+    --mCurrentTrack;
+    startPlayback(true);
+    return;
 }
 
 void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
 {
-  qDebug()<<mCurrentTrack;
+    qDebug()<<mCurrentTrack;
     if (locRequestPlayListCheck)
     {
         if (playListChecks() == false)
@@ -154,9 +164,9 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
 
     if (mCurrentTrack == -1)
     {
-      mCurrentTrack += 1;
-      startPlayback(false);
-      return;
+        mCurrentTrack += 1;
+        startPlayback(false);
+        return;
     }
 
     if (mCurrentTrack >= (int)(mTracksVector.size()) )
@@ -169,12 +179,13 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
     {
         emit FileDoesNotExists();
         deleteCurrentTrackModel();
-	mCurrentTrack += 1;
-	startPlayback(true);
+        mCurrentTrack += 1;
+        startPlayback(true);
         return;
     } else {
+        mTracksVector.at(mCurrentTrack).setAsPlayed(true);
         mTracksVector.at(mCurrentTrack).playThisTrack();
-	emit CurrentPlaybackChanged(mFormerCurrentTrack, mCurrentTrack);
+        emit NeedRefreshView();
         emit CurrentModelChanged(this);
         return;
     }
@@ -184,7 +195,7 @@ void PlayListModel::deleteCurrentTrackModel()
 {
     if (mCurrentTrack == -1)
     {
-      return;
+        return;
     }
 
     mTracksVector.erase(mTracksVector.begin()+mCurrentTrack);
@@ -211,9 +222,9 @@ void PlayListModel::replayPlayList(bool skipModeCheck = false)
 {
     if (MainControler::getMainControler()->getRepeatMode() or skipModeCheck)
     {
-      mCurrentTrack = 0;
-      startPlayback(true);
-      return;
+        mCurrentTrack = 0;
+        startPlayback(true);
+        return;
     } else {
         MainControler::getMainControler()->stopPlayback();
     }
@@ -236,7 +247,7 @@ void PlayListModel::requestRefresh()
 
 void PlayListModel::sortPlayList()
 {
-  std::sort(mTracksVector.begin(), mTracksVector.end());
+    std::sort(mTracksVector.begin(), mTracksVector.end());
 }
 
 void PlayListModel::clearMe()
@@ -339,7 +350,6 @@ void PlayListModel::deleteTrackModel(unsigned int number)
 
 void PlayListModel::changeCurrentAudioTrackModel(unsigned int number)
 {
-    mFormerCurrentTrack = mCurrentTrack;
     if (mCurrentTrack < mTracksVector.size())
     {
         mTracksVector[mCurrentTrack].setAsPlayed(false);
@@ -367,15 +377,19 @@ void PlayListModel::updateCurrentPlayListModel()
 
 void PlayListModel::setNewCurrent(unsigned int number)
 {
-  mCurrentTrack = number;
+    if (mCurrentTrack < mTracksVector.size())
+    {
+      mTracksVector[mCurrentTrack].setAsPlayed(false);
+    }
+    mCurrentTrack = number;
 }
 
 const long long unsigned int PlayListModel::getKey() const
 {
-  return mKey;
+    return mKey;
 }
 
 const AudioTrackModel& PlayListModel::getAudioTrackModel(unsigned int number) const
 {
-  return mTracksVector.at(number);
+    return mTracksVector.at(number);
 }

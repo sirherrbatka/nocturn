@@ -80,7 +80,7 @@ signals:
     void NeedRefreshPlayListName(const QString&);
     void PlaySelected();
     void RemoveSelected();
-    void CurrentPlaybackChanged(int oldCurrent, int newCurrent);
+    void CurrentTrackChanged(int number);
 
 public slots:
     void setNewCurrent(unsigned number);
@@ -98,6 +98,7 @@ private:
     void calculateTotalDuration();
     void deleteCurrentTrackModel();
     void sortPlayList();
+    void changeCurrentTrack(int newCurrent);
 
     //variables
     unsigned long long int mKey;

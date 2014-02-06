@@ -62,9 +62,9 @@ private:
     PlayListModel* mModel;
     QTabWidget* mParent;
     MainViewKeyHandler* mKeyHandler;
-    
+    int mFormerCurrent{-1};
+
 private slots:
-  void markNewPlayed(int oldNumber, int newNumber);
 };
 
 #endif // PLAYLISTPAGEVIEW_H
