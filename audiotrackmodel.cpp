@@ -197,7 +197,7 @@ bool AudioTrackModel::operator==(const AudioTrackModel& other) const
 
 bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 {
-    if (mAlbum != other.mAlbum)
+    if (other.mAlbum.toInt() != mAlbum.toInt())
     {
         if(0<(mAlbum.localeAwareCompare(other.mAlbum), Qt::CaseSensitive))
         {

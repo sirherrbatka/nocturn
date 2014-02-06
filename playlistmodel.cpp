@@ -105,8 +105,8 @@ void PlayListModel::addTracks(const QList<QUrl>& paths)
         mTracksVector.emplace(mTracksVector.end(), AudioTrackModel(each, this));
         mTotalDuration += mTracksVector.rbegin()->getDuration();
     }
-    sortPlayList();
     generatePlayListName();
+    sortPlayList();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
@@ -120,8 +120,8 @@ void PlayListModel::addTracks(const QStringList & paths)
         mTracksVector.emplace(mTracksVector.end(), AudioTrackModel(QUrl(each), this));
         mTotalDuration += mTracksVector.rbegin()->getDuration();
     }
-    sortPlayList();
     generatePlayListName();
+    sortPlayList();
     emit NeedRefreshView();
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mTotalDuration);
 }
