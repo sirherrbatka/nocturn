@@ -368,6 +368,7 @@ void PlayListModel::clearCurrentTrack()
         mTracksVector[mCurrentTrack].setAsPlayed(false);
     }
     mCurrentTrack = -1;
+    emit NeedRefreshView();
 }
 
 void PlayListModel::updateCurrentPlayListModel()
