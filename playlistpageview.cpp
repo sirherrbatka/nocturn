@@ -75,6 +75,7 @@ PlayListPageView::~PlayListPageView()
 
 void PlayListPageView::refreshView()
 {
+    int row = currentRow();
     clear();
     for(unsigned i = 0; i < mModel->getPlayListSize(); ++i)
     {
@@ -87,6 +88,7 @@ void PlayListPageView::refreshView()
 	  newItem->setLabel(false);
 	}
     }
+    setCurrentRow(row);
     update();
 }
 
