@@ -128,7 +128,6 @@ void PlayListModel::addTracks(const QStringList & paths)
 
 void PlayListModel::playNextTrack()
 {
-  qDebug()<<mCurrentTrack;
   mCurrentTrack += 1;
   startPlayback(true);
 }
@@ -153,7 +152,6 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
         }
     }
 
-  qDebug()<<mCurrentTrack;
     if (mCurrentTrack == -1)
     {
       mCurrentTrack += 1;
@@ -161,14 +159,12 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
       return;
     }
 
-  qDebug()<<mCurrentTrack;
     if (mCurrentTrack >= (int)(mTracksVector.size()) )
     {
         replayPlayList(false);
         return;
     }
 
-  qDebug()<<mCurrentTrack;
     if (mTracksVector[mCurrentTrack].fileExists() == false)
     {
         emit FileDoesNotExists();
@@ -177,8 +173,7 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
 	startPlayback(true);
         return;
     } else {
-  qDebug()<<mCurrentTrack;
-        mTracksVector[mCurrentTrack].playThisTrack();
+        mTracksVector.at(mCurrentTrack).playThisTrack();
 	emit CurrentPlaybackChanged(mFormerCurrentTrack, mCurrentTrack);
         emit CurrentModelChanged(this);
         return;

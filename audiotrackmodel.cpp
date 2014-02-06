@@ -71,13 +71,13 @@ AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
 }
 
 AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
-    mURL(std::move(other.mURL)),
-    mName(std::move(other.mName)),
-    mFile(std::move(other.mFile)),
+    mURL(other.mURL),
+    mName(other.mName),
+    mFile(other.mFile),
     mDuration(other.mDuration),
     mDiscNumber(other.mDiscNumber),
-    mAlbum(std::move(other.mAlbum)),
-    mArtist(std::move(other.mArtist)),
+    mAlbum(other.mAlbum),
+    mArtist(other.mArtist),
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
@@ -103,7 +103,7 @@ AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
 
 AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
 {
-    mURL = std::move(other.mURL);
+    mURL = other.mURL;
     mName = other.mName;
     mFile = other.mFile;
     mDuration = other.mDuration;
