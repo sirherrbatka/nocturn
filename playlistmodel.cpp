@@ -199,6 +199,7 @@ void PlayListModel::deleteCurrentTrackModel()
     }
 
     mTracksVector.erase(mTracksVector.begin()+mCurrentTrack);
+    generatePlayListName(false);
     emit NeedRefreshView();
 }
 
