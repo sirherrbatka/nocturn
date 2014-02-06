@@ -26,6 +26,7 @@
 #include <memory>
 #include <QKeyEvent>
 
+class AudioTrackModel;
 class MainViewKeyHandler;
 class PlayListModel;
 class QWidget;
@@ -39,6 +40,7 @@ public:
     ~PlayListPageView();
     void keyPressEvent(QKeyEvent *ev);
     int getCurrentRow();
+    const AudioTrackModel& getAudioTrackModel(unsigned number) const;
     QString getPlayListName();
 
 public slots:
@@ -60,6 +62,9 @@ private:
     PlayListModel* mModel;
     QTabWidget* mParent;
     MainViewKeyHandler* mKeyHandler;
+    
+private slots:
+  void markNewPlayed(int oldNumber, int newNumber);
 };
 
 #endif // PLAYLISTPAGEVIEW_H

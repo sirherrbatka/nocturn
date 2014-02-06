@@ -3,55 +3,32 @@
 #include <QDebug>
 #include "./playlistpageview.h"
 
-PlayListPageViewItem::PlayListPageViewItem(const std::map<unsigned long long, AudioTrackModel>::iterator& Model, int position, PlayListPageView* parent) :
-    mAudioTrackModel(Model),
+PlayListPageViewItem::PlayListPageViewItem(unsigned int position, PlayListPageView* parent) :
     mPosition(position),
     mParent(parent)
 {
     setLabel(false);
-    mAudioTrackModel->second.storeThis(Model);
-//     mAudioTrackModel->second.storeView(this);
-    connect(&(mAudioTrackModel->second), SIGNAL(NeedRefreshLabel()), this, SLOT(setLabel()));
-}
-
-void PlayListPageViewItem::disconnectMe()
-{
-    disconnect(&(mAudioTrackModel->second), SIGNAL(NeedRefreshLabel()), this, SLOT(setLabel()));
 }
 
 PlayListPageViewItem::~PlayListPageViewItem()
 {
 }
 
-int PlayListPageViewItem::getPosition() const
+unsigned PlayListPageViewItem::getPosition() const
 {
     return mPosition;
 }
 
 void PlayListPageViewItem::setLabel(bool bold)
 {
-    setText(mAudioTrackModel->second.getArtist() + " - " + mAudioTrackModel->second.getName());
+  const AudioTrackModel& track = mParent->getAudioTrackModel(mPosition);
+    setText(track.getArtist() + " - " + track.getName());
     QFont font;
-    if (bold or mAudioTrackModel->second.isPlayed())
+    if (bold or track.isPlayed())
     {
         font.setBold(true);
     } else {
         font.setBold(false);
     }
     setFont(font);
-}
-
-void PlayListPageViewItem::storeAudioTrackModel(const std::map< unsigned long long, AudioTrackModel >::iterator& Model)
-{
-    mAudioTrackModel = Model;
-}
-
-std::map< unsigned long long, AudioTrackModel >::iterator PlayListPageViewItem::getAudioTrackModel()
-{
-    return mAudioTrackModel;
-}
-
-void PlayListPageViewItem::playThisTrack()
-{
-    mAudioTrackModel->second.playThisTrack();
 }

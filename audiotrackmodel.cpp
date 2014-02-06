@@ -47,8 +47,6 @@ AudioTrackModel::AudioTrackModel(const QUrl& path, PlayListModel* playlist) :
         mDiscNumber = TagHandler.getDisc();
         mTrackNumber = TagHandler.getTrack();
         storeAlbum(TagHandler.getAlbum());
-        qDebug()<<"Track number is"<<mTrackNumber;
-        qDebug()<<"Disc number is"<<mDiscNumber;
     }
     mDuration = TagHandler.getDuration();
 }
@@ -125,17 +123,17 @@ inline void AudioTrackModel::storeAlbum(const QString& album)
 }
 
 
-QString AudioTrackModel::getPath() const
+const QString AudioTrackModel::getPath() const
 {
     return mURL.path();
 }
 
-QString AudioTrackModel::getName() const
+const QString AudioTrackModel::getName() const
 {
     return mName;
 }
 
-bool AudioTrackModel::fileExists() const
+const bool AudioTrackModel::fileExists() const
 {
     return mFile.exists();
 }
@@ -150,27 +148,27 @@ inline void AudioTrackModel::storeName(const QString& name)
     }
 }
 
-unsigned long long int AudioTrackModel::getDuration() const
+const unsigned long long int AudioTrackModel::getDuration() const
 {
     return mDuration;
 }
 
-int AudioTrackModel::getDiscNumber() const
+const int AudioTrackModel::getDiscNumber() const
 {
     return mDiscNumber;
 }
 
-QString AudioTrackModel::getAlbum() const
+const QString AudioTrackModel::getAlbum() const
 {
     return mAlbum;
 }
 
-int AudioTrackModel::getTrackNumber() const
+const int AudioTrackModel::getTrackNumber() const
 {
     return mTrackNumber;
 }
 
-QString AudioTrackModel::getArtist() const
+const QString AudioTrackModel::getArtist() const
 {
     return mArtist;
 }
@@ -243,33 +241,7 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 void AudioTrackModel::playThisTrack()
 {
     mModel->updateCurrentPlayListModel();
-    mModel->changeCurrentAudioTrackModel(mThis);
     MainControler::getMainControler()->playFile(mURL);
-}
-
-std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getNextTrack() const
-{
-    return mNext;
-}
-
-std::map< unsigned long long, AudioTrackModel >::iterator AudioTrackModel::getPrevTrack() const
-{
-    return mPrev;
-}
-
-void AudioTrackModel::storeNext(const std::map< unsigned long long, AudioTrackModel >::iterator& next)
-{
-    mNext = next;
-}
-
-void AudioTrackModel::storePrev(const std::map< unsigned long long, AudioTrackModel >::iterator& prev)
-{
-    mPrev = prev;
-}
-
-void AudioTrackModel::storeThis(const std::map< unsigned long long, AudioTrackModel >::iterator& thistrack)
-{
-    mThis = thistrack;
 }
 
 bool AudioTrackModel::isPlayed() const
@@ -280,9 +252,7 @@ bool AudioTrackModel::isPlayed() const
 void AudioTrackModel::setAsPlayed(bool played)
 {
     mPlayed = played;
-    assert(mView);
-//       mView->setLabel(played);
-     emit NeedRefreshLabel();
+    emit NeedRefreshLabel();
 }
 /*
 void AudioTrackModel::storeView(PlayListPageViewItem* item)
@@ -291,7 +261,7 @@ void AudioTrackModel::storeView(PlayListPageViewItem* item)
     mView = item;
 }*/
 
-QUrl AudioTrackModel::getURL() const
+const QUrl AudioTrackModel::getURL() const
 {
     return mURL;
 }

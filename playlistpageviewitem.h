@@ -32,23 +32,18 @@ class PlayListPageViewItem : public QObject, public QListWidgetItem
 {
   Q_OBJECT
 public:
-    PlayListPageViewItem(const std::map< unsigned long long, AudioTrackModel >::iterator& Model, int position, PlayListPageView* parent);
+    PlayListPageViewItem(unsigned position, PlayListPageView* parent);
     ~PlayListPageViewItem();
 
 public:
-    int getPosition() const;
-    void playThisTrack();
-    void storeAudioTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator& Model);
-    std::map<unsigned long long, AudioTrackModel>::iterator getAudioTrackModel();
-    void disconnectMe();
-    
+    unsigned getPosition() const;
+
 public slots:
-    void setLabel(bool bold = false);
+    void setLabel(bool bold);
 
 private:
-    int mPosition;
-    std::map<unsigned long long, AudioTrackModel>::iterator mAudioTrackModel;
+    unsigned mPosition;
     bool mPlaying{false};
-    PlayListPageView* mParent;
+    const PlayListPageView* mParent;
 };
 #endif // PLAYLISTPAGEVIEWITEM_H

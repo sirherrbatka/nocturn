@@ -164,7 +164,6 @@ void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
     qDebug()<<"Changing current model";
     if (mCurrentPlayList)
     {
-        mCurrentPlayList->clearCurrentTrack();
         mCurrentPlayList->setCurrent(false);
     }
     locPlayList->setCurrent(true);
@@ -183,7 +182,7 @@ void PlayListManager::fileEnded()
 void PlayListManager::startPlayback()
 {
     changeCurrentPlaylist(mActivePlayList);
-    mCurrentPlayList->replayPlayList(true);
+    mCurrentPlayList->startPlayback(true);
 }
 
 void PlayListManager::playNextTrack()

@@ -1,5 +1,4 @@
 /*
- * <one line to give the library's name and an idea of what it does.>
  * Copyright 2013  Marek Kochanowicz <sirherrbatka@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
@@ -45,36 +44,30 @@ public:
     PlayListModel& operator=(PlayListModel&& other);
     PlayListModel(PlayListModel&& other);
 
-    unsigned long long int getKey() const;
     void addTracks(const QList< QUrl >& paths);
     void addTracks(const QStringList & paths);
     const PlayListModel* getPlayListModel();
-    
-    std::map<unsigned long long, AudioTrackModel>::iterator getAudioTrackModel();
     QString getPlayListName() const;
     void changePlayListName(const QString& name);
     unsigned int getPlayListSize() const;
     void setCurrent(bool locCurrent);
     bool getCurrent() const;
     void requestRefresh();
-    void changeCurrentAudioTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator& newcurrent);
+    void changeCurrentAudioTrackModel(unsigned number);
     void clearMe();
     unsigned long long int getTotalDuration() const;
     void playSelected();
-    QStringList getPaths();
+    QStringList getPaths() const;
     void removeSelected();
-    void deleteTrackModel(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator);
-    bool modelsToAdd();
-    bool iteratorCurrent(std::map<unsigned long long, AudioTrackModel>::iterator& iterator) const;
+    void deleteTrackModel(unsigned number);
+    const AudioTrackModel& getAudioTrackModel(unsigned number) const;
 
-    std::map<unsigned long long, AudioTrackModel>::iterator getFirstAudioTrackModel() const;
-    std::map<unsigned long long, AudioTrackModel>::iterator getLastAudioTrackModel() const;
+    const unsigned long long getKey() const;
+    const AudioTrackModel& getFirstAudioTrackModel() const;
+    const AudioTrackModel& getLastAudioTrackModel() const;
 
-    void playCurrentTrack();
     void playFirstTrack();
-    bool iteratorExists(std::map< unsigned long long, AudioTrackModel >::iterator& iterator);
     void clearCurrentTrack();
-    void resetLooper();
     void updateCurrentPlayListModel();
 
 signals:
@@ -87,12 +80,14 @@ signals:
     void NeedRefreshPlayListName(const QString&);
     void PlaySelected();
     void RemoveSelected();
+    void CurrentPlaybackChanged(int oldCurrent, int newCurrent);
 
 public slots:
+    void setNewCurrent(unsigned number);
     void playNextTrack();
     void playPrevTrack();
     void replayPlayList(bool skipModeCheck);
-    void enableRandomMode(bool RandomMode);
+    void enableRandomMode(bool RandomMode); //not implemented
     void startPlayback(bool locRequestPlayListCheck);
     void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
 
@@ -103,11 +98,7 @@ private:
     void calculateTotalDuration();
     void deleteCurrentTrackModel();
     void sortPlayList();
-    void delinkModel(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator);
-    void linkTwo(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator1, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator2);
-    void linkThree(const std::map<unsigned long long, AudioTrackModel>::iterator &iterator1, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator2, const std::map<unsigned long long, AudioTrackModel>::iterator &iterator3);
-    void debugOrder();
-      
+
     //variables
     unsigned long long int mKey;
     bool mRandomMode {false};
@@ -115,14 +106,10 @@ private:
     bool mCustomPlayListName {false};
     bool mCurrent {false};
     unsigned long long int mTotalDuration {0};
-    std::map<unsigned long long, AudioTrackModel> mTracks;
-    unsigned long long mTrackKey{0};
-    
-    std::map<unsigned long long, AudioTrackModel>::iterator mCurrentTrack;
-    std::map<unsigned long long, AudioTrackModel>::iterator mFirstTrack;
-    std::map<unsigned long long, AudioTrackModel>::iterator mLastTrack;
-    std::map<unsigned long long, AudioTrackModel>::iterator mAddingIterator;
-    
+    std::vector<AudioTrackModel> mTracksVector;
+
+    int mCurrentTrack{-1};
+    int mFormerCurrentTrack{-1};
 };
 
 #endif // PLAYLISTMODEL_H

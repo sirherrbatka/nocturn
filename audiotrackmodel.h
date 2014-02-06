@@ -49,26 +49,21 @@ public:
 
     void setAsPlayed(bool played);
     bool isPlayed() const;
-    QString getPath() const;
-    QUrl getURL() const;
-    QString getName() const;
-    long long unsigned int getDuration() const;
-    bool fileExists() const;
-    int getTrackNumber() const;
-    QString getAlbum() const;
-    int getDiscNumber() const;
-    QString getArtist() const;
+    const QString getPath() const;
+    const QUrl getURL() const;
+    const QString getName() const;
+    const long long unsigned int getDuration() const;
+    const bool fileExists() const;
+    const int getTrackNumber() const;
+    const QString getAlbum() const;
+    const int getDiscNumber() const;
+    const QString getArtist() const;
     void playThisTrack();
-    void storeNext(const std::map<unsigned long long, AudioTrackModel>::iterator& next);
-    void storePrev(const std::map<unsigned long long, AudioTrackModel>::iterator& prev);
-    void storeThis(const std::map<unsigned long long, AudioTrackModel>::iterator& thistrack);
-    std::map<unsigned long long, AudioTrackModel>::iterator getNextTrack() const;
-    std::map<unsigned long long, AudioTrackModel>::iterator getPrevTrack() const;
 //     void storeView(PlayListPageViewItem* view);
-    
+
 signals:
   void NeedRefreshLabel();
-    
+
 private:
 
     inline void storeName(const QString& name);
@@ -82,16 +77,12 @@ private:
     QString mAlbum;
     QString mArtist;
     QUrl mURL;
-    bool mLinked{false};
     bool mPlayed{false};
     long long mDuration {0};
     int mTrackNumber {0};
     int mDiscNumber {-1}; //-1 = disc number not present.
     bool mCurrent {false}; //for sorting
 //     PlayListPageViewItem* mView;
-    std::map<unsigned long long, AudioTrackModel>::iterator mThis;
-    std::map<unsigned long long, AudioTrackModel>::iterator mNext;
-    std::map<unsigned long long, AudioTrackModel>::iterator mPrev;
 };
 
 #endif // AUDIOTRACKMODEL_H
