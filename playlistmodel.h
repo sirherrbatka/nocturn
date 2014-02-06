@@ -86,7 +86,7 @@ public slots:
     void setNewCurrent(unsigned number);
     void playNextTrack();
     void playPrevTrack();
-    void replayPlayList(bool skipModeCheck);
+    void replayPlayList(bool skipModeCheck = false);
     void enableRandomMode(bool RandomMode); //not implemented
     void startPlayback(bool locRequestPlayListCheck);
     void generatePlayListName(bool mOnlyUpdate = false); //makes new name (based on the album title) when mCustomPlayListName is false
@@ -110,7 +110,6 @@ private:
     std::vector<AudioTrackModel> mTracksVector;
 
     int mCurrentTrack{-1};
-    int mFormerCurrentTrack{-1};
 };
 
 #endif // PLAYLISTMODEL_H

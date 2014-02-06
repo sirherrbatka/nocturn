@@ -43,7 +43,6 @@ public slots:
 
 private:
     unsigned mPosition;
-    bool mPlaying{false};
     const PlayListPageView* mParent;
 };
 #endif // PLAYLISTPAGEVIEWITEM_H
