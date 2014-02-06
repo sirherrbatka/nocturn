@@ -218,7 +218,7 @@ inline bool PlayListModel::playListChecks()
     return true;
 }
 
-void PlayListModel::replayPlayList(bool skipModeCheck = false)
+void PlayListModel::replayPlayList(bool skipModeCheck)
 {
     if (MainControler::getMainControler()->getRepeatMode() or skipModeCheck)
     {

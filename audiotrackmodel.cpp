@@ -198,12 +198,12 @@ bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 {
     if (other.mAlbum != mAlbum)
     {
-        if(0<(mAlbum.compare(other.mAlbum)))
+        if(mAlbum < other.mAlbum)
         {
             return true;
         }
 
-        if(0>(mAlbum.compare(other.mAlbum)))
+        if(mAlbum > other.mAlbum)
         {
             return false;
         }
