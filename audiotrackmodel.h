@@ -67,14 +67,14 @@ signals:
 private:
 
     inline void storeName(const QString& name);
-    inline void storeAlbum(const QString& album);
+    inline void storeAlbum(const std::string& album);
     inline void storeArtist(const QString& artist);
 
     //variables
     QFileInfo mFile;
     PlayListModel* mModel;
     QString mName;
-    QString mAlbum {"No Album"};
+    std::string mAlbum {"No Album"};
     QString mArtist {"No Artist"};
     QUrl mURL;
     bool mPlayed{false};

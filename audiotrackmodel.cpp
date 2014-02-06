@@ -36,17 +36,16 @@ AudioTrackModel::AudioTrackModel(const QUrl& path, PlayListModel* playlist) :
     mModel(playlist)
 //     mView(nullptr)
 {
-    qDebug()<<"loaded file"<<" "<<path;
     TagHandler TagHandler(path.path());
     if (TagHandler.hasTags() == false)
     {
         mName = mFile.baseName();
     } else {
+        storeAlbum(TagHandler.getAlbum());
         storeName(TagHandler.getTitle());
         storeArtist(TagHandler.getArtist());
         mDiscNumber = TagHandler.getDisc();
         mTrackNumber = TagHandler.getTrack();
-        storeAlbum(TagHandler.getAlbum());
     }
     mDuration = TagHandler.getDuration();
 }
@@ -117,7 +116,7 @@ AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
     return *this;
 }
 
-inline void AudioTrackModel::storeAlbum(const QString& album)
+inline void AudioTrackModel::storeAlbum(const std::string& album)
 {
     mAlbum = album;
 }
@@ -160,7 +159,7 @@ const int AudioTrackModel::getDiscNumber() const
 
 const QString AudioTrackModel::getAlbum() const
 {
-    return mAlbum;
+    return QString::fromStdString(mAlbum);
 }
 
 const int AudioTrackModel::getTrackNumber() const
@@ -197,14 +196,14 @@ bool AudioTrackModel::operator==(const AudioTrackModel& other) const
 
 bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 {
-    if (other.mAlbum.toInt() != mAlbum.toInt())
+    if (other.mAlbum != mAlbum)
     {
-        if(0<(mAlbum.localeAwareCompare(other.mAlbum), Qt::CaseSensitive))
+        if(0<(mAlbum.compare(other.mAlbum)))
         {
             return true;
         }
 
-        if(0>(mAlbum.localeAwareCompare(other.mAlbum), Qt::CaseSensitive))
+        if(0>(mAlbum.compare(other.mAlbum)))
         {
             return false;
         }

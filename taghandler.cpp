@@ -40,9 +40,9 @@ TagHandler::~TagHandler()
 {
 }
 
-QString TagHandler::getAlbum() const
+std::string TagHandler::getAlbum() const
 {
-    return QString::fromStdString(mFile.get()->tag()->album().toCString());
+    return mFile.get()->tag()->album().toCString();
 }
 
 QString TagHandler::getArtist() const

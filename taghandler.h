@@ -39,7 +39,7 @@ public:
     int getDisc() const;
     int getTrack() const;
     QString getArtist() const;
-    QString getAlbum() const;
+    std::string getAlbum() const;
     long long getDuration() const;
     
     bool hasTags() const;
