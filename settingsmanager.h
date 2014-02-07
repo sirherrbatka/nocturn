@@ -37,7 +37,7 @@ public:
     void setSongAsWindowTitle(bool checked);
 private:
   //values
-    bool mSongAsWIndowTitle {false};
+    bool mSongAsWIndowTitle {true};
 
     //other members
     QSettings mSettings;

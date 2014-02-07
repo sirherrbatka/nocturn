@@ -30,7 +30,10 @@ mSettings("Nocturn")
 {
   assert(!mThisPointer);
   mThisPointer = this;
+  
+  mSettings.beginGroup("View");
   mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
+  mSettings.endGroup();
 }
 
 SettingsManager* SettingsManager::getSettingsManager()
