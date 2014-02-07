@@ -68,6 +68,7 @@ private slots:
     void switchPlayListView(int side);
     void relayPlayListModel(const std::vector<PlayListModel*>& playlists);
     void autoLoadPlayList(PlayListModel* playlist);
+    void showConfWindow();
 
 private:
     //methods

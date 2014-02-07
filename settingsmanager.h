@@ -20,14 +20,28 @@
  *
  */
 
-#include "settingsmanagerwriter.h"
+#ifndef SETTINGSMANAGER_H
+#define SETTINGSMANAGER_H
 
-SettingsManagerWriter::SettingsManagerWriter():
-mSettings("Herrbatka", "Nocturn")
+#include <QSettings>
+class SettingsManager
 {
-}
+public:
+    SettingsManager();
+    static SettingsManager* getSettingsManager();
 
-void SettingsManagerWriter::forceUpdate()
-{
-  emit RequestSettingsRefresh(mSettings);
-}
+    //Value retrivial starts here
+    const bool getSongAsWindowTitle() const;
+
+    //Value setting starts here
+    void setSongAsWindowTitle(bool checked);
+private:
+  //values
+    bool mSongAsWIndowTitle {false};
+
+    //other members
+    QSettings mSettings;
+    static SettingsManager* mThisPointer;
+};
+
+#endif // SETTINGSMANAGER_H

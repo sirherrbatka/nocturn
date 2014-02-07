@@ -18,10 +18,10 @@ include_directories(${PHONON_INCLUDES})
 include_directories(${TAGLIB_INCLUDES})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-SET(nocturn_SOURCES settingsmanagerwriter.cpp settingsmanagerreader.cpp playlistmodelfilehandler.cpp keyhandler.cpp mainviewkeyhandler.cpp audiotrackmodel.cpp maincontroler.cpp mainview.cpp modelmanager.cpp nocturn.cpp playbackmanager.cpp playbackmodel.cpp playbackphonon.cpp playlistmanager.cpp playlistmodel.cpp playlistpageview.cpp playlistpageviewitem.cpp taghandler.cpp main.cpp)
+SET(nocturn_SOURCES settingsview.cpp settingsmanager.cpp playlistmodelfilehandler.cpp keyhandler.cpp mainviewkeyhandler.cpp audiotrackmodel.cpp maincontroler.cpp mainview.cpp modelmanager.cpp nocturn.cpp playbackmanager.cpp playbackmodel.cpp playbackphonon.cpp playlistmanager.cpp playlistmodel.cpp playlistpageview.cpp playlistpageviewitem.cpp taghandler.cpp main.cpp)
 
 set(nocturn_HEADERS audiotrackmodel.h maincontroler.h mainview.h modelmanager.h nocturn.h playbackmanager.h playbackmodel.h playbackphonon.h playlistmanager.h playlistmodel.h playlistpageview.h playlistpageviewitem.h sharedtypes.h taghandler.h)
-SET(nocturn_FORMS mainform.ui)
+SET(nocturn_FORMS mainform.ui configform.ui)
 set(QT_USE_PHONON TRUE)
 set(QTCORELIBS ${QT_QTCORE_LIBRARY})
 set(QTGUILIBS ${QT_QTGUI_LIBRARY})

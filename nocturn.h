@@ -47,7 +47,6 @@ private slots:
 
 private:
   //methods
-  
     bool mAboutToQuit{false};
     QApplication* app{nullptr};
 

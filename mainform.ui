@@ -334,8 +334,20 @@
      <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <addaction name="actionShow_Configuration"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionShow_Configuration">
+   <property name="text">
+    <string>Show Configuration</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

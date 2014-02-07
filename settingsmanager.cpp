@@ -19,29 +19,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-#include "settingsmanagerreader.h"
 #include <cassert>
+#include <QSettings>
+#include "settingsmanager.h"
 
-SettingsManagerReader* SettingsManagerReader::mThisPointer = nullptr;
+SettingsManager* SettingsManager::mThisPointer = nullptr;
 
-SettingsManagerReader::SettingsManagerReader()
+SettingsManager::SettingsManager() :
+mSettings("Nocturn")
 {
-    assert(!mThisPointer);
-    mThisPointer = this;
+  assert(!mThisPointer);
+  mThisPointer = this;
+  mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
 }
 
-SettingsManagerReader* SettingsManagerReader::getSettingsManagerReader()
+SettingsManager* SettingsManager::getSettingsManager()
 {
-    return mThisPointer;
+  return mThisPointer;
 }
 
-const bool SettingsManagerReader::getSongAsWindowTitle() const
+const bool SettingsManager::getSongAsWindowTitle() const
 {
-    return mSongAsWIndowTitle;
+  return mSongAsWIndowTitle;
 }
 
-void SettingsManagerReader::updateSettings(const QSettings& settings)
+void SettingsManager::setSongAsWindowTitle(bool checked)
 {
-    mSongAsWIndowTitle = settings.value("Song as window title").toBool();
+mSongAsWIndowTitle = checked;
+mSettings.beginGroup("View");
+mSettings.setValue("SongTitleAsWindowTitle", checked);
+mSettings.endGroup();
 }

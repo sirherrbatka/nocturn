@@ -32,6 +32,7 @@
 #include "playbackmodel.h"
 #include <QMimeData>
 #include "./playbackphonon.h"
+#include "settingsview.h"
 #include <QToolButton>
 #include <qt4/QtGui/qicon.h>
 
@@ -59,6 +60,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     connect(this->toggleButton, SIGNAL(clicked()), this, SLOT(toggleButtonControl()));
     connect(this->PlayListsTabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     connect(newTabButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
+    connect(actionShow_Configuration, SIGNAL(triggered()), this, SLOT(showConfWindow()));
 
 //Mainview -> main controler
     connect(this, SIGNAL(TogglePlayback()), MainControler::getMainControler(), SLOT(togglePlayback()));
@@ -303,4 +305,10 @@ void MainView::setFirstTab()
     {
         newPlayListView();
     }
+}
+
+void MainView::showConfWindow()
+{
+  SettingsView settings;
+  settings.exec();
 }

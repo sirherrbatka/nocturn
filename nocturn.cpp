@@ -28,8 +28,7 @@
 #include <QStringList>
 #include <QSettings>
 
-#include "./settingsmanagerreader.h"
-#include "./settingsmanagerwriter.h"
+#include "./settingsmanager.h"
 
 nocturn* nocturn::mThisPointer = nullptr;
 
@@ -61,16 +60,12 @@ int nocturn::runNoctrun(int argc, char** argv)
         autoLoadMode = true;
     }
 
+    SettingsManager Settings;
     ModelManager Manager;
     MainControler Controler(&Manager);
     MainView View(Manager.getPlaybackManager()->getPlaybackModel(), autoLoadMode);
 
-    SettingsManagerReader SettingsReader;
-    SettingsManagerWriter SettingsWriter;
-    connect(&SettingsWriter, SIGNAL(RequestSettingsRefresh(const QSettings&)),
-	    &SettingsReader, SLOT(updateSettings(const QSettings&)));
-    SettingsWriter.forceUpdate();
-
+    
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     connect(app, SIGNAL(aboutToQuit()), &Controler, SLOT(quitNocturn()));
 

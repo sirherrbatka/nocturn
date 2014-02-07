@@ -20,23 +20,18 @@
  *
  */
 
-#ifndef SETTINGSMANAGERWRITER_H
-#define SETTINGSMANAGERWRITER_H
-#include <QObject>
-#include <QSettings>
+#include "settingsview.h"
+#include "settingsmanager.h"
+#include "nocturn.h"
 
-class SettingsManagerWriter : public QObject
+SettingsView::SettingsView()
 {
-  Q_OBJECT;
-public:
-    SettingsManagerWriter();
-    void forceUpdate();
+     setupUi(this);
+     mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
+     connect(mStoreButton, SIGNAL(clicked()), this, SLOT(storeValues()));
+}
 
-signals:
-    void RequestSettingsRefresh(const QSettings& settings);
-
-private:
-    QSettings mSettings;
-};
-
-#endif // SETTINGSMANAGERWRITER_H
+void SettingsView::storeValues()
+{
+  SettingsManager::getSettingsManager()->setSongAsWindowTitle(mSongAsWindowTitle->isChecked());
+}

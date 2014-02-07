@@ -22,7 +22,6 @@
 
 #include "modelmanager.h"
 #include "./playlistmanager.h"
-#include <cinttypes>
 
 ModelManager::ModelManager()
 {

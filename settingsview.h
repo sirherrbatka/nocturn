@@ -20,28 +20,18 @@
  *
  */
 
-#ifndef SETTINGSMANAGER_H
-#define SETTINGSMANAGER_H
-#include <QObject>
-#include <QSettings>
+#ifndef SETTINGSVIEW_H
+#define SETTINGSVIEW_H
+#include "ui_configform.h"
 
-class SettingsManagerReader : public QObject
+class SettingsView: public QDialog, public Ui_SettingsWindow
 {
-  Q_OBJECT
-
+    Q_OBJECT
 public:
-    SettingsManagerReader();
-    static SettingsManagerReader* getSettingsManagerReader();
+    SettingsView();
 
-    const bool getSongAsWindowTitle() const;
-
-public slots:
-  void updateSettings(const QSettings& settings);
-
-private:
-  static SettingsManagerReader* mThisPointer;
-
-  bool mSongAsWIndowTitle{false};
+private slots:
+  void storeValues();
 };
 
-#endif // SETTINGSMANAGER_H
+#endif // SETTINGSVIEW_H
