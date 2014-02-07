@@ -74,8 +74,8 @@ private:
     QFileInfo mFile;
     PlayListModel* mModel;
     QString mName;
-    std::string mAlbum {"No Album"};
-    QString mArtist {"No Artist"};
+    std::string mAlbum {""};
+    QString mArtist {""};
     QUrl mURL;
     bool mPlayed{false};
     long long mDuration {0};

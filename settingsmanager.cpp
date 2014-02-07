@@ -26,30 +26,30 @@
 SettingsManager* SettingsManager::mThisPointer = nullptr;
 
 SettingsManager::SettingsManager() :
-mSettings("Nocturn")
+    mSettings("Nocturn")
 {
-  assert(!mThisPointer);
-  mThisPointer = this;
-  
-  mSettings.beginGroup("View");
-  mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
-  mSettings.endGroup();
+    assert(!mThisPointer);
+    mThisPointer = this;
+
+    mSettings.beginGroup("View");
+    mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
+    mSettings.endGroup();
 }
 
 SettingsManager* SettingsManager::getSettingsManager()
 {
-  return mThisPointer;
+    return mThisPointer;
 }
 
 const bool SettingsManager::getSongAsWindowTitle() const
 {
-  return mSongAsWIndowTitle;
+    return mSongAsWIndowTitle;
 }
 
 void SettingsManager::setSongAsWindowTitle(bool checked)
 {
-mSongAsWIndowTitle = checked;
-mSettings.beginGroup("View");
-mSettings.setValue("SongTitleAsWindowTitle", checked);
-mSettings.endGroup();
+    mSongAsWIndowTitle = checked;
+    mSettings.beginGroup("View");
+    mSettings.setValue("SongTitleAsWindowTitle", checked);
+    mSettings.endGroup();
 }

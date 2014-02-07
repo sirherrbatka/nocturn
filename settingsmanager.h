@@ -36,7 +36,7 @@ public:
     //Value setting starts here
     void setSongAsWindowTitle(bool checked);
 private:
-  //values
+    //values
     bool mSongAsWIndowTitle {true};
 
     //other members
