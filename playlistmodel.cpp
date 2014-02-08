@@ -157,7 +157,6 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
     {
         if (playListChecks() == false)
         {
-            emit CurrentTrackChanged();
             return;
         }
     }
