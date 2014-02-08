@@ -59,6 +59,7 @@ public:
     void playSelected();
     QStringList getPaths() const;
     void removeSelected();
+    int getCurrentTrackNumber() const;
     void deleteTrackModel(unsigned number);
     const AudioTrackModel& getAudioTrackModel(unsigned number) const;
 

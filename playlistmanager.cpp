@@ -32,9 +32,12 @@
 #include <iostream>
 #include "./maincontroler.h"
 #include "./playlistmodelfilehandler.h"
+#include "audiotrackmodel.h"
+#include "settingsmanager.h"
 
 PlayListManager::PlayListManager()
 {
+    connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), SLOT(updateWindowTitle()));
 }
 
 PlayListManager::~PlayListManager()
@@ -118,7 +121,6 @@ void PlayListManager::deletePlayList(long long unsigned int locKey)
     auto it = mPlayLists.find(locKey);
     if (locKey == mCurrentPlayList->getKey())
     {
-        qDebug()<<"Deleting current playlist";
         if (mActivePlayList)
         {
             mCurrentPlayList = mActivePlayList;
@@ -150,7 +152,6 @@ QList<QUrl> PlayListManager::scanDirectory(const QDir & dir)
 
 inline bool PlayListManager::isSupportedFile(const QString& path)
 {
-    qDebug()<<path;
     return isAudioFile(path);
 }
 
@@ -161,13 +162,13 @@ inline bool PlayListManager::isAudioFile(const QString& path)
 
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
 {
-    qDebug()<<"Changing current model";
     if (mCurrentPlayList)
     {
         mCurrentPlayList->setCurrent(false);
     }
     locPlayList->setCurrent(true);
     mCurrentPlayList = locPlayList;
+    connect(mCurrentPlayList, SIGNAL(CurrentTrackChanged(int)), this, SLOT(currentSongChanged(int)));
 }
 
 void PlayListManager::fileEnded()
@@ -196,6 +197,10 @@ void PlayListManager::playNextTrack()
 
 void PlayListManager::playPrevTrack()
 {
+    if (!mCurrentPlayList)
+    {
+        mCurrentPlayList = mActivePlayList;
+    }
     mCurrentPlayList->playPrevTrack();
 }
 
@@ -288,4 +293,25 @@ void PlayListManager::restorePlayListFromFiles()
 void PlayListManager::removeSelected()
 {
     mActivePlayList->removeSelected();
+}
+
+void PlayListManager::currentSongChanged(int number)
+{
+    if (mCurrentPlayList)
+    {
+        if (number != -1)
+        {
+            emit CurrentSongChanged(mCurrentPlayList->getAudioTrackModel(number).getName());
+        } else {
+            emit CurrentSongChanged("");
+        }
+    }
+}
+
+void PlayListManager::updateWindowTitle()
+{
+    if (mCurrentPlayList)
+    {
+        currentSongChanged(mCurrentPlayList->getCurrentTrackNumber());
+    }
 }

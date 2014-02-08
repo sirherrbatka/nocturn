@@ -69,6 +69,7 @@ private slots:
     void relayPlayListModel(const std::vector<PlayListModel*>& playlists);
     void autoLoadPlayList(PlayListModel* playlist);
     void showConfWindow();
+    void updateWindowTitle(const QString& title);
 
 private:
     //methods

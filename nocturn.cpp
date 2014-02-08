@@ -65,7 +65,6 @@ int nocturn::runNoctrun(int argc, char** argv)
     MainControler Controler(&Manager);
     MainView View(Manager.getPlaybackManager()->getPlaybackModel(), autoLoadMode);
 
-    
     connect(app, SIGNAL(aboutToQuit()), this, SLOT(quitNocturn()) );
     connect(app, SIGNAL(aboutToQuit()), &Controler, SLOT(quitNocturn()));
 
@@ -74,6 +73,7 @@ int nocturn::runNoctrun(int argc, char** argv)
     {
         Manager.getPlayListManager()->autoLoadPath(path);
     }
+    connect(Manager.getPlayListManager(), SIGNAL(CurrentSongChanged(const QString&)), &View, SLOT(updateWindowTitle(const QString&)));
     View.setFirstTab();
     return app->exec();
 }

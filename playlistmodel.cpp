@@ -153,11 +153,11 @@ void PlayListModel::playPrevTrack()
 
 void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
 {
-    qDebug()<<mCurrentTrack;
     if (locRequestPlayListCheck)
     {
         if (playListChecks() == false)
         {
+            emit CurrentTrackChanged(-1);
             return;
         }
     }
@@ -187,8 +187,10 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
         mTracksVector.at(mCurrentTrack).playThisTrack();
         emit NeedRefreshView();
         emit CurrentModelChanged(this);
+        emit CurrentTrackChanged(mCurrentTrack);
         return;
     }
+    emit CurrentTrackChanged(-1);
 }
 
 void PlayListModel::deleteCurrentTrackModel()
@@ -369,6 +371,7 @@ void PlayListModel::clearCurrentTrack()
         mTracksVector[mCurrentTrack].setAsPlayed(false);
     }
     mCurrentTrack = -1;
+    emit CurrentTrackChanged(-1);
     emit NeedRefreshView();
 }
 
@@ -381,7 +384,7 @@ void PlayListModel::setNewCurrent(unsigned int number)
 {
     if (mCurrentTrack < mTracksVector.size())
     {
-      mTracksVector[mCurrentTrack].setAsPlayed(false);
+        mTracksVector[mCurrentTrack].setAsPlayed(false);
     }
     mCurrentTrack = number;
 }
@@ -394,4 +397,9 @@ const long long unsigned int PlayListModel::getKey() const
 const AudioTrackModel& PlayListModel::getAudioTrackModel(unsigned int number) const
 {
     return mTracksVector.at(number);
+}
+
+int PlayListModel::getCurrentTrackNumber() const
+{
+  return mCurrentTrack;
 }

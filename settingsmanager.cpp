@@ -52,4 +52,5 @@ void SettingsManager::setSongAsWindowTitle(bool checked)
     mSettings.beginGroup("View");
     mSettings.setValue("SongTitleAsWindowTitle", checked);
     mSettings.endGroup();
+    emit ConfigurationUpdated();
 }

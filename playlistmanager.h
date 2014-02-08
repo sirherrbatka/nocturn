@@ -33,8 +33,9 @@ class QDir;
 class PlayListModel;
 class QStringList;
 
-class PlayListManager
+class PlayListManager : public QObject
 {
+  Q_OBJECT
 
 public:
     PlayListManager();
@@ -51,7 +52,6 @@ public:
     PlayListModel* getActiveModel() const;
     PlayListModel* getCurrentModel() const;
     void clearCurrentTrack(); //used to set current track on current playlist to -1, this prevents bold text on any item.
-
     void addFilesToActivePlayList(const QList<QUrl> &locFiles);
     void deletePlayList(long long unsigned int locKey);
     void fileEnded();
@@ -66,6 +66,9 @@ public:
     bool getRepeatMode() const;
     void savePlayListFiles();
     void restorePlayListFromFiles();
+
+signals:
+    void CurrentSongChanged(const QString& title);
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
@@ -83,6 +86,10 @@ private:
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     bool mRepeateMode{true};
+    
+private slots:
+  void currentSongChanged(int number);
+  void updateWindowTitle();
 };
 
 #endif // PLAYLISTMANAGER_H

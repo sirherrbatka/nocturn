@@ -24,8 +24,9 @@
 #define SETTINGSMANAGER_H
 
 #include <QSettings>
-class SettingsManager
+class SettingsManager : public QObject
 {
+  Q_OBJECT
 public:
     SettingsManager();
     static SettingsManager* getSettingsManager();
@@ -35,6 +36,8 @@ public:
 
     //Value setting starts here
     void setSongAsWindowTitle(bool checked);
+signals:
+  void ConfigurationUpdated();
 private:
     //values
     bool mSongAsWIndowTitle {true};

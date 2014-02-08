@@ -82,7 +82,6 @@ private:
     int mTrackNumber {0};
     int mDiscNumber {-1}; //-1 = disc number not present.
     bool mCurrent {false}; //for sorting
-//     PlayListPageViewItem* mView;
 };
 
 #endif // AUDIOTRACKMODEL_H

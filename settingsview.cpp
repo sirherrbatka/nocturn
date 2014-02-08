@@ -29,6 +29,7 @@ SettingsView::SettingsView()
      setupUi(this);
      mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
      connect(mStoreButton, SIGNAL(clicked()), this, SLOT(storeValues()));
+     setWindowTitle("Settings");
 }
 
 void SettingsView::storeValues()

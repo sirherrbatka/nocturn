@@ -33,6 +33,7 @@
 #include <QMimeData>
 #include "./playbackphonon.h"
 #include "settingsview.h"
+#include "settingsmanager.h"
 #include <QToolButton>
 #include <qt4/QtGui/qicon.h>
 
@@ -311,4 +312,14 @@ void MainView::showConfWindow()
 {
   SettingsView settings;
   settings.exec();
+}
+
+void MainView::updateWindowTitle(const QString& title)
+{
+  if (SettingsManager::getSettingsManager()->getSongAsWindowTitle() and !title.isEmpty())
+  {
+    setWindowTitle(title);
+  } else {
+    setWindowTitle("Nocturn");
+  }
 }
