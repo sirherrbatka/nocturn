@@ -157,7 +157,7 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
     {
         if (playListChecks() == false)
         {
-            emit CurrentTrackChanged(-1);
+            emit CurrentTrackChanged();
             return;
         }
     }
@@ -187,10 +187,10 @@ void PlayListModel::startPlayback(bool locRequestPlayListCheck = true)
         mTracksVector.at(mCurrentTrack).playThisTrack();
         emit NeedRefreshView();
         emit CurrentModelChanged(this);
-        emit CurrentTrackChanged(mCurrentTrack);
+        emit CurrentTrackChanged();
         return;
     }
-    emit CurrentTrackChanged(-1);
+    emit CurrentTrackChanged();
 }
 
 void PlayListModel::deleteCurrentTrackModel()
@@ -371,7 +371,7 @@ void PlayListModel::clearCurrentTrack()
         mTracksVector[mCurrentTrack].setAsPlayed(false);
     }
     mCurrentTrack = -1;
-    emit CurrentTrackChanged(-1);
+    emit CurrentTrackChanged();
     emit NeedRefreshView();
 }
 

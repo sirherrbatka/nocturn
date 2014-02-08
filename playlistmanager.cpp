@@ -37,7 +37,7 @@
 
 PlayListManager::PlayListManager()
 {
-    connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), SLOT(updateWindowTitle()));
+    connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(currentSongChanged()));
 }
 
 PlayListManager::~PlayListManager()
@@ -168,7 +168,7 @@ void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
     }
     locPlayList->setCurrent(true);
     mCurrentPlayList = locPlayList;
-    connect(mCurrentPlayList, SIGNAL(CurrentTrackChanged(int)), this, SLOT(currentSongChanged(int)));
+    connect(mCurrentPlayList, SIGNAL(CurrentTrackChanged()), this, SLOT(currentSongChanged()));
 }
 
 void PlayListManager::fileEnded()
@@ -295,23 +295,16 @@ void PlayListManager::removeSelected()
     mActivePlayList->removeSelected();
 }
 
-void PlayListManager::currentSongChanged(int number)
+void PlayListManager::currentSongChanged()
 {
     if (mCurrentPlayList)
     {
+	int number = mCurrentPlayList->getCurrentTrackNumber();
         if (number != -1)
         {
             emit CurrentSongChanged(mCurrentPlayList->getAudioTrackModel(number).getName());
         } else {
             emit CurrentSongChanged("");
         }
-    }
-}
-
-void PlayListManager::updateWindowTitle()
-{
-    if (mCurrentPlayList)
-    {
-        currentSongChanged(mCurrentPlayList->getCurrentTrackNumber());
     }
 }

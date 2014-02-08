@@ -88,8 +88,7 @@ private:
     bool mRepeateMode{true};
     
 private slots:
-  void currentSongChanged(int number);
-  void updateWindowTitle();
+  void currentSongChanged();
 };
 
 #endif // PLAYLISTMANAGER_H
