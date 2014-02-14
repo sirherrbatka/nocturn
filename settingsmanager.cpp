@@ -33,6 +33,7 @@ SettingsManager::SettingsManager() :
 
     mSettings.beginGroup("View");
     mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
+    mShowTrayIcon = mSettings.value("ShowTrayIcon").toBool();
     mSettings.endGroup();
 }
 
@@ -45,6 +46,21 @@ const bool SettingsManager::getSongAsWindowTitle() const
 {
     return mSongAsWIndowTitle;
 }
+
+const bool SettingsManager::getShowTrayIcon() const
+{
+    return mShowTrayIcon;
+}
+
+void SettingsManager::setShowTrayIcon(bool checked)
+{
+    mShowTrayIcon = checked;
+    mSettings.beginGroup("View");
+    mSettings.setValue("ShowTrayIcon", checked);
+    mSettings.endGroup();
+    emit ConfigurationUpdated();
+}
+
 
 void SettingsManager::setSongAsWindowTitle(bool checked)
 {

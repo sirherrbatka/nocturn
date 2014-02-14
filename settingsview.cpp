@@ -35,4 +35,5 @@ SettingsView::SettingsView()
 void SettingsView::storeValues()
 {
   SettingsManager::getSettingsManager()->setSongAsWindowTitle(mSongAsWindowTitle->isChecked());
+  SettingsManager::getSettingsManager()->setShowTrayIcon(mShowTrayIcon->isChecked());
 }

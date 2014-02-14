@@ -8,6 +8,7 @@ ADD_DEFINITIONS(
     # Other flags
 )
 
+SET(nocturn_FORMS mainform.ui configform.ui)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 FIND_PACKAGE(Qt4 REQUIRED QtCore QtGui)
@@ -22,9 +23,9 @@ SET(nocturn_SOURCES settingsview.cpp settingsmanager.cpp playlistmodelfilehandle
 SET(nocturn_RESOURCES resources.qrc)
 
 QT4_ADD_RESOURCES(nocturn_RESOURCES_RCC ${nocturn_RESOURCES})
+QT4_WRAP_UI(nocturn_FORMS_HEADERS ${nocturn_FORMS})
 
 set(nocturn_HEADERS audiotrackmodel.h maincontroler.h mainview.h modelmanager.h nocturn.h playbackmanager.h playbackmodel.h playbackphonon.h playlistmanager.h playlistmodel.h playlistpageview.h playlistpageviewitem.h sharedtypes.h taghandler.h)
-SET(nocturn_FORMS mainform.ui configform.ui)
 set(QT_USE_PHONON TRUE)
 set(QTCORELIBS ${QT_QTCORE_LIBRARY})
 set(QTGUILIBS ${QT_QTGUI_LIBRARY})

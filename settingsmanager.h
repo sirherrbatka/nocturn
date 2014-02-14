@@ -33,14 +33,17 @@ public:
 
     //Value retrivial starts here
     const bool getSongAsWindowTitle() const;
+    const bool getShowTrayIcon() const;
 
     //Value setting starts here
     void setSongAsWindowTitle(bool checked);
+    void setShowTrayIcon(bool checked);
 signals:
   void ConfigurationUpdated();
 private:
     //values
     bool mSongAsWIndowTitle {true};
+    bool mShowTrayIcon{false};
 
     //other members
     QSettings mSettings;

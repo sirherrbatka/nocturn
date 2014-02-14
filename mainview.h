@@ -71,6 +71,7 @@ private slots:
     void autoLoadPlayList(PlayListModel* playlist);
     void showConfWindow();
     void updateWindowTitle(const QString& title);
+    void updateTrayVisiblity();
 
 private:
     //methods

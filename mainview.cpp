@@ -56,6 +56,8 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
 
+    connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(updateTrayVisiblity()));
+
     //Inner mainview connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
     connect(this, SIGNAL(modelSignal(PlayListModel*)), MainControler::getMainControler(), SLOT(changeActivePlayList(PlayListModel*)));
@@ -85,8 +87,6 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     connect(&mKeyHandler, SIGNAL(SwitchPlayListViewKey(int)), this, SLOT(switchPlayListView(int)));
 
     setWindowIcon(QIcon(":/nocturn.png"));
-    mTrayIcon.setVisible(true);
-    mTrayIcon.show();
     show();
 }
 
@@ -184,6 +184,11 @@ inline void MainView::updateLabel()
     repaint();
     update();
     qDebug()<<"Updating status label";
+}
+
+void MainView::updateTrayVisiblity()
+{
+    mTrayIcon.setVisible(SettingsManager::getSettingsManager()->getShowTrayIcon());
 }
 
 void MainView::toggleButtonControl()
@@ -314,16 +319,16 @@ void MainView::setFirstTab()
 
 void MainView::showConfWindow()
 {
-  SettingsView settings;
-  settings.exec();
+    SettingsView settings;
+    settings.exec();
 }
 
 void MainView::updateWindowTitle(const QString& title)
 {
-  if (SettingsManager::getSettingsManager()->getSongAsWindowTitle() and !title.isEmpty())
-  {
-    setWindowTitle(title);
-  } else {
-    setWindowTitle("Nocturn");
-  }
+    if (SettingsManager::getSettingsManager()->getSongAsWindowTitle() and !title.isEmpty())
+    {
+        setWindowTitle(title);
+    } else {
+        setWindowTitle("Nocturn");
+    }
 }
