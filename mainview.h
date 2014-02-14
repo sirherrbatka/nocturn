@@ -33,6 +33,7 @@
 #include "./mainviewkeyhandler.h"
 #include <memory>
 #include <QHBoxLayout>
+#include <QSystemTrayIcon>
 
 class PlayListModel;
 class PlayListPageView;
@@ -80,6 +81,7 @@ private:
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
     MainViewKeyHandler mKeyHandler;
+    QSystemTrayIcon mTrayIcon;
 };
 
 #endif

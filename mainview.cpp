@@ -39,7 +39,8 @@
 
 
 MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
-    QMainWindow()
+    QMainWindow(),
+    mTrayIcon(QIcon(":/nocturn.png"))
 {
     setAcceptDrops(true);
     setupUi(this);
@@ -83,6 +84,9 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     connect(&mKeyHandler, SIGNAL(NewPlayListViewKey()), this, SLOT(newPlayListView()));
     connect(&mKeyHandler, SIGNAL(SwitchPlayListViewKey(int)), this, SLOT(switchPlayListView(int)));
 
+    setWindowIcon(QIcon(":/nocturn.png"));
+    mTrayIcon.setVisible(true);
+    mTrayIcon.show();
     show();
 }
 
