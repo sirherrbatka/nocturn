@@ -57,6 +57,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
 
     connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(updateTrayVisiblity()));
+    connect(&mTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleWindowVisiblity()));
 
     //Inner mainview connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
@@ -332,4 +333,10 @@ void MainView::updateWindowTitle(const QString& title)
     } else {
         setWindowTitle("Nocturn");
     }
+}
+
+void MainView::toggleWindowVisiblity()
+{
+  setVisible(mWindowHiden);
+  mWindowHiden = !mWindowHiden;
 }
