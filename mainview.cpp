@@ -88,6 +88,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
 
     setWindowIcon(QIcon(":/nocturn.png"));
     show();
+    updateTrayVisiblity();
 }
 
 void MainView::dropEvent(QDropEvent *ev)
