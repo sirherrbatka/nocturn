@@ -56,6 +56,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
 
+    //System tray related connections.
     connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(updateTrayVisiblity()));
     connect(&mTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleWindowVisiblity()));
 
