@@ -26,14 +26,17 @@
 
 SettingsView::SettingsView()
 {
-     setupUi(this);
-     mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
-     connect(mStoreButton, SIGNAL(clicked()), this, SLOT(storeValues()));
-     setWindowTitle("Settings");
+    mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
+    mShowTrayIcon->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
+
+    connect(mStoreButton, SIGNAL(clicked()), this, SLOT(storeValues()));
+    setWindowTitle("Settings");
+
+    setupUi(this);
 }
 
 void SettingsView::storeValues()
 {
-  SettingsManager::getSettingsManager()->setSongAsWindowTitle(mSongAsWindowTitle->isChecked());
-  SettingsManager::getSettingsManager()->setShowTrayIcon(mShowTrayIcon->isChecked());
+    SettingsManager::getSettingsManager()->setSongAsWindowTitle(mSongAsWindowTitle->isChecked());
+    SettingsManager::getSettingsManager()->setShowTrayIcon(mShowTrayIcon->isChecked());
 }
