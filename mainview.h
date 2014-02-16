@@ -72,7 +72,7 @@ private slots:
     void showConfWindow();
     void updateWindowTitle(const QString& title);
     void updateTrayVisiblity();
-    void toggleWindowVisiblity();
+    void toggleWindowVisiblity(QSystemTrayIcon::ActivationReason reason);
 
 private:
     //methods
@@ -84,6 +84,7 @@ private:
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
     MainViewKeyHandler mKeyHandler;
     QSystemTrayIcon mTrayIcon;
+    QMenu mTrayIconMenu;
     bool mWindowHiden{false};
 };
 

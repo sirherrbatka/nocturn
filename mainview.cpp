@@ -40,7 +40,8 @@
 
 MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     QMainWindow(),
-    mTrayIcon(QIcon(":/nocturn.png"))
+    mTrayIcon(QIcon(":/nocturn.png")),
+    mTrayIconMenu()
 {
     setAcceptDrops(true);
     setupUi(this);
@@ -58,7 +59,13 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
 
     //System tray related connections.
     connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(updateTrayVisiblity()));
-    connect(&mTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleWindowVisiblity()));
+    connect(&mTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleWindowVisiblity(QSystemTrayIcon::ActivationReason)));
+
+    connect(mTrayIconMenu.addAction(QIcon::fromTheme("media-playback-start"), tr("Start Playback")), SIGNAL(triggered(bool)),
+	    MainControler::getMainControler(), SLOT(startPlayback()));
+    connect(mTrayIconMenu.addAction(QIcon::fromTheme("media-playback-stop"), tr("Stop Playback")), SIGNAL(triggered(bool)),
+	    MainControler::getMainControler(), SLOT(stopPlayback()));
+    mTrayIcon.setContextMenu(&mTrayIconMenu);
 
     //Inner mainview connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
@@ -336,8 +343,11 @@ void MainView::updateWindowTitle(const QString& title)
     }
 }
 
-void MainView::toggleWindowVisiblity()
+void MainView::toggleWindowVisiblity(QSystemTrayIcon::ActivationReason reason)
 {
-  setVisible(mWindowHiden);
-  mWindowHiden = !mWindowHiden;
+  if(reason == QSystemTrayIcon::Trigger)
+  {
+    setVisible(mWindowHiden);
+    mWindowHiden = !mWindowHiden;
+  }
 }
