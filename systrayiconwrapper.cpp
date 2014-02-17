@@ -88,6 +88,7 @@ void SysTrayIconWrapper::rebuildMenu()
     {
         std::unique_ptr<AudioTrackProxy> proxy(new AudioTrackProxy(i, *this));
         mTrackProxys.push_back(std::move(proxy));
+	
         connect(mSystemTrayMenu.addAction(model->getAudioTrackModel(i).getName()), SIGNAL(triggered(bool)),
                 mTrackProxys.rbegin()->get(), SLOT(playThisTrack()));
     }

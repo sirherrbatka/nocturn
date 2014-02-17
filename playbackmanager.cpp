@@ -32,7 +32,7 @@
 PlaybackManager::PlaybackManager()
 {
     connect(mPlaybackModel.get(), SIGNAL(FileEnded()), this, SLOT(fileEnded()));
-    
+
     //main controler forwards this to the mainview and keyhandler.
     connect(mPlaybackModel.get(), SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)), this, SIGNAL(StatusChanged(SharedTypes::PlaybackState, SharedTypes::PlaybackState)));
 }

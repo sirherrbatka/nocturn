@@ -31,7 +31,6 @@ void AudioTrackProxy::playThisTrack()
 
 AudioTrackProxy::AudioTrackProxy(unsigned int number, SysTrayIconWrapper& wrapper) :
     mNumber(number),
-    mWrapper(wrapper)
 {
     connect(this, SIGNAL(PlayMe(uint)), &wrapper, SLOT(playTrack(uint)));
 }

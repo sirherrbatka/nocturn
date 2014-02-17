@@ -36,7 +36,6 @@ AudioTrackModel::AudioTrackModel(const QUrl& path, PlayListModel* playlist) :
     mFile(path.path()),
     mURL(path),
     mModel(playlist)
-//     mView(nullptr)
 {
     TagHandler TagHandler(path.path());
     if (TagHandler.hasTags() == false)

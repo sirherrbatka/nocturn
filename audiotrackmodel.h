@@ -65,7 +65,6 @@ signals:
   void NeedRefreshLabel();
 
 private:
-
     inline void storeName(const QString& name);
     inline void storeAlbum(const std::string& album);
     inline void storeArtist(const QString& artist);
@@ -74,8 +73,8 @@ private:
     QFileInfo mFile;
     PlayListModel* mModel;
     QString mName;
-    std::string mAlbum {""};
-    QString mArtist {""};
+    std::string mAlbum;
+    QString mArtist;
     QUrl mURL;
     bool mPlayed{false};
     long long mDuration {0};
