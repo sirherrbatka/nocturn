@@ -123,4 +123,8 @@ void SysTrayIconWrapper::playTrack(unsigned int track)
 void SysTrayIconWrapper::changeStatus(SharedTypes::PlaybackState newStatus, SharedTypes::PlaybackState oldStatus)
 {
     mStatus = newStatus;
+    if (mStatus == SharedTypes::StoppedState)
+    {
+      rebuildMenu();
+    }
 }
