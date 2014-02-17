@@ -110,7 +110,7 @@ void SysTrayIconWrapper::updateTrayVisibility()
 void SysTrayIconWrapper::playTrack(unsigned int track)
 {
     PlayListModel* model = nullptr;
-    if (mStatus = SharedTypes::StoppedState)
+    if (mStatus == SharedTypes::StoppedState)
     {
         model = mPlaylists.getActiveModel();
     } else {
