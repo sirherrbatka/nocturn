@@ -23,11 +23,13 @@
 #ifndef AUDIOTRACKMODEL_H
 #define AUDIOTRACKMODEL_H
 
+#include <memory>
+
 #include <qlist.h>
 #include <qstring.h>
 #include <QFile>
 #include <QFileInfo>
-#include <memory>
+
 #include "./taghandler.h"
 #include "./playlistmodel.h"
 
@@ -45,7 +47,6 @@ public:
     AudioTrackModel& operator=(AudioTrackModel&& other);
     AudioTrackModel& operator=(const AudioTrackModel& other);
     bool operator<(const AudioTrackModel& other) const;
-    bool operator==(const AudioTrackModel& other) const;
 
     void setAsPlayed(bool played);
     bool isPlayed() const;

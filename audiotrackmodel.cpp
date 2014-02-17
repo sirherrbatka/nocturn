@@ -175,23 +175,6 @@ void AudioTrackModel::storeArtist(const QString& artist)
     mArtist = artist;
 }
 
-bool AudioTrackModel::operator==(const AudioTrackModel& other) const
-{
-    if (mAlbum != other.mAlbum)
-    {
-        return false;
-    }
-    if (mTrackNumber != other.mTrackNumber)
-    {
-        return false;
-    }
-    if (mTrackNumber != other.mTrackNumber)
-    {
-        return false;
-    }
-    return true; //silencing warning
-}
-
 bool AudioTrackModel::operator<(const AudioTrackModel& other) const
 {
     if (other.mAlbum != mAlbum)
