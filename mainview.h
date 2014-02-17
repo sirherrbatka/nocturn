@@ -71,7 +71,6 @@ private slots:
     void autoLoadPlayList(PlayListModel* playlist);
     void showConfWindow();
     void updateWindowTitle(const QString& title);
-    void updateTrayVisiblity();
     void toggleWindowVisiblity(QSystemTrayIcon::ActivationReason reason);
 
 private:
@@ -83,8 +82,6 @@ private:
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
     MainViewKeyHandler mKeyHandler;
-    QSystemTrayIcon mTrayIcon;
-    QMenu mTrayIconMenu;
     bool mWindowHiden{false};
 };
 

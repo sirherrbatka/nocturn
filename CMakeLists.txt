@@ -19,7 +19,7 @@ include_directories(${PHONON_INCLUDES})
 include_directories(${TAGLIB_INCLUDES})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-SET(nocturn_SOURCES settingsview.cpp settingsmanager.cpp playlistmodelfilehandler.cpp keyhandler.cpp mainviewkeyhandler.cpp audiotrackmodel.cpp maincontroler.cpp mainview.cpp modelmanager.cpp nocturn.cpp playbackmanager.cpp playbackmodel.cpp playbackphonon.cpp playlistmanager.cpp playlistmodel.cpp playlistpageview.cpp playlistpageviewitem.cpp taghandler.cpp main.cpp)
+SET(nocturn_SOURCES audiotrackproxy.cpp systrayiconwrapper.cpp settingsview.cpp settingsmanager.cpp playlistmodelfilehandler.cpp keyhandler.cpp mainviewkeyhandler.cpp audiotrackmodel.cpp maincontroler.cpp mainview.cpp modelmanager.cpp nocturn.cpp playbackmanager.cpp playbackmodel.cpp playbackphonon.cpp playlistmanager.cpp playlistmodel.cpp playlistpageview.cpp playlistpageviewitem.cpp taghandler.cpp main.cpp)
 SET(nocturn_RESOURCES resources.qrc)
 
 QT4_ADD_RESOURCES(nocturn_RESOURCES_RCC ${nocturn_RESOURCES})

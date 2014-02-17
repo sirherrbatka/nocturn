@@ -29,6 +29,7 @@
 #include <QSettings>
 
 #include "./settingsmanager.h"
+#include "./systrayiconwrapper.h"
 
 nocturn* nocturn::mThisPointer = nullptr;
 
@@ -75,6 +76,7 @@ int nocturn::runNoctrun(int argc, char** argv)
     }
     connect(Manager.getPlayListManager(), SIGNAL(CurrentSongChanged(const QString&)), &View, SLOT(updateWindowTitle(const QString&)));
     View.setFirstTab();
+    SysTrayIconWrapper Icon(View, *(Manager.getPlayListManager()));
     return app->exec();
 }
 

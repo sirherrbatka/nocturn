@@ -69,13 +69,14 @@ public:
 
 signals:
     void CurrentSongChanged(const QString& title);
+    void ActivePlayListChanged();
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
     PlayListManager& operator=(const PlayListManager& other); //not implemented
     bool operator==(const PlayListManager& other); //not implemented
     QList< QUrl > scanDirectory(const QDir& dir); //not implemented
-    
+
     inline bool isSupportedFile(const QString& path);
     inline bool isAudioFile(const QString& path);
     void addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList);
@@ -86,7 +87,7 @@ private:
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     bool mRepeateMode{true};
-    
+
 private slots:
   void currentSongChanged();
 };

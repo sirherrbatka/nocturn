@@ -77,11 +77,6 @@ PlayListModel::PlayListModel(PlayListModel&& other) :
 }
 
 
-const PlayListModel* PlayListModel::getPlayListModel()
-{
-    return this;
-}
-
 QString PlayListModel::getPlayListName() const
 {
     return mPlayListName;

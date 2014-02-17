@@ -56,7 +56,7 @@ void PlayListManager::addFilesToActivePlayList(const QList< QUrl >& locFiles)
         } else {
             if (isSupportedFile(url.path()))
             {
-                locPaths.push_back(url);
+                locPaths.push_back(std::move(url));
             }
         }
     }
@@ -102,6 +102,7 @@ void PlayListManager::changeActivePlaylist(PlayListModel * locPlayList)
         qDebug()<<"Changing current playlist";
     }
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mActivePlayList->getTotalDuration());
+    emit ActivePlayListChanged();
 }
 
 PlayListModel* PlayListManager::newPlayList()
@@ -307,4 +308,9 @@ void PlayListManager::currentSongChanged()
             emit CurrentSongChanged("");
         }
     }
+}
+
+PlayListModel* PlayListManager::getActiveModel() const
+{
+  return mActivePlayList;
 }

@@ -46,7 +46,6 @@ public:
 
     void addTracks(const QList< QUrl >& paths);
     void addTracks(const QStringList & paths);
-    const PlayListModel* getPlayListModel();
     QString getPlayListName() const;
     void changePlayListName(const QString& name);
     unsigned int getPlayListSize() const;
@@ -77,7 +76,6 @@ signals:
     void PlayListNameChanged();
     void NeedRefreshView();
     void PlayListEmpty();
-    void OutOfRange();
     void NeedRefreshPlayListName(const QString&);
     void PlaySelected();
     void RemoveSelected();

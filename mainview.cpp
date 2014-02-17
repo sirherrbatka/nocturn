@@ -39,9 +39,7 @@
 
 
 MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
-    QMainWindow(),
-    mTrayIcon(QIcon(":/nocturn.png")),
-    mTrayIconMenu()
+    QMainWindow()
 {
     setAcceptDrops(true);
     setupUi(this);
@@ -56,16 +54,6 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     QWidget* newTabButton = new QToolButton(this->PlayListsTabs);
     (dynamic_cast<QToolButton*>(newTabButton))->setIcon(QIcon::fromTheme("list-add"));
     this->PlayListsTabs->setCornerWidget(newTabButton, Qt::TopRightCorner);
-
-    //System tray related connections.
-    connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(updateTrayVisiblity()));
-    connect(&mTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleWindowVisiblity(QSystemTrayIcon::ActivationReason)));
-
-    connect(mTrayIconMenu.addAction(QIcon::fromTheme("media-playback-start"), tr("Start Playback")), SIGNAL(triggered(bool)),
-	    MainControler::getMainControler(), SLOT(startPlayback()));
-    connect(mTrayIconMenu.addAction(QIcon::fromTheme("media-playback-stop"), tr("Stop Playback")), SIGNAL(triggered(bool)),
-	    MainControler::getMainControler(), SLOT(stopPlayback()));
-    mTrayIcon.setContextMenu(&mTrayIconMenu);
 
     //Inner mainview connections
     connect(this->PlayListsTabs, SIGNAL(currentChanged(int)), this, SLOT(notifyPlayListManagerAboutActivePlayListChange(int)));
@@ -97,7 +85,6 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
 
     setWindowIcon(QIcon(":/nocturn.png"));
     show();
-    updateTrayVisiblity();
 }
 
 void MainView::dropEvent(QDropEvent *ev)
@@ -194,11 +181,6 @@ inline void MainView::updateLabel()
     repaint();
     update();
     qDebug()<<"Updating status label";
-}
-
-void MainView::updateTrayVisiblity()
-{
-    mTrayIcon.setVisible(SettingsManager::getSettingsManager()->getShowTrayIcon());
 }
 
 void MainView::toggleButtonControl()
