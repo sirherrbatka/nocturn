@@ -46,6 +46,7 @@ SysTrayIconWrapper::SysTrayIconWrapper(const MainView& view, const PlayListManag
     connect(&mSystemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), &view, SLOT(toggleWindowVisiblity(QSystemTrayIcon::ActivationReason)));
     connect(&mPlaylists, SIGNAL(CurrentSongChanged(const QString&)), this, SLOT(rebuildMenu()));
     connect(&mPlaylists, SIGNAL(ActivePlayListChanged()), this, SLOT(rebuildMenu()));
+    connect(&mPlaylists, SIGNAL(TrackListChanged()), this, SLOT(rebuildMenu()));
 
     connect(&mPlayAction, SIGNAL(triggered(bool)), MainControler::getMainControler(), SLOT(startPlayback()));
     connect(&mStopAction, SIGNAL(triggered(bool)), MainControler::getMainControler(), SLOT(stopPlayback()));
@@ -60,6 +61,10 @@ SysTrayIconWrapper::SysTrayIconWrapper(const MainView& view, const PlayListManag
 
 void SysTrayIconWrapper::rebuildMenu()
 {
+    if(!SettingsManager::getSettingsManager()->getShowTrayIcon())
+    {
+      return;
+    }
     PlayListModel* model = nullptr;
     if (mStatus == SharedTypes::StoppedState)
     {
@@ -99,6 +104,7 @@ void SysTrayIconWrapper::rebuildMenu()
 void SysTrayIconWrapper::updateTrayVisibility()
 {
     mSystemTrayIcon.setVisible(SettingsManager::getSettingsManager()->getShowTrayIcon());
+    rebuildMenu();
 }
 
 void SysTrayIconWrapper::playTrack(unsigned int track)

@@ -106,6 +106,7 @@ void PlayListManager::changeActivePlaylist(PlayListModel * locPlayList)
         qDebug()<<"Changing current playlist";
     }
     MainControler::getMainControler()->requestTotalDurationLabelUpdate(mActivePlayList->getTotalDuration());
+    connect(mActivePlayList, SIGNAL(NeedRefreshView()), this, SIGNAL(TrackListChanged()));
     emit ActivePlayListChanged();
 }
 
@@ -174,6 +175,7 @@ void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
     locPlayList->setCurrent(true);
     mCurrentPlayList = locPlayList;
     connect(mCurrentPlayList, SIGNAL(CurrentTrackChanged()), this, SLOT(currentSongChanged()));
+    connect(mCurrentPlayList, SIGNAL(NeedRefreshView()), this, SIGNAL(TrackListChanged()));
 }
 
 void PlayListManager::fileEnded()

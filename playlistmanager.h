@@ -71,6 +71,7 @@ public:
 signals:
     void CurrentSongChanged(const QString& title);
     void ActivePlayListChanged();
+    void TrackListChanged();
 
 private:
     PlayListManager(const PlayListManager& other); //not implemented
