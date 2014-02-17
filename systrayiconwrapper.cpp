@@ -82,6 +82,7 @@ void SysTrayIconWrapper::rebuildMenu()
     mSystemTrayMenu.clear();
     mSystemTrayMenu.addAction(&mPlayAction);
     mSystemTrayMenu.addAction(&mStopAction);
+    mSystemTrayMenu.addSeparator();
 
     mTrackProxys.erase(mTrackProxys.begin(), mTrackProxys.end());
     for(unsigned i = 0; i < model->getPlayListSize(); ++i)
