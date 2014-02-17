@@ -21,13 +21,15 @@
  */
 
 #include "audiotrackmodel.h"
-#include "taghandler.h"
+
 #include <QFile>
 #include <QDebug>
 #include <memory>
 #include <QString>
-#include "./maincontroler.h"
+
+#include "maincontroler.h"
 #include "playlistpageviewitem.h"
+#include "taghandler.h"
 
 class AudioTracksHolder;
 AudioTrackModel::AudioTrackModel(const QUrl& path, PlayListModel* playlist) :
@@ -65,7 +67,6 @@ AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
-//     mView(other.mView)
 {
 }
 
@@ -80,7 +81,6 @@ AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
-//     mView(other.mView)
 {
 }
 
@@ -96,7 +96,6 @@ AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
     mTrackNumber = std::move(other.mTrackNumber);
     mCurrent = std::move(other.mCurrent);
     mModel = std::move(other.mModel);
-//     mView = other.mView;
     return *this;
 }
 
@@ -112,7 +111,6 @@ AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
     mTrackNumber = other.mTrackNumber;
     mCurrent = other.mCurrent;
     mModel = other.mModel;
-//     mView = other.mView;
     return *this;
 }
 

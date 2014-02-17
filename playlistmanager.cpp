@@ -158,7 +158,7 @@ inline bool PlayListManager::isSupportedFile(const QString& path)
 
 inline bool PlayListManager::isAudioFile(const QString& path)
 {
-    return path.contains(QRegExp(".*.mp4$|.*.mp3$|.*.ogg$|.*.wav$|.*.flac$|.*.mpc$|.*.ape$|.*.m4a$", Qt::CaseInsensitive));
+    return path.contains(mAudioFilePattern);
 }
 
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
