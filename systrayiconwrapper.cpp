@@ -65,6 +65,7 @@ void SysTrayIconWrapper::rebuildMenu()
     {
       return;
     }
+
     PlayListModel* model = nullptr;
     if (mStatus == SharedTypes::StoppedState)
     {
@@ -131,8 +132,9 @@ void SysTrayIconWrapper::playTrack(unsigned int track)
 void SysTrayIconWrapper::changeStatus(SharedTypes::PlaybackState newStatus, SharedTypes::PlaybackState oldStatus)
 {
     mStatus = newStatus;
-    if (mStatus == SharedTypes::StoppedState)
+    if (mStatus == SharedTypes::StoppedState &&
+	mPlaylists.getActiveModel() != mPlaylists.getCurrentModel())
     {
-      rebuildMenu();
+        rebuildMenu();
     }
 }
