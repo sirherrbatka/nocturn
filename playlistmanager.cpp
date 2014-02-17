@@ -38,7 +38,8 @@
 #include "settingsmanager.h"
 #include "playlistmodel.h"
 
-PlayListManager::PlayListManager()
+PlayListManager::PlayListManager() :
+mAudioFilePattern(".*.mp4$|.*.mp3$|.*.ogg$|.*.wav$|.*.flac$|.*.mpc$|.*.ape$|.*.m4a$", Qt::CaseInsensitive)
 {
     connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(currentSongChanged()));
 }

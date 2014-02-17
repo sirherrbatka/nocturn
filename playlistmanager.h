@@ -88,7 +88,7 @@ private:
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     bool mRepeateMode{true};
-    QRegExp mAudioFilePattern{".*.mp4$|.*.mp3$|.*.ogg$|.*.wav$|.*.flac$|.*.mpc$|.*.ape$|.*.m4a$", Qt::CaseInsensitive};
+    QRegExp mAudioFilePattern;
 
 private slots:
   void currentSongChanged();
