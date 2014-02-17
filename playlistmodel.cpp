@@ -21,19 +21,20 @@
  */
 
 #include "playlistmodel.h"
-#include <QDebug>
+
 #include <algorithm>
 #include <cassert>
 #include <memory>
-#include "./maincontroler.h"
-#include <qstringlist.h>
-#include "./audiotrackmodel.h"
-#include <QString>
 #include <vector>
+
+#include <QDebug>
+#include <qstringlist.h>
+#include <QString>
 #include <qt4/QtCore/qnamespace.h>
 #include <Qt>
-#include <algorithm>
 
+#include "./maincontroler.h"
+#include "./audiotrackmodel.h"
 
 PlayListModel::PlayListModel(unsigned long long int key) :
     mKey(key)

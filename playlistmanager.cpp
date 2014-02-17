@@ -21,19 +21,22 @@
  */
 
 #include "playlistmanager.h"
-#include <QUrl>
+
 #include <cassert>
 #include <utility>
+#include <iostream>
+
+#include <QUrl>
 #include <QDebug>
-#include "./playlistmodel.h"
 #include <QDir>
 #include <QFileInfoList>
 #include <QFileInfo>
-#include <iostream>
-#include "./maincontroler.h"
-#include "./playlistmodelfilehandler.h"
+
+#include "maincontroler.h"
+#include "playlistmodelfilehandler.h"
 #include "audiotrackmodel.h"
 #include "settingsmanager.h"
+#include "playlistmodel.h"
 
 PlayListManager::PlayListManager()
 {

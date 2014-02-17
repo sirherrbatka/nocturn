@@ -22,8 +22,10 @@
 
 #ifndef PLAYLISTPAGEVIEW_H
 #define PLAYLISTPAGEVIEW_H
-#include <QListWidget>
+
 #include <memory>
+
+#include <QListWidget>
 #include <QKeyEvent>
 
 class AudioTrackModel;

@@ -60,7 +60,6 @@ public:
     const int getDiscNumber() const;
     const QString getArtist() const;
     void playThisTrack();
-//     void storeView(PlayListPageViewItem* view);
 
 signals:
   void NeedRefreshLabel();

@@ -24,6 +24,7 @@
 #define SETTINGSMANAGER_H
 
 #include <QSettings>
+
 class SettingsManager : public QObject
 {
   Q_OBJECT

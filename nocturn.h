@@ -23,12 +23,14 @@
 #ifndef NOCTURN_H
 #define NOCTURN_H
 
+#include <cinttypes>
+
+#include <qt4/QtGui/qapplication.h>
+#include <QObject>
+
 #include "./mainview.h"
 #include "./maincontroler.h"
 #include "./modelmanager.h"
-#include <cinttypes>
-#include <qt4/QtGui/qapplication.h>
-#include <QObject>
 
 class nocturn : public QObject
 {

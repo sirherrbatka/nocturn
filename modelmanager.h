@@ -25,7 +25,9 @@
 
 #include <memory>
 #include <cinttypes>
+
 #include <QString>
+
 #include "./playbackmodel.h"
 #include "./playlistmanager.h"
 #include "playbackmanager.h"

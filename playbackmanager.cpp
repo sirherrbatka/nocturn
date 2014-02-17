@@ -21,10 +21,12 @@
  */
 
 #include "playbackmanager.h"
-#include "./playbackmodel.h"
-#include "./maincontroler.h"
+
 #include <QDebug>
+
 #include "./sharedtypes.h"
+#include "./maincontroler.h"
+#include "./playbackmodel.h"
 #include "./maincontroler.h"
 
 PlaybackManager::PlaybackManager()

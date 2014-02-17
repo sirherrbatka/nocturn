@@ -22,6 +22,7 @@
 
 #ifndef SETTINGSVIEW_H
 #define SETTINGSVIEW_H
+
 #include "ui_configform.h"
 
 class SettingsView: public QDialog, public Ui_SettingsWindow

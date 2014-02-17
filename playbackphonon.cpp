@@ -21,6 +21,7 @@
  */
 
 #include "playbackphonon.h"
+
 #include <QDebug>
 #include "./sharedtypes.h"
 

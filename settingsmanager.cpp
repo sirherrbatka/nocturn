@@ -19,9 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#include "settingsmanager.h"
+
 #include <cassert>
 #include <QSettings>
-#include "settingsmanager.h"
 
 SettingsManager* SettingsManager::mThisPointer = nullptr;
 

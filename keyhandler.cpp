@@ -21,8 +21,10 @@
  */
 
 #include "keyhandler.h"
-#include "maincontroler.h"
+
 #include <Qt>
+
+#include "maincontroler.h"
 
 KeyHandler::KeyHandler()
 {

@@ -20,17 +20,18 @@
  *
  */
 
-#include "playlistpageview.h"
-#include "./playlistmodel.h"
-#include "maincontroler.h"
 #include <qt4/QtGui/qfont.h>
 #include <qlist.h>
 #include <QDebug>
+#include <QListWidgetItem>
+#include <QTabWidget>
+
+#include "maincontroler.h"
 #include "./mainviewkeyhandler.h"
 #include "./nocturn.h"
-#include <QListWidgetItem>
 #include "./playlistpageviewitem.h"
-#include <QTabWidget>
+#include "playlistpageview.h"
+#include "./playlistmodel.h"
 
 PlayListPageView::PlayListPageView(PlayListModel* model, QTabWidget* parent, MainViewKeyHandler* keyhandler) :
     mParent(parent),

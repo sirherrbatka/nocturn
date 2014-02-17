@@ -22,7 +22,9 @@
 
 #ifndef PLAYBACKMODEL_H
 #define PLAYBACKMODEL_H
+
 #include <qobject.h>
+
 #include "./sharedtypes.h"
 
 class QUrl;
