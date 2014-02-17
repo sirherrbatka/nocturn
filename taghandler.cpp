@@ -21,13 +21,16 @@
  */
 
 #include "taghandler.h"
-#include <QStringList>
+
 #include <cassert>
+#include <string>
+
+#include <QStringList>
+
 #include <taglib/tpropertymap.h>
 #include <taglib/fileref.h>
 #include <taglib/tstring.h>
 #include <taglib/tag.h>
-#include <string>
 #include <phonon/MediaObject>
 #include <audioproperties.h>
 

@@ -24,8 +24,10 @@
 #define TAGHANDLER_H
 
 #include <memory>
+
 #include <QString>
 #include <QUrl>
+
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
 
@@ -34,16 +36,16 @@ class TagHandler
 public:
     TagHandler(const QString& path);
     ~TagHandler();
-    
+
     QString getTitle() const;
     int getDisc() const;
     int getTrack() const;
     QString getArtist() const;
     std::string getAlbum() const;
     long long getDuration() const;
-    
+
     bool hasTags() const;
-    
+
 private:
   //methods
   //variables

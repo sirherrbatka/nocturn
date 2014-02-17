@@ -21,20 +21,21 @@
  */
 
 #include "audiotrackmodel.h"
-#include "taghandler.h"
+
 #include <QFile>
 #include <QDebug>
 #include <memory>
 #include <QString>
-#include "./maincontroler.h"
+
+#include "maincontroler.h"
 #include "playlistpageviewitem.h"
+#include "taghandler.h"
 
 class AudioTracksHolder;
 AudioTrackModel::AudioTrackModel(const QUrl& path, PlayListModel* playlist) :
     mFile(path.path()),
     mURL(path),
     mModel(playlist)
-//     mView(nullptr)
 {
     TagHandler TagHandler(path.path());
     if (TagHandler.hasTags() == false)
@@ -65,7 +66,6 @@ AudioTrackModel::AudioTrackModel(AudioTrackModel&& other) :
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
-//     mView(other.mView)
 {
 }
 
@@ -80,7 +80,6 @@ AudioTrackModel::AudioTrackModel(const AudioTrackModel& other) :
     mTrackNumber(other.mTrackNumber),
     mCurrent(other.mCurrent),
     mModel(other.mModel)
-//     mView(other.mView)
 {
 }
 
@@ -96,7 +95,6 @@ AudioTrackModel& AudioTrackModel::operator=(AudioTrackModel&& other)
     mTrackNumber = std::move(other.mTrackNumber);
     mCurrent = std::move(other.mCurrent);
     mModel = std::move(other.mModel);
-//     mView = other.mView;
     return *this;
 }
 
@@ -112,7 +110,6 @@ AudioTrackModel& AudioTrackModel::operator=(const AudioTrackModel& other)
     mTrackNumber = other.mTrackNumber;
     mCurrent = other.mCurrent;
     mModel = other.mModel;
-//     mView = other.mView;
     return *this;
 }
 
@@ -175,23 +172,6 @@ const QString AudioTrackModel::getArtist() const
 void AudioTrackModel::storeArtist(const QString& artist)
 {
     mArtist = artist;
-}
-
-bool AudioTrackModel::operator==(const AudioTrackModel& other) const
-{
-    if (mAlbum != other.mAlbum)
-    {
-        return false;
-    }
-    if (mTrackNumber != other.mTrackNumber)
-    {
-        return false;
-    }
-    if (mTrackNumber != other.mTrackNumber)
-    {
-        return false;
-    }
-    return true; //silencing warning
 }
 
 bool AudioTrackModel::operator<(const AudioTrackModel& other) const

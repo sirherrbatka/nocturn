@@ -21,9 +21,11 @@
  */
 
 #include "maincontroler.h"
+
+#include <qobject.h>
+
 #include "./modelmanager.h"
 #include "./playlistmanager.h"
-#include <qobject.h>
 #include "./sharedtypes.h"
 
 MainControler* MainControler::mThisPointer = nullptr;

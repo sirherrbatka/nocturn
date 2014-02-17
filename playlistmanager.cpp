@@ -21,19 +21,22 @@
  */
 
 #include "playlistmanager.h"
-#include <QUrl>
+
 #include <cassert>
 #include <utility>
+#include <iostream>
+
+#include <QUrl>
 #include <QDebug>
-#include "./playlistmodel.h"
 #include <QDir>
 #include <QFileInfoList>
 #include <QFileInfo>
-#include <iostream>
-#include "./maincontroler.h"
-#include "./playlistmodelfilehandler.h"
+
+#include "maincontroler.h"
+#include "playlistmodelfilehandler.h"
 #include "audiotrackmodel.h"
 #include "settingsmanager.h"
+#include "playlistmodel.h"
 
 PlayListManager::PlayListManager()
 {
@@ -158,7 +161,7 @@ inline bool PlayListManager::isSupportedFile(const QString& path)
 
 inline bool PlayListManager::isAudioFile(const QString& path)
 {
-    return path.contains(QRegExp(".*.mp4$|.*.mp3$|.*.ogg$|.*.wav$|.*.flac$|.*.mpc$|.*.ape$|.*.m4a$", Qt::CaseInsensitive));
+    return path.contains(mAudioFilePattern);
 }
 
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)

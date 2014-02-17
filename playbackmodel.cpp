@@ -21,6 +21,7 @@
  */
 
 #include "playbackmodel.h"
+
 #include <qurl.h>
 
 

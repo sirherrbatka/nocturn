@@ -1,6 +1,8 @@
 #include "./playlistpageviewitem.h"
+
 #include <QObject>
 #include <QDebug>
+
 #include "./playlistpageview.h"
 
 PlayListPageViewItem::PlayListPageViewItem(unsigned int position, PlayListPageView* parent) :

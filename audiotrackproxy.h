@@ -36,7 +36,6 @@ public:
 
 private:
     unsigned mNumber;
-    SysTrayIconWrapper& mWrapper;
 
 public slots:
     void playThisTrack();

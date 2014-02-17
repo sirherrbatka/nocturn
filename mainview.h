@@ -24,16 +24,19 @@
 #define MAINVIEW_H
 
 #include "./ui_mainform.h"
+
+#include <vector>
+#include <memory>
+
+#include <QHBoxLayout>
+#include <QSystemTrayIcon>
 #include <QMainWindow>
 #include <QDropEvent>
 #include <QKeyEvent>
 #include <QUrl>
-#include <vector>
+
 #include "./sharedtypes.h"
 #include "./mainviewkeyhandler.h"
-#include <memory>
-#include <QHBoxLayout>
-#include <QSystemTrayIcon>
 
 class PlayListModel;
 class PlayListPageView;

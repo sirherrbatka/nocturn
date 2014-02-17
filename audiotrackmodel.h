@@ -23,11 +23,13 @@
 #ifndef AUDIOTRACKMODEL_H
 #define AUDIOTRACKMODEL_H
 
+#include <memory>
+
 #include <qlist.h>
 #include <qstring.h>
 #include <QFile>
 #include <QFileInfo>
-#include <memory>
+
 #include "./taghandler.h"
 #include "./playlistmodel.h"
 
@@ -45,7 +47,6 @@ public:
     AudioTrackModel& operator=(AudioTrackModel&& other);
     AudioTrackModel& operator=(const AudioTrackModel& other);
     bool operator<(const AudioTrackModel& other) const;
-    bool operator==(const AudioTrackModel& other) const;
 
     void setAsPlayed(bool played);
     bool isPlayed() const;
@@ -59,13 +60,11 @@ public:
     const int getDiscNumber() const;
     const QString getArtist() const;
     void playThisTrack();
-//     void storeView(PlayListPageViewItem* view);
 
 signals:
   void NeedRefreshLabel();
 
 private:
-
     inline void storeName(const QString& name);
     inline void storeAlbum(const std::string& album);
     inline void storeArtist(const QString& artist);
@@ -74,8 +73,8 @@ private:
     QFileInfo mFile;
     PlayListModel* mModel;
     QString mName;
-    std::string mAlbum {""};
-    QString mArtist {""};
+    std::string mAlbum;
+    QString mArtist;
     QUrl mURL;
     bool mPlayed{false};
     long long mDuration {0};

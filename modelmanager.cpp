@@ -21,7 +21,8 @@
  */
 
 #include "modelmanager.h"
-#include "./playlistmanager.h"
+
+#include "playlistmanager.h"
 
 ModelManager::ModelManager()
 {

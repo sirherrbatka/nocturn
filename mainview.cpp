@@ -21,22 +21,23 @@
  */
 #include "mainview.h"
 #include "ui_mainform.h"
+
 #include <QtGui/QMainWindow>
 #include <QDebug>
 #include <QUrl>
 #include <QKeyEvent>
 #include <Qt>
 #include <QHBoxLayout>
-#include "./maincontroler.h"
-#include "./playlistpageview.h"
-#include "playbackmodel.h"
 #include <QMimeData>
-#include "./playbackphonon.h"
-#include "settingsview.h"
-#include "settingsmanager.h"
 #include <QToolButton>
 #include <qt4/QtGui/qicon.h>
 
+#include "./maincontroler.h"
+#include "./playlistpageview.h"
+#include "playbackmodel.h"
+#include "playbackphonon.h"
+#include "settingsview.h"
+#include "settingsmanager.h"
 
 MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     QMainWindow()

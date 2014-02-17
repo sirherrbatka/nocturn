@@ -23,10 +23,12 @@
 #ifndef MAINCONTROLER_H
 #define MAINCONTROLER_H
 
-#include <qobject.h>
-#include <QUrl>
 #include <memory>
 #include <cassert>
+
+#include <qobject.h>
+#include <QUrl>
+
 #include "./sharedtypes.h"
 #include "./keyhandler.h"
 

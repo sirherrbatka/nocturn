@@ -21,6 +21,7 @@
  */
 
 #include "settingsview.h"
+
 #include "settingsmanager.h"
 #include "nocturn.h"
 

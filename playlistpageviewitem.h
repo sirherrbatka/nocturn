@@ -22,9 +22,12 @@
 
 #ifndef PLAYLISTPAGEVIEWITEM_H
 #define PLAYLISTPAGEVIEWITEM_H
-#include <QListWidgetItem>
-#include "./audiotrackmodel.h"
+
 #include <map>
+
+#include <QListWidgetItem>
+
+#include "./audiotrackmodel.h"
 
 class PlayListPageView;
 
