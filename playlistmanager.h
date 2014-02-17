@@ -84,6 +84,7 @@ private:
     void addFilesToPlaylist(const QString& locpath, PlayListModel* PlayList);
 
     //variables
+    QString mAudioFilePatternValue{".*.mp4$|.*.mp3$|.*.ogg$|.*.wav$|.*.flac$|.*.mpc$|.*.ape$|.*.m4a$"};
     std::map<long long unsigned int, PlayListModel> mPlayLists;
     unsigned long long int mNewKey {0}; //used to make unique key for mPlayLists map.
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
