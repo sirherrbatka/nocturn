@@ -64,10 +64,12 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     connect(newTabButton, SIGNAL(clicked()), this, SLOT(newPlayListView()));
     connect(actionShow_Configuration, SIGNAL(triggered()), this, SLOT(showConfWindow()));
 
+    //mainview → settings
+    connect(this->repeatButton, SIGNAL(clicked()), SettingsManager::getSettingsManager(), SLOT(setRepeateMode()));
+
 //Mainview -> main controler
     connect(this, SIGNAL(TogglePlayback()), MainControler::getMainControler(), SLOT(togglePlayback()));
     connect(this, SIGNAL(StartPlaybackOnActivePlaylist()), MainControler::getMainControler(), SLOT(startPlayback()));
-    connect(this->repeatButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(setRepeateMode()));
     connect(this->nextButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(nextTrack()));
     connect(this->prevButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(prevTrack()));
     connect(this->clearButton, SIGNAL(clicked()), MainControler::getMainControler(), SLOT(clearActivePlayList()));

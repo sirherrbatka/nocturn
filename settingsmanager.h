@@ -35,16 +35,22 @@ public:
     //Value retrivial starts here
     const bool getSongAsWindowTitle() const;
     const bool getShowTrayIcon() const;
+    const bool getRepeatMode() const;
 
+public slots:
     //Value setting starts here
     void setSongAsWindowTitle(bool checked);
     void setShowTrayIcon(bool checked);
+    void setRepeatMode();
+
 signals:
   void ConfigurationUpdated();
+
 private:
     //values
     bool mSongAsWIndowTitle {true};
     bool mShowTrayIcon{false};
+    bool mRepeatMode{true};
 
     //other members
     QSettings mSettings;

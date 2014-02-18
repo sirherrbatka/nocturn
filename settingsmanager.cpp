@@ -72,3 +72,13 @@ void SettingsManager::setSongAsWindowTitle(bool checked)
     mSettings.endGroup();
     emit ConfigurationUpdated();
 }
+
+void SettingsManager::setRepeatMode()
+{
+    mRepeatMode = !mRepeatMode;
+}
+
+const bool SettingsManager::getRepeatMode() const
+{
+  return mRepeatMode;
+}

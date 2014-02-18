@@ -89,7 +89,6 @@ private:
     unsigned long long int mNewKey {0}; //used to make unique key for mPlayLists map.
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
-    bool mRepeateMode{true};
     QRegExp mAudioFilePattern;
 
 private slots:

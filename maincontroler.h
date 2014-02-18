@@ -47,7 +47,6 @@ public:
     void requestTotalDurationLabelUpdate(unsigned long long duration);
     void playSelected();
     void removeSelected();
-    bool getRepeatMode() const;
     KeyHandler* getGlobalKeyHandler();
     void relayPlayListModel(const std::vector<PlayListModel*>& playlists);
     void relayPlayListModel(PlayListModel* playlist);
@@ -71,7 +70,6 @@ public slots:
     void stopPlayback();
     void startPlayback();
     void clearActivePlayList();
-    void setRepeateMode();
     void quitNocturn();
 
 private:

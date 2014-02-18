@@ -232,16 +232,6 @@ void PlayListManager::playSelected()
     mActivePlayList->playSelected();
 }
 
-void PlayListManager::setRepeatMode()
-{
-    mRepeateMode = !mRepeateMode;
-}
-
-bool PlayListManager::getRepeatMode() const
-{
-    return mRepeateMode;
-}
-
 void PlayListManager::autoLoadPath(const QString& path)
 {
     PlayListModel* tmpPlayList = newPlayList();

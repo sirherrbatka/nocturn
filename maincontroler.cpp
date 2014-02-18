@@ -131,17 +131,6 @@ void MainControler::removeSelected()
   mModelManager->getPlayListManager()->removeSelected();
 }
 
-
-void MainControler::setRepeateMode()
-{
-    mModelManager->getPlayListManager()->setRepeatMode();
-}
-
-bool MainControler::getRepeatMode() const
-{
-    return mModelManager->getPlayListManager()->getRepeatMode();
-}
-
 KeyHandler* MainControler::getGlobalKeyHandler()
 {
     return &mGlobalKeyHandler;

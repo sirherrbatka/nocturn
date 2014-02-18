@@ -35,6 +35,7 @@
 
 #include "./maincontroler.h"
 #include "./audiotrackmodel.h"
+#include "settingsmanager.h"
 
 PlayListModel::PlayListModel(unsigned long long int key) :
     mKey(key)
@@ -218,7 +219,7 @@ inline bool PlayListModel::playListChecks()
 
 void PlayListModel::replayPlayList(bool skipModeCheck)
 {
-    if (MainControler::getMainControler()->getRepeatMode() or skipModeCheck)
+    if (SettingsManager::getSettingsManager()->getRepeatMode() or skipModeCheck)
     {
         mCurrentTrack = 0;
         startPlayback(true);
