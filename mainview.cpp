@@ -65,7 +65,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
     connect(actionShow_Configuration, SIGNAL(triggered()), this, SLOT(showConfWindow()));
 
     //mainview → settings
-    connect(this->repeatButton, SIGNAL(clicked()), SettingsManager::getSettingsManager(), SLOT(setRepeateMode()));
+    connect(this->repeatButton, SIGNAL(clicked()), SettingsManager::getSettingsManager(), SLOT(setRepeatMode()));
 
 //Mainview -> main controler
     connect(this, SIGNAL(TogglePlayback()), MainControler::getMainControler(), SLOT(togglePlayback()));
