@@ -38,7 +38,7 @@ public:
 
     virtual qint64 getTotalTime();
     virtual void togglePlayback();
-    
+
 signals:
     void FileEnded();
     void PlayingLocalFile();

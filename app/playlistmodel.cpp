@@ -338,7 +338,7 @@ void PlayListModel::removeSelected()
 
 void PlayListModel::deleteTrackModel(unsigned int number)
 {
-    assert(!mAudioTrackModels.empty());
+    assert(!mTracksVector.empty());
     if (mCurrentTrack == number)
     {
         deleteCurrentTrackModel();

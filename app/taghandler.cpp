@@ -50,7 +50,7 @@ std::string TagHandler::getAlbum() const
 
 QString TagHandler::getArtist() const
 {
-    return QString::fromStdString(mFile.get()->tag()->artist().toCString());
+    return QString::fromUtf8(mFile.get()->tag()->artist().toCString(true));
 }
 
 int TagHandler::getDisc() const
@@ -70,7 +70,7 @@ long long int TagHandler::getDuration() const
 
 QString TagHandler::getTitle() const
 {
-    return QString::fromStdString(mFile.get()->tag()->title().toCString());
+    return QString::fromUtf8(mFile.get()->tag()->title().toCString(true));
 }
 
 int TagHandler::getTrack() const
