@@ -10,5 +10,9 @@ ADD_DEFINITIONS(
     # Other flags
 )
 
+option(BUILD_UNITTESTS "Enable Unittests with Google C++ Unittest ang GMock frameworks" OFF)
+
 add_subdirectory(app/)
+if (BUILD_UNITTESTS)
 add_subdirectory(tests/)
+endif()

@@ -96,7 +96,7 @@ void SysTrayIconWrapper::rebuildMenu()
         std::unique_ptr<AudioTrackProxy> proxy(new AudioTrackProxy(i, *this));
         mTrackProxys.push_back(std::move(proxy));
 	
-        connect(mSystemTrayMenu.addAction(model->getAudioTrackModel(i).getName()), SIGNAL(triggered(bool)),
+        connect(mSystemTrayMenu.addAction(replaceUnderline(model->getAudioTrackModel(i).getName())), SIGNAL(triggered(bool)),
                 mTrackProxys.rbegin()->get(), SLOT(playThisTrack()));
     }
     mSystemTrayIcon.setContextMenu(&mSystemTrayMenu);
@@ -137,4 +137,17 @@ void SysTrayIconWrapper::changeStatus(SharedTypes::PlaybackState newStatus, Shar
     {
         rebuildMenu();
     }
+}
+
+QString SysTrayIconWrapper::replaceUnderline(const QString& text) //because we don't want shortcuts
+{
+    QString ret = text;
+    for (unsigned i = 0; i < ret.length(); ++i) {
+        if (ret[i] == '&')
+	{
+            ret.insert(i, '&');
+	    ++i;
+	}
+    }
+    return ret;
 }

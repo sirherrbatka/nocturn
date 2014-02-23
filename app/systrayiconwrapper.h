@@ -54,6 +54,8 @@ private:
     SharedTypes::PlaybackState mStatus;
     std::vector<std::unique_ptr<AudioTrackProxy>> mTrackProxys;
 
+    QString replaceUnderline(const QString& text);
+
 private slots:
     void rebuildMenu();
     void updateTrayVisibility();

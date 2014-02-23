@@ -199,6 +199,10 @@ void PlayListModel::deleteCurrentTrackModel()
     mTracksVector.erase(mTracksVector.begin()+mCurrentTrack);
     generatePlayListName(false);
     emit NeedRefreshView();
+    if (mTracksVector.empty())
+    {
+        generatePlayListName();
+    }
 }
 
 unsigned int PlayListModel::getPlayListSize() const
@@ -345,6 +349,10 @@ void PlayListModel::deleteTrackModel(unsigned int number)
         return;
     }
     mTracksVector.erase(mTracksVector.begin()+number);
+    if (mTracksVector.empty())
+    {
+        generatePlayListName();
+    }
 }
 
 void PlayListModel::changeCurrentAudioTrackModel(unsigned int number)
@@ -397,5 +405,5 @@ const AudioTrackModel& PlayListModel::getAudioTrackModel(unsigned int number) co
 
 int PlayListModel::getCurrentTrackNumber() const
 {
-  return mCurrentTrack;
+    return mCurrentTrack;
 }

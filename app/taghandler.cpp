@@ -82,4 +82,3 @@ bool TagHandler::hasTags() const
 {
     return  !(mFile.get()->tag()->isEmpty());
 }
-
