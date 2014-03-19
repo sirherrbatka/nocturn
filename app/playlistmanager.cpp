@@ -232,7 +232,10 @@ long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist() const
 void PlayListManager::clearCurrentTrack()
 {
     assert(mCurrentPlayList);
-    mCurrentPlayList->clearCurrentTrack();
+    if (!mStreamMode)
+    {
+        mCurrentPlayList->clearCurrentTrack();
+    }
 }
 
 void PlayListManager::playSelected()
