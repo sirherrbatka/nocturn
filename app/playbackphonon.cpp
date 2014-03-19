@@ -27,7 +27,6 @@
 
 PlaybackPhonon::PlaybackPhonon()
 {
-    qDebug()<<"Phonon Created!";
     Phonon::createPath(mPhonon.get(), mAudio.get());
     mPhonon->setTickInterval(1000);
     connect(mPhonon.get(), SIGNAL(tick(qint64)), this, SIGNAL(SecondHasPassed()));
@@ -37,7 +36,6 @@ PlaybackPhonon::PlaybackPhonon()
 
 void PlaybackPhonon::playFile(const QUrl& url)
 {
-    qDebug()<<"Phonon playing";
     mPhonon->setCurrentSource(url);
     mPhonon->play();
 }

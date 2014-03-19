@@ -53,7 +53,7 @@ public:
     PlayListModel* getActiveModel() const;
     PlayListModel* getCurrentModel() const;
     void clearCurrentTrack(); //used to set current track on current playlist to -1, this prevents bold text on any item.
-    void addFilesToActivePlayList(const QList<QUrl> &locFiles);
+    void addFilesToActivePlayList(const QList<QUrl>& locFiles);
     void deletePlayList(long long unsigned int locKey);
     void fileEnded();
     void startPlayback();
@@ -62,11 +62,12 @@ public:
     void clearActivePlayList();
     void playSelected();
     void removeSelected();
-    unsigned long long int getTotalDurationOfActivePlaylist();
+    unsigned long long int getTotalDurationOfActivePlaylist() const;
     void setRepeatMode(); //repeat mode is configured globally.
     bool getRepeatMode() const;
     void savePlayListFiles();
     void restorePlayListFromFiles();
+    void playStream(const QUrl& url);
 
 signals:
     void CurrentSongChanged(const QString& title);
@@ -90,6 +91,7 @@ private:
     PlayListModel* mActivePlayList {nullptr}; //Playlist model with active (visible) interface. For dropping stuff.
     PlayListModel* mCurrentPlayList {nullptr}; //playlist with song currently played. For playback controling.
     QRegExp mAudioFilePattern;
+    bool mStreamMode{false};
 
 private slots:
   void currentSongChanged();

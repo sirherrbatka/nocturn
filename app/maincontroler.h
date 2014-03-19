@@ -62,9 +62,10 @@ public slots:
     void prevTrack();
     void changeCurrentPlayList(PlayListModel* currentPlaylist);
     void changeActivePlayList(PlayListModel* activePlayList);
-    void addPathToPlayList(QList< QUrl > list); //called by the inteface drag&drop signal currently.
+    void addPathToPlayList(const QList< QUrl >& list); //called by the inteface drag&drop signal currently.
     void deletePlayList(unsigned long long int key);
     void playFile(const QUrl& path);
+    void playStream(const QUrl& path);
     void fileEnded();
     void togglePlayback();
     void stopPlayback();

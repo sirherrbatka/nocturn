@@ -37,6 +37,7 @@
 
 #include "./sharedtypes.h"
 #include "./mainviewkeyhandler.h"
+#include "streamsmenuwrapper.h"
 
 class PlayListModel;
 class PlayListPageView;
@@ -85,6 +86,7 @@ private:
     //variables
     SharedTypes::PlaybackState mState{SharedTypes::StoppedState};
     MainViewKeyHandler mKeyHandler;
+    StreamsMenuWrapper mStreamsMenu;
     bool mWindowHiden{false};
 };
 

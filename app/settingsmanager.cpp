@@ -24,6 +24,9 @@
 
 #include <cassert>
 #include <QSettings>
+#include <iostream>
+#include <QStringList>
+#include <QUrl>
 
 SettingsManager* SettingsManager::mThisPointer = nullptr;
 
@@ -36,6 +39,23 @@ SettingsManager::SettingsManager() :
     mSettings.beginGroup("View");
     mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
     mShowTrayIcon = mSettings.value("ShowTrayIcon").toBool();
+    mSettings.endGroup();
+
+    mSettings.beginGroup("Streams");
+    const QStringList& streams(mSettings.childKeys());
+    bool url = false;
+    QString name;
+    for (auto it(streams.begin()); it != streams.end(); ++it)
+    {
+        auto value(mSettings.value(*it));
+        url = !url;
+        if (url)
+        {
+            name = value.toString();
+        } else {
+            mAudioStreams.push_back(std::make_pair(name, value.toUrl()));
+        }
+    }
     mSettings.endGroup();
 }
 
@@ -81,4 +101,27 @@ void SettingsManager::setRepeatMode()
 const bool SettingsManager::getRepeatMode() const
 {
   return mRepeatMode;
+}
+
+const std::vector< std::pair< QString, QUrl > > SettingsManager::getStreams()
+{
+  return mAudioStreams;
+}
+
+void SettingsManager::replaceAudioStreams(const std::vector<std::pair<QString, QUrl>>& streams)
+{
+    mAudioStreams = streams;
+    mSettings.remove("Streams");
+    mSettings.beginGroup("Streams");
+    int i = 0;
+    for (auto it(mAudioStreams.begin()); it != mAudioStreams.end(); ++it)
+    {
+            mSettings.setValue(QString(i), it->first);
+            ++i;
+            mSettings.setValue(QString(i), it->second);
+            ++i;
+    }
+    mSettings.endGroup();
+
+    emit streamsChanged();
 }

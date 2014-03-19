@@ -407,3 +407,8 @@ int PlayListModel::getCurrentTrackNumber() const
 {
     return mCurrentTrack;
 }
+
+void PlayListModel::addStream()
+{
+    
+}

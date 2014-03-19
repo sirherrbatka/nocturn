@@ -44,7 +44,7 @@ MainControler::~MainControler()
 {
 }
 
-void MainControler::addPathToPlayList(QList< QUrl > list)
+void MainControler::addPathToPlayList(const QList< QUrl >& list)
 {
     mModelManager->getPlayListManager()->addFilesToActivePlayList(list);
 }
@@ -149,4 +149,9 @@ void MainControler::relayPlayListModel(const std::vector< PlayListModel* >& play
 void MainControler::relayPlayListModel(PlayListModel* playlist)
 {
     emit AutoLoadedPlayList(playlist);
+}
+
+void MainControler::playStream(const QUrl& url)
+{
+    mModelManager->getPlayListManager()->playStream(url);
 }

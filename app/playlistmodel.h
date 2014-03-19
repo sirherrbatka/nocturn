@@ -62,6 +62,7 @@ public:
     int getCurrentTrackNumber() const;
     void deleteTrackModel(unsigned number);
     const AudioTrackModel& getAudioTrackModel(unsigned number) const;
+    void addStream();
 
     const unsigned long long getKey() const;
     const AudioTrackModel& getFirstAudioTrackModel() const;

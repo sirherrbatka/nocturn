@@ -44,6 +44,7 @@ MainView::MainView(PlaybackModel* PlaybackModel, bool autoLoadMode) :
 {
     setAcceptDrops(true);
     setupUi(this);
+    mStreamsMenu.storeMenu(menuBar()->addMenu("&Streams"));
     statusBar()->setVisible(false);
     this->statusLabel->setText(tr("Stopped"));
 //Phonon related stuff.
@@ -108,7 +109,6 @@ void MainView::newPlayListView(bool autoswitch, PlayListModel* playlist)
     QWidget* playlistpageview;
     if(playlist != nullptr)
     {
-        qDebug()<<"Playlist pointer supplied";
         playlistpageview = new PlayListPageView(playlist, this->PlayListsTabs, &mKeyHandler);
     } else {
         playlistpageview = new PlayListPageView( MainControler::getMainControler()->generatePlayListModel(), this->PlayListsTabs, &mKeyHandler);

@@ -24,6 +24,7 @@
 #define SETTINGSMANAGER_H
 
 #include <QSettings>
+class QUrl;
 
 class SettingsManager : public QObject
 {
@@ -36,21 +37,25 @@ public:
     const bool getSongAsWindowTitle() const;
     const bool getShowTrayIcon() const;
     const bool getRepeatMode() const;
+    const std::vector<std::pair<QString, QUrl>> getStreams();
 
 public slots:
     //Value setting starts here
     void setSongAsWindowTitle(bool checked);
     void setShowTrayIcon(bool checked);
     void setRepeatMode();
+    void replaceAudioStreams(const std::vector<std::pair<QString, QUrl>>& streams);
 
 signals:
   void ConfigurationUpdated();
+  void streamsChanged();
 
 private:
     //values
     bool mSongAsWIndowTitle {true};
     bool mShowTrayIcon{false};
     bool mRepeatMode{true};
+    std::vector<std::pair<QString, QUrl>> mAudioStreams;
 
     //other members
     QSettings mSettings;

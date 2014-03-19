@@ -93,6 +93,10 @@ void PlayListManager::addFilesToPlaylist(const QString& locpath, PlayListModel* 
 
 PlayListModel* PlayListManager::getCurrentModel() const
 {
+    if (mStreamMode)
+    {
+        return nullptr;
+    }
     return mCurrentPlayList;
 }
 
@@ -168,6 +172,7 @@ inline bool PlayListManager::isAudioFile(const QString& path)
 
 void PlayListManager::changeCurrentPlaylist(PlayListModel* locPlayList)
 {
+    mStreamMode = false;
     if (mCurrentPlayList)
     {
         mCurrentPlayList->setCurrent(false);
@@ -189,12 +194,14 @@ void PlayListManager::fileEnded()
 
 void PlayListManager::startPlayback()
 {
+    mStreamMode = false;
     changeCurrentPlaylist(mActivePlayList);
     mCurrentPlayList->startPlayback(true);
 }
 
 void PlayListManager::playNextTrack()
 {
+    mStreamMode = false;
     if (!mCurrentPlayList)
     {
         mCurrentPlayList = mActivePlayList;
@@ -204,6 +211,7 @@ void PlayListManager::playNextTrack()
 
 void PlayListManager::playPrevTrack()
 {
+    mStreamMode = false;
     if (!mCurrentPlayList)
     {
         mCurrentPlayList = mActivePlayList;
@@ -216,7 +224,7 @@ void PlayListManager::clearActivePlayList()
     mActivePlayList->clearMe();
 }
 
-long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist()
+long long unsigned int PlayListManager::getTotalDurationOfActivePlaylist() const
 {
     return mActivePlayList->getTotalDuration();
 }
@@ -309,4 +317,11 @@ void PlayListManager::currentSongChanged()
 PlayListModel* PlayListManager::getActiveModel() const
 {
   return mActivePlayList;
+}
+
+void PlayListManager::playStream(const QUrl& url)
+{
+    mStreamMode = true;
+    emit CurrentSongChanged("");
+    MainControler::getMainControler()->playFile(url);
 }
