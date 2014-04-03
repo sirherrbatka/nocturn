@@ -36,11 +36,6 @@ SettingsManager::SettingsManager() :
     assert(!mThisPointer);
     mThisPointer = this;
 
-    mSettings.beginGroup("View");
-    mSongAsWIndowTitle = mSettings.value("SongTitleAsWindowTitle").toBool();
-    mShowTrayIcon = mSettings.value("ShowTrayIcon").toBool();
-    mSettings.endGroup();
-
     mSettings.beginGroup("Streams");
     const QStringList& streams(mSettings.childKeys());
     bool url = false;
@@ -64,35 +59,6 @@ SettingsManager* SettingsManager::getSettingsManager()
     return mThisPointer;
 }
 
-const bool SettingsManager::getSongAsWindowTitle() const
-{
-    return mSongAsWIndowTitle;
-}
-
-const bool SettingsManager::getShowTrayIcon() const
-{
-    return mShowTrayIcon;
-}
-
-void SettingsManager::setShowTrayIcon(bool checked)
-{
-    mShowTrayIcon = checked;
-    mSettings.beginGroup("View");
-    mSettings.setValue("ShowTrayIcon", checked);
-    mSettings.endGroup();
-    emit ConfigurationUpdated();
-}
-
-
-void SettingsManager::setSongAsWindowTitle(bool checked)
-{
-    mSongAsWIndowTitle = checked;
-    mSettings.beginGroup("View");
-    mSettings.setValue("SongTitleAsWindowTitle", checked);
-    mSettings.endGroup();
-    emit ConfigurationUpdated();
-}
-
 void SettingsManager::setRepeatMode()
 {
     mRepeatMode = !mRepeatMode;
@@ -103,9 +69,14 @@ const bool SettingsManager::getRepeatMode() const
   return mRepeatMode;
 }
 
-const std::vector< std::pair< QString, QUrl > > SettingsManager::getStreams()
+const std::vector< std::pair< QString, QUrl > > SettingsManager::getStreams() const
 {
   return mAudioStreams;
+}
+
+QVariant SettingsManager::getSetting(const QString& key) const
+{
+  return mSettings.value(key);
 }
 
 void SettingsManager::replaceAudioStreams(const std::vector<std::pair<QString, QUrl>>& streams)

@@ -25,6 +25,7 @@
 
 #include <QSettings>
 class QUrl;
+class QVariant;
 
 class SettingsManager : public QObject
 {
@@ -33,17 +34,22 @@ public:
     SettingsManager();
     static SettingsManager* getSettingsManager();
 
-    //Value retrivial starts here
-    const bool getSongAsWindowTitle() const;
-    const bool getShowTrayIcon() const;
+    QVariant getSetting(const QString& key) const;
+
+    template <typename T>
+    void setValue(const QString& key, T value)
+    {
+      mSettings.setValue(key, value);
+      emit ConfigurationUpdated();
+    }
+
+    const std::vector<std::pair<QString, QUrl>> getStreams() const;
     const bool getRepeatMode() const;
-    const std::vector<std::pair<QString, QUrl>> getStreams();
+    void setRepeatMode();
+
 
 public slots:
     //Value setting starts here
-    void setSongAsWindowTitle(bool checked);
-    void setShowTrayIcon(bool checked);
-    void setRepeatMode();
     void replaceAudioStreams(const std::vector<std::pair<QString, QUrl>>& streams);
 
 signals:
@@ -52,8 +58,6 @@ signals:
 
 private:
     //values
-    bool mSongAsWIndowTitle {true};
-    bool mShowTrayIcon{false};
     bool mRepeatMode{true};
     std::vector<std::pair<QString, QUrl>> mAudioStreams;
 

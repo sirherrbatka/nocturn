@@ -320,7 +320,7 @@ void MainView::showConfWindow()
 
 void MainView::updateWindowTitle(const QString& title)
 {
-    if (SettingsManager::getSettingsManager()->getSongAsWindowTitle() and !title.isEmpty())
+    if (SettingsManager::getSettingsManager()->getSetting("View/SongTitleAsWindowTitle").toBool() and !title.isEmpty())
     {
         setWindowTitle(title);
     } else {

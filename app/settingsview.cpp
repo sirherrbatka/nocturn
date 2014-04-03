@@ -28,8 +28,8 @@
 SettingsView::SettingsView()
 {
     setupUi(this);
-    mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
-    mShowTrayIcon->setChecked(SettingsManager::getSettingsManager()->getSongAsWindowTitle());
+    mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSetting("view/SongTitleAsWindowTitle").toBool());
+    mShowTrayIcon->setChecked(SettingsManager::getSettingsManager()->getSetting("view/ShowTrayIcon").toBool());
 
     connect(mStoreButton, SIGNAL(clicked()), this, SLOT(storeValues()));
 
@@ -38,6 +38,6 @@ SettingsView::SettingsView()
 
 void SettingsView::storeValues()
 {
-    SettingsManager::getSettingsManager()->setSongAsWindowTitle(mSongAsWindowTitle->isChecked());
-    SettingsManager::getSettingsManager()->setShowTrayIcon(mShowTrayIcon->isChecked());
+    SettingsManager::getSettingsManager()->setValue("view/SongTitleAsWindowTitle", mSongAsWindowTitle->isChecked());
+    SettingsManager::getSettingsManager()->setValue("view/ShowTrayIcon", mShowTrayIcon->isChecked());
 }

@@ -61,7 +61,7 @@ SysTrayIconWrapper::SysTrayIconWrapper(const MainView& view, const PlayListManag
 
 void SysTrayIconWrapper::rebuildMenu()
 {
-    if(!SettingsManager::getSettingsManager()->getShowTrayIcon())
+    if(!SettingsManager::getSettingsManager()->getSetting("View/SongTitleAsWindowTitle").toBool())
     {
       return;
     }
@@ -104,7 +104,7 @@ void SysTrayIconWrapper::rebuildMenu()
 
 void SysTrayIconWrapper::updateTrayVisibility()
 {
-    mSystemTrayIcon.setVisible(SettingsManager::getSettingsManager()->getShowTrayIcon());
+    mSystemTrayIcon.setVisible(SettingsManager::getSettingsManager()->getSetting("View/ShowTrayIcon").toBool());
     rebuildMenu();
 }
 
