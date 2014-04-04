@@ -30,6 +30,13 @@ class QVariant;
 class SettingsManager : public QObject
 {
   Q_OBJECT
+    bool mRepeatMode{true};
+    std::vector<std::pair<QString, QUrl>> mAudioStreams;
+
+    //other members
+    QSettings mSettings;
+    static SettingsManager* mThisPointer;
+
 public:
     SettingsManager();
     static SettingsManager* getSettingsManager();
@@ -49,21 +56,11 @@ public:
 
 
 public slots:
-    //Value setting starts here
     void replaceAudioStreams(const std::vector<std::pair<QString, QUrl>>& streams);
 
 signals:
   void ConfigurationUpdated();
   void streamsChanged();
-
-private:
-    //values
-    bool mRepeatMode{true};
-    std::vector<std::pair<QString, QUrl>> mAudioStreams;
-
-    //other members
-    QSettings mSettings;
-    static SettingsManager* mThisPointer;
 };
 
 #endif // SETTINGSMANAGER_H

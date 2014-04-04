@@ -73,13 +73,11 @@ class StreamsMenuWrapper : public QObject
     Q_OBJECT
 
     std::vector<std::unique_ptr<QUrlProxy>> mProxyVector;
+    QMenu* mMenu{nullptr};
 
 public:
   StreamsMenuWrapper();
   void storeMenu(QMenu* menu);
-
-private:
-  QMenu* mMenu{nullptr};
 
 private slots:
     void rebuildMenu();

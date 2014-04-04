@@ -42,8 +42,10 @@ SysTrayIconWrapper::SysTrayIconWrapper(const MainView& view, const PlayListManag
     mStopAction(QIcon::fromTheme("media-playback-stop"), tr("Stop"), nullptr),
     mStatus(SharedTypes::StoppedState)
 {
+    connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(rebuildMenu()));
     connect(SettingsManager::getSettingsManager(), SIGNAL(ConfigurationUpdated()), this, SLOT(updateTrayVisibility()));
     connect(&mSystemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), &view, SLOT(toggleWindowVisiblity(QSystemTrayIcon::ActivationReason)));
+
     connect(&mPlaylists, SIGNAL(CurrentSongChanged(const QString&)), this, SLOT(rebuildMenu()));
     connect(&mPlaylists, SIGNAL(ActivePlayListChanged()), this, SLOT(rebuildMenu()));
     connect(&mPlaylists, SIGNAL(TrackListChanged()), this, SLOT(rebuildMenu()));
@@ -61,7 +63,7 @@ SysTrayIconWrapper::SysTrayIconWrapper(const MainView& view, const PlayListManag
 
 void SysTrayIconWrapper::rebuildMenu()
 {
-    if(!SettingsManager::getSettingsManager()->getSetting("View/SongTitleAsWindowTitle").toBool())
+    if(!SettingsManager::getSettingsManager()->getSetting("View/ShowTrayIcon").toBool())
     {
       return;
     }
