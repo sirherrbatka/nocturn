@@ -110,7 +110,7 @@ void SysTrayIconWrapper::updateTrayVisibility()
     rebuildMenu();
 }
 
-void SysTrayIconWrapper::playTrack(unsigned int track)
+void SysTrayIconWrapper::playTrack(unsigned int track) const
 {
     PlayListModel* model = nullptr;
     if (mStatus == SharedTypes::StoppedState)
@@ -141,7 +141,7 @@ void SysTrayIconWrapper::changeStatus(SharedTypes::PlaybackState newStatus, Shar
     }
 }
 
-QString SysTrayIconWrapper::replaceUnderline(const QString& text) //because we don't want shortcuts
+QString SysTrayIconWrapper::replaceUnderline(const QString& text) const //because we don't want shortcuts
 {
     QString ret = text;
     for (unsigned i = 0; i < ret.length(); ++i) {
