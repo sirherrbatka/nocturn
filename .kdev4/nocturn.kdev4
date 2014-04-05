@@ -15,6 +15,35 @@ Environment Profile=
 Extra Arguments=
 Install Directory=file:///usr/local
 
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=Nowy program uruchamiający Program
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+Display Demangle Names=true
+Display Static Members=false
+EnvironmentGroup=default
+Executable=file:///home/herr/Archiwum/Program%C3%B3w/projekty%20kdevelop/nocturn/
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+GDB Path=
+Project Target=nocturn,app,nocturn
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=ApplicationOutput
+Use External Terminal=false
+Working Directory=
+isExecutable=false
+
 [Project]
 VersionControlSupport=kdevgit
 

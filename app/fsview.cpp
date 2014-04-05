@@ -6,9 +6,9 @@
 #include "settingsmanager.h"
 
 FSView::FSView() :
-mList(this),
-mEnterField(this),
-mModel(this)
+mList(),
+mEnterField(),
+mModel()
 {
     const QString& pathToMusic = SettingsManager::getSettingsManager()->getSetting("File/PathToMusic").toString();
     connect(&mModel, SIGNAL(directoryLoaded(QString)), this, SLOT(modelDirectoryLoaded(QString)));
@@ -68,6 +68,11 @@ void FSView::focusNextMatching()
 
 void FSView::keyPressEvent(QKeyEvent* event)
 {
+    if (event->key() == Qt::Key_Escape)
+    {
+        close();
+        return;
+    }
     if (mSearchMode)
     {
         if (event->key() == Qt::Key_Return)
@@ -82,7 +87,6 @@ void FSView::keyPressEvent(QKeyEvent* event)
             }
             mSearchText = mEnterField.text();
             QApplication::sendEvent(&mEnterField, event);
-            QDialog::keyPressEvent(event);
         }
         QDialog::keyPressEvent(event);
     } else {
@@ -91,7 +95,15 @@ void FSView::keyPressEvent(QKeyEvent* event)
             mSearchMode = true;
             mEnterField.show();
             QDialog::keyPressEvent(event);
-            return;
+        } else {
+            if (!event->text().isEmpty() &&
+                event->key() != Qt::Key_Return &&
+                event->key() != Qt::Key_Backspace &&
+                event->key() != Qt::Key_Delete)
+            {
+                QApplication::sendEvent(&mList, event);
+                QDialog::keyPressEvent(event);
+            }
         }
     }
 }

@@ -52,11 +52,11 @@ public:
 
     const std::vector<std::pair<QString, QUrl>> getStreams() const;
     const bool getRepeatMode() const;
-    void setRepeatMode();
 
 
 public slots:
     void replaceAudioStreams(const std::vector<std::pair<QString, QUrl>>& streams);
+    void setRepeatMode();
 
 signals:
   void ConfigurationUpdated();
