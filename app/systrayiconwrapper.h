@@ -54,7 +54,7 @@ private:
     SharedTypes::PlaybackState mStatus;
     std::vector<std::unique_ptr<AudioTrackProxy>> mTrackProxys;
 
-    QString replaceUnderline(const QString& text);
+    QString replaceUnderline(const QString& text) const;
 
 private slots:
     void rebuildMenu();
@@ -62,7 +62,7 @@ private slots:
     void changeStatus(SharedTypes::PlaybackState newStatus, SharedTypes::PlaybackState oldStatus);
 
 public slots:
-    void playTrack(unsigned track);
+    void playTrack(unsigned int track) const;
 };
 
 #endif // SYSTRAYICONWRAPPER_H

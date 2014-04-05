@@ -72,6 +72,9 @@ void MainViewKeyHandler::grabKeyEvent(int key)
     case Qt::Key_Return:
         MainControler::getMainControler()->playSelected();
         break;
+    case Qt::Key_R:
+        mGlobalKeyHandler->grabGlobalKeyEvent(key);
+        break;
     }
 }
 

@@ -25,6 +25,7 @@
 #include <Qt>
 
 #include "maincontroler.h"
+#include "fsview.h"
 
 KeyHandler::KeyHandler()
 {
@@ -54,10 +55,19 @@ void KeyHandler::grabGlobalKeyEvent(int key)
     case Qt::Key_S:
         MainControler::getMainControler()->stopPlayback();
         break;
+    case Qt::Key_R:
+        toggleFSViewVisibility();
+        break;
     }
 }
 
 void KeyHandler::storeState(SharedTypes::PlaybackState state)
 {
     mState = state;
+}
+
+void KeyHandler::toggleFSViewVisibility()
+{
+    FSView explorer;
+    explorer.exec();
 }

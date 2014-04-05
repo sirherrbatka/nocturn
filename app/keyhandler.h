@@ -29,12 +29,15 @@ class KeyHandler
 public:
     KeyHandler();
     ~KeyHandler();
-    
+
     void grabGlobalKeyEvent(int key);
     void storeState(SharedTypes::PlaybackState state);
-    
+
 protected:
     SharedTypes::PlaybackState mState {SharedTypes::StoppedState};
+
+private:
+    void toggleFSViewVisibility();
 };
 
 #endif // KEYHANDLER_H
