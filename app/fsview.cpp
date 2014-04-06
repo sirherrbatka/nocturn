@@ -160,6 +160,10 @@ void FSView::keyPressEvent(QKeyEvent* event)
 
         if (event->key() == Qt::Key_Backspace)
         {
+            QString path(mModel.rootPath());
+            path.chop(path.length() - 1 - path.lastIndexOf(QDir::separator()));
+            mModel.setRootPath(path);
+            mList.setCurrentIndex(mModel.index(0, 0, mModel.index(path)));
             return;
         }
 
