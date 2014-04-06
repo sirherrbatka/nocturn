@@ -21,10 +21,11 @@ mModel()
         mModel.setRootPath(pathToMusic);
     }
     mModel.setFilter(QDir::NoDotAndDotDot |
-                     QDir::AllDirs);
+                     QDir::QDir::AllEntries);
     mList.setModel(&mModel);
     mList.setSelectionMode(QAbstractItemView::SingleSelection);
     mList.setUniformItemSizes(true);
+    mModel.setNameFilterDisables(false);
     connect(&mEnterField, SIGNAL(textChanged(QString)), this, SLOT(createMatching(QString)));
     QVBoxLayout* layout = new QVBoxLayout(this);
 
@@ -53,20 +54,19 @@ void FSView::createMatching(const QString& string)
 {
     if (string.isEmpty())
     {
+        mModel.setNameFilters(QStringList("*"));
         return;
     }
-    if (mSearchText.isEmpty())
+
+    if (string == mSearchText)
     {
-        broadMatching(string);
         return;
     }
-    QRegExp forwardPattern('^' + mSearchText + ".*", Qt::CaseInsensitive);
-    if (string.contains(forwardPattern))
-    {
-        narrowMatching(string);
-    } else {
-        broadMatching(string);
-    }
+    mList.setCurrentIndex(mModel.index(0, 0));
+    QStringList filters;
+    filters<<"*"+string+"*";
+    mModel.setNameFilters(filters);
+    mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
 }
 
 void FSView::focusNextMatching()
@@ -155,6 +155,7 @@ void FSView::keyPressEvent(QKeyEvent* event)
             const QString& path = mModel.filePath(current);
             mModel.setRootPath(path);
             mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
+            mEnterField.clear();
             return;
         }
 
@@ -164,6 +165,7 @@ void FSView::keyPressEvent(QKeyEvent* event)
             path.chop(path.length() - 1 - path.lastIndexOf(QDir::separator()));
             mModel.setRootPath(path);
             mList.setCurrentIndex(mModel.index(0, 0, mModel.index(path)));
+            mEnterField.clear();
             return;
         }
 
@@ -178,7 +180,7 @@ void FSView::keyPressEvent(QKeyEvent* event)
         }
 
         if (!event->text().isEmpty() &&
-            event->key() != Qt::Key_Delete) //as above
+            event->key() != Qt::Key_Delete)
         {
             QApplication::sendEvent(&mList, event);
             QDialog::keyPressEvent(event);
