@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>227</width>
-    <height>99</height>
+    <width>361</width>
+    <height>167</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,23 +15,37 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <property name="fieldGrowthPolicy">
-      <enum>QFormLayout::ExpandingFieldsGrow</enum>
-     </property>
-     <item row="0" column="1">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
       <widget class="QCheckBox" name="mSongAsWindowTitle">
        <property name="text">
         <string>Use Song title as window title.</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item>
       <widget class="QCheckBox" name="mShowTrayIcon">
        <property name="text">
         <string>Show tray icon.</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Insert path to music folder below.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="mPathEdit"/>
      </item>
     </layout>
    </item>

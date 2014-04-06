@@ -12,7 +12,7 @@ mList(),
 mEnterField(),
 mModel()
 {
-    const QString& pathToMusic = SettingsManager::getSettingsManager()->getSetting("File/PathToMusic").toString();
+    const QString& pathToMusic = SettingsManager::getSettingsManager()->getSetting("file/PathToMusic").toString();
     connect(&mModel, SIGNAL(directoryLoaded(QString)), this, SLOT(modelDirectoryLoaded(QString)));
     if (pathToMusic.isEmpty())
     {
@@ -62,11 +62,10 @@ void FSView::createMatching(const QString& string)
     {
         return;
     }
-    mList.setCurrentIndex(mModel.index(0, 0));
+    mList.setCurrentIndex(mModel.index(-1, 0, mModel.index(mModel.rootPath())));
     QStringList filters;
     filters<<"*"+string+"*";
     mModel.setNameFilters(filters);
-    mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
 }
 
 void FSView::focusNextMatching()
@@ -151,21 +150,19 @@ void FSView::keyPressEvent(QKeyEvent* event)
 
         if (event->key() == Qt::Key_Return)
         {
+            mEnterField.clear();
             const QModelIndex& current = mList.currentIndex();
             const QString& path = mModel.filePath(current);
             mModel.setRootPath(path);
-            mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
-            mEnterField.clear();
             return;
         }
 
         if (event->key() == Qt::Key_Backspace)
         {
+            mEnterField.clear();
             QString path(mModel.rootPath());
             path.chop(path.length() - 1 - path.lastIndexOf(QDir::separator()));
             mModel.setRootPath(path);
-            mList.setCurrentIndex(mModel.index(0, 0, mModel.index(path)));
-            mEnterField.clear();
             return;
         }
 
@@ -196,4 +193,5 @@ void FSView::narrowMatching(const QString& string)
 void FSView::modelDirectoryLoaded(const QString& string)
 {
     mList.setRootIndex(mModel.index(string));
+    mList.setCurrentIndex(mModel.index(-1, 0, mModel.index(mModel.rootPath())));
 }

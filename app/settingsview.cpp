@@ -30,6 +30,7 @@ SettingsView::SettingsView()
     setupUi(this);
     mSongAsWindowTitle->setChecked(SettingsManager::getSettingsManager()->getSetting("view/SongTitleAsWindowTitle").toBool());
     mShowTrayIcon->setChecked(SettingsManager::getSettingsManager()->getSetting("view/ShowTrayIcon").toBool());
+    mPathEdit->setText(SettingsManager::getSettingsManager()->getSetting("file/PathToMusic").toString());
 
     connect(mStoreButton, SIGNAL(clicked()), this, SLOT(storeValues()));
 
@@ -40,4 +41,5 @@ void SettingsView::storeValues()
 {
     SettingsManager::getSettingsManager()->setValue("view/SongTitleAsWindowTitle", mSongAsWindowTitle->isChecked());
     SettingsManager::getSettingsManager()->setValue("view/ShowTrayIcon", mShowTrayIcon->isChecked());
+    SettingsManager::getSettingsManager()->setValue("file/PathToMusic", mPathEdit->text());
 }
