@@ -66,6 +66,7 @@ void FSView::createMatching(const QString& string)
     QStringList filters;
     filters<<"*"+string+"*";
     mModel.setNameFilters(filters);
+    mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
 }
 
 void FSView::focusNextMatching()
@@ -148,8 +149,12 @@ void FSView::keyPressEvent(QKeyEvent* event)
 
         if (event->key() == Qt::Key_Return)
         {
-            mEnterField.clear();
             const QModelIndex& current = mList.currentIndex();
+            if (!current.isValid())
+            {
+                return;
+            }
+            mEnterField.clear();
             const QString& path = mModel.filePath(current);
             mModel.setRootPath(path);
             mList.setRootIndex(mModel.index(path));
