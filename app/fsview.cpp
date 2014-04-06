@@ -38,6 +38,7 @@ mModel()
 
     this->setFocusPolicy(Qt::WheelFocus);
     this->setFocus(Qt::OtherFocusReason);
+    mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
 }
 
 void FSView::broadMatching(const QString& string)
@@ -54,7 +55,7 @@ void FSView::createMatching(const QString& string)
 {
     if (string.isEmpty())
     {
-        mModel.setNameFilters(QStringList("*"));
+        mModel.setNameFilters(QStringList());
         return;
     }
 
@@ -62,7 +63,6 @@ void FSView::createMatching(const QString& string)
     {
         return;
     }
-    mList.setCurrentIndex(mModel.index(-1, 0, mModel.index(mModel.rootPath())));
     QStringList filters;
     filters<<"*"+string+"*";
     mModel.setNameFilters(filters);
@@ -81,15 +81,14 @@ void FSView::keyPressEvent(QKeyEvent* event)
         return;
     }
 
-    const QModelIndex& current = mList.currentIndex();
-    if (!current.isValid())
-    {
-        mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
-    }
-
-
     if(event->key() == Qt::Key_Up)
     {
+        const QModelIndex& current = mList.currentIndex();
+        if (!current.isValid())
+        {
+            mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
+        }
+
         if (mList.currentIndex().isValid())
         {
             if (mList.currentIndex().row() == 0)
@@ -104,6 +103,12 @@ void FSView::keyPressEvent(QKeyEvent* event)
 
     if (event->key() == Qt::Key_Down)
     {
+        const QModelIndex& current = mList.currentIndex();
+        if (!current.isValid())
+        {
+            mList.setCurrentIndex(mModel.index(0, 0, mModel.index(mModel.rootPath())));
+        }
+
         if (mList.currentIndex().isValid())
         {
             if (mList.currentIndex().row() == mModel.rowCount(mModel.index(mModel.rootPath()))-1)
@@ -118,6 +123,7 @@ void FSView::keyPressEvent(QKeyEvent* event)
 
     if (mSearchMode)
     {
+        mList.setCurrentIndex(QModelIndex());
         if (event->key() == Qt::Key_Return)
         {
             mSearchMode = false;
@@ -133,19 +139,11 @@ void FSView::keyPressEvent(QKeyEvent* event)
     } else {
         if (event->key() == Qt::Key_Slash)
         {
+            mList.setCurrentIndex(QModelIndex());
             mSearchMode = true;
             mEnterField.show();
             QDialog::keyPressEvent(event);
             return;
-        }
-
-        if (!mList.currentIndex().isValid())
-        {
-            const QModelIndex& first = mModel.index(0, 0);
-            if (first.isValid())
-            {
-                mList.setCurrentIndex(first);
-            }
         }
 
         if (event->key() == Qt::Key_Return)
@@ -154,6 +152,7 @@ void FSView::keyPressEvent(QKeyEvent* event)
             const QModelIndex& current = mList.currentIndex();
             const QString& path = mModel.filePath(current);
             mModel.setRootPath(path);
+            mList.setRootIndex(mModel.index(path));
             return;
         }
 
@@ -163,6 +162,7 @@ void FSView::keyPressEvent(QKeyEvent* event)
             QString path(mModel.rootPath());
             path.chop(path.length() - 1 - path.lastIndexOf(QDir::separator()));
             mModel.setRootPath(path);
+            mList.setRootIndex(mModel.index(path));
             return;
         }
 
@@ -174,6 +174,12 @@ void FSView::keyPressEvent(QKeyEvent* event)
             list.append(QUrl(path));
             MainControler::getMainControler()->addPathToPlayList(list);
             return;
+        }
+
+        const QModelIndex& first = mModel.index(0, 0, mModel.index(mModel.rootPath()));
+        if (first.isValid())
+        {
+            mList.setCurrentIndex(first);
         }
 
         if (!event->text().isEmpty() &&
@@ -193,5 +199,4 @@ void FSView::narrowMatching(const QString& string)
 void FSView::modelDirectoryLoaded(const QString& string)
 {
     mList.setRootIndex(mModel.index(string));
-    mList.setCurrentIndex(mModel.index(-1, 0, mModel.index(mModel.rootPath())));
 }

@@ -6,6 +6,13 @@
 #include <QKeyEvent>
 #include <vector>
 #include <utility>
+#include <QSortFilterProxyModel>
+
+class FileList : public QListView
+{
+    Q_OBJECT
+protected:
+};
 
 class FSView : public QDialog
 {
@@ -13,7 +20,7 @@ class FSView : public QDialog
     Q_OBJECT
 
     QFileSystemModel mModel;
-    QListView mList;
+    FileList mList;
     QLineEdit mEnterField;
     QString mSearchText{};
     bool mSearchMode{false};
